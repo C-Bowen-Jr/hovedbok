@@ -1,0 +1,89 @@
+#root {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  --primary: #1f883d;
+  --secondary: #6d3770;
+  --warning: #c38d3d;
+  --alert: #bc2d29;
+  --darkest: #202321;
+  --lightest: #eeeff6;
+}
+
+body {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+nav {
+  padding: 2px 2px;
+  background-color: rgba(255,255,255,0.15);
+}
+
+nav .menu_button {
+  background-color: rgba(255,255,255,0.15);
+  border: 1px solid rgba(0,0,0,0.70);
+  padding: 6px 16px;
+  margin: 2px;
+}
+
+nav .menu_spacer {
+  background-color: rgba(255,255,255,0.15);
+  border: 1px solid rgba(0,0,0,0.70);
+  padding: 4.5px 100px;
+  margin-block: 2px;
+  margin-inline: auto;
+  display: inline;
+}
+
+.MuiPopper-root {
+  background: rgba(0,0,0,0.90);
+  border: 1px solid white;
+  padding: 4px;
+  margin: 20px 40px;
+  min-width: 200px;
+  border-radius: 0 0 4px 4px;
+  overflow: auto;
+  outline: 0px;
+  z-index: 1;
+}
+
+.btn {
+  background-color: rgba(255,255,255,0.15);
+  border: 1.5px solid rgba(0,0,0,0);
+  border-radius: 8px;
+  padding: 5px 16px;
+  margin: 4px;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+.btn:hover {
+  border: 1.5px solid var(--lightest);
+  opacity: 0.8;
+}
+
+.primary_button {
+  background-color: var(--primary);
+}
+
+.secondary_button {
+  background-color: var(--secondary);
+}
+
+.warning_button {
+  background-color: var(--warning);
+}
+
+.alert_button {
+  background-color: var(--alert);
+}
+
+.product_grid {
+  border: 2px inset;
+  height: 450px;
+  width: 800px;
+}
