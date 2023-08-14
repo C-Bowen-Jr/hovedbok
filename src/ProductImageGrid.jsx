@@ -1,8 +1,11 @@
 import * as React from 'react';
+import { useSelector } from 'react-redux';
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
 
 export default function ProductImageGrid() {
+    const itemData = useSelector((state) => state.productList);
+
     if (itemData.length > 0) {
         return (
             <ImageList sx={{ width: 800, height: 450 }} cols={4} rowHeight={200} gap={0}>
@@ -30,8 +33,7 @@ export default function ProductImageGrid() {
     }
 }
 
-const itemData = [
-];
+//const itemData = useSelector((state) => state.productList);
 
 const itemData2 = [
     {
