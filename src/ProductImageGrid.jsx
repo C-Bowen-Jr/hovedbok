@@ -2,6 +2,7 @@ import * as React from 'react';
 import { useSelector } from 'react-redux';
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
+import store from './Store.js'
 
 export default function ProductImageGrid() {
     const itemData = useSelector((state) => state.productList);
