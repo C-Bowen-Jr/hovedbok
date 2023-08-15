@@ -1,7 +1,10 @@
 import { createStore } from 'redux';
 
 const initialState = {
-    productList: [],
+    productList: [{
+        img: 'https://images.unsplash.com/photo-1551782450-a2132b4ba21d',
+        title: 'Burger',
+    }],
 };
 
 export const setProductList = (value) => ({

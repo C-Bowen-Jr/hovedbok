@@ -7,15 +7,22 @@ import { MenuButton } from '@mui/base/MenuButton';
 import { MenuItem } from '@mui/base/MenuItem';
 import ProductImageGrid from './ProductImageGrid';
 import './App.css';
+import { setProductList } from './Store';
 
 function App() {
 
     const VERSION = "0.0.3";
 
+    const productList = useSelector((state) => state.productList);
+
     const dispatch = useDispatch();
 
     const newProduct = () => {
-        console.log("check check 123")
+        const newItem = {
+            img: 'https://images.unsplash.com/photo-1551963831-b3b1ca40c98e',
+            title: 'Breakfast',
+        };
+        dispatch(setProductList([...productList, newItem]));
     }
 
     return (
