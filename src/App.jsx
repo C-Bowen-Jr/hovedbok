@@ -1,17 +1,16 @@
 import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Button } from '@mui/base/Button';
 import { Dropdown } from '@mui/base/Dropdown';
 import { Menu } from '@mui/base/Menu';
 import { MenuButton } from '@mui/base/MenuButton';
 import { MenuItem } from '@mui/base/MenuItem';
-import ProductImageGrid from './ProductImageGrid';
+import CustomTabPanel from './LabTabs';
 import './App.css';
 import { setProductList } from './Store';
 
 function App() {
 
-    const VERSION = "0.0.3";
+    const VERSION = "0.0.4";
 
     const productList = useSelector((state) => state.productList);
 
@@ -44,18 +43,9 @@ function App() {
                     <div className="menu_spacer"></div>
                 </Dropdown>
             </nav>
-            <div>
-                <Button className="btn bold primary_button">Test Button</Button>
-                <Button className="btn secondary_button">Also Button</Button>
-            </div>
-            <div>
-                <Button className="btn bold warning_button">Test Button</Button>
-                <Button className="btn bold alert_button">Also Button</Button>
-                <Button className="btn">Another</Button>
-            </div>
-            <div className="product_grid">
-                <ProductImageGrid />
-            </div>
+            <CustomTabPanel />
+            Quantity - Item [Tag if applies] - Price
+            
         </>
     )
 }
