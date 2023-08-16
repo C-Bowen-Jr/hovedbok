@@ -82,7 +82,7 @@ nav .menu_spacer {
   background-color: var(--alert);
 }
 
-.product_grid {
+.DEPRICATE_product_grid {
   border: 2px inset;
   height: 450px;
   width: 800px;
