@@ -33,7 +33,7 @@ function createData(quantity, name, tags, price) {
 }
 
 const recieptItems = [
-  createData(1, 'Product', '', 0.00),
+  createData(1, 'Product', 'Etsy,International', 0.00),
 ];
 
 export default function CustomizedTables() {
@@ -42,8 +42,8 @@ export default function CustomizedTables() {
       <Table aria-label="customized table">
         <TableHead>
           <TableRow>
-            <StyledTableCell align="right">Quantity</StyledTableCell>
-            <StyledTableCell align="right">Product Name</StyledTableCell>
+            <StyledTableCell align="right" sx={{width: 1/8}}>Quantity</StyledTableCell>
+            <StyledTableCell align="left">Product Name</StyledTableCell>
             <StyledTableCell align="right">Tags</StyledTableCell>
             <StyledTableCell align="right">Price</StyledTableCell>
           </TableRow>
@@ -54,7 +54,7 @@ export default function CustomizedTables() {
               <StyledTableCell align="right" component="th" scope="row">
                 {item.quantity}
               </StyledTableCell>
-              <StyledTableCell align="right">{item.name}</StyledTableCell>
+              <StyledTableCell align="left">{item.name}</StyledTableCell>
               <StyledTableCell align="right">{item.tags}</StyledTableCell>
               <StyledTableCell align="right">{item.price}</StyledTableCell>
             </StyledTableRow>

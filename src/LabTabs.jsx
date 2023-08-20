@@ -50,7 +50,7 @@ export default function BasicTabs() {
 
     return (
         <Box sx={{ width: '100%' }}>
-            <Box sx={{ borderBottom: 1, borderColor: 'divider' }} component={Paper}>
+            <Box sx={{ borderBottom: 1, borderColor: 'divider' }} component={Paper} elevation={4}>
                 <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
                     <Tab label="Buying" {...a11yProps(0)} />
                     <Tab label="Selling" {...a11yProps(1)} />
@@ -58,9 +58,9 @@ export default function BasicTabs() {
                 </Tabs>
             </Box>
             <CustomTabPanel value={value} index={0} component={Paper}>
-                <div className="product_grid">
+                <Paper sx={{ maxWidth: "800px"}}>
                     <ProductImageGrid />
-                </div>
+                </Paper>
             </CustomTabPanel>
             <CustomTabPanel value={value} index={1}>
                 <Paper sx={{ padding: '10px'}}>Item Two</Paper>

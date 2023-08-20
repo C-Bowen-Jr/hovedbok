@@ -9,7 +9,7 @@ export default function ProductImageGrid() {
 
     if (itemData.length > 0) {
         return (
-            <ImageList sx={{ width: 800, height: 450, border: 1 }} cols={4} rowHeight={200} gap={0}>
+            <ImageList sx={{ width: 800, height: 450 }} cols={4} rowHeight={200} gap={0}>
                 {itemData.map((item) => (
                     <ImageListItem key={item.img}>
                         <img
@@ -26,7 +26,7 @@ export default function ProductImageGrid() {
     }
     else {
         return (
-            <div sx={{ width: 800, height: 450, border: 1, padding:12}}>
+            <div sx={{ width: 800, height: 450, padding:12}}>
                 <h2>No products</h2>
                 <p>Go to File: Add Product</p>
             </div>
