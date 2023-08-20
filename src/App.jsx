@@ -5,12 +5,13 @@ import { Menu } from '@mui/base/Menu';
 import { MenuButton } from '@mui/base/MenuButton';
 import { MenuItem } from '@mui/base/MenuItem';
 import CustomTabPanel from './LabTabs';
+import CustomizedTables from './RecieptGrid';
 import './App.css';
 import { setProductList } from './Store';
 
 function App() {
 
-    const VERSION = "0.0.4";
+    const VERSION = "0.0.5";
 
     const productList = useSelector((state) => state.productList);
 
@@ -44,7 +45,7 @@ function App() {
                 </Dropdown>
             </nav>
             <CustomTabPanel />
-            Quantity - Item [Tag if applies] - Price
+            <CustomizedTables />
             
         </>
     )
