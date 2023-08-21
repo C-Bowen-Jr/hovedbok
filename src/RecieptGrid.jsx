@@ -7,6 +7,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -38,14 +39,15 @@ const recieptItems = [
 
 export default function CustomizedTables() {
   return (
-    <TableContainer sx={{ maxWidth: 800 }} component={Paper}>
+    <TableContainer sx={{ maxWidth: 800, paddingInline: "24px"}}>
       <Table aria-label="customized table">
         <TableHead>
           <TableRow>
             <StyledTableCell align="right" sx={{width: 1/8}}>Quantity</StyledTableCell>
             <StyledTableCell align="left">Product Name</StyledTableCell>
             <StyledTableCell align="right">Tags</StyledTableCell>
-            <StyledTableCell align="right">Price</StyledTableCell>
+            <StyledTableCell align="right" sx={{width: 1/8}}>Price</StyledTableCell>
+            <StyledTableCell align="center" sx={{width: 1/12}}></StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -57,6 +59,7 @@ export default function CustomizedTables() {
               <StyledTableCell align="left">{item.name}</StyledTableCell>
               <StyledTableCell align="right">{item.tags}</StyledTableCell>
               <StyledTableCell align="right">{item.price}</StyledTableCell>
+              <StyledTableCell align="center"><HighlightOffIcon /></StyledTableCell>
             </StyledTableRow>
           ))}
         </TableBody>

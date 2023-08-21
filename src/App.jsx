@@ -5,6 +5,7 @@ import { Dropdown } from '@mui/base/Dropdown';
 import { Menu } from '@mui/base/Menu';
 import { MenuButton } from '@mui/base/MenuButton';
 import { MenuItem } from '@mui/base/MenuItem';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import CustomTabPanel from './LabTabs';
 import CustomizedTables from './RecieptGrid';
 import './App.css';
@@ -44,7 +45,7 @@ function App() {
                 <Dropdown>
                     <MenuButton className="menu_button">File</MenuButton>
                     <Menu className="list_box">
-                        <MenuItem onClick={newProduct}>New Product</MenuItem>
+                        <MenuItem onClick={newProduct} ><AddCircleOutlineIcon/>New Product</MenuItem>
                         <MenuItem>Exit</MenuItem>
                     </Menu>
                 </Dropdown>
