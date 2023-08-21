@@ -5,6 +5,13 @@ const initialState = {
         img: 'https://images.unsplash.com/photo-1551782450-a2132b4ba21d',
         title: 'Burger',
     }],
+    receiptList: [{
+        myProduct: true,
+        quantity: 1,
+        name: "My product",
+        tags: '',
+        price: 0.00,
+    }],
 };
 
 export const setProductList = (value) => ({
@@ -12,10 +19,17 @@ export const setProductList = (value) => ({
     payload: value,
 });
 
+export const setReceiptList = (value) => ({
+    type: 'SET_RECEIPT_LIST',
+    payload: value,
+});
+
 const reducer = (state = initialState, action) => {
     switch (action.type) {
         case 'SET_PRODUCT_LIST':
             return {...state, productList: action.payload};
+        case 'SET_RECEIPT_LIST':
+            return {...state, recieptList: action.payload};
         default:
             return state;
     }
