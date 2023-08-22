@@ -29,7 +29,7 @@ const reducer = (state = initialState, action) => {
         case 'SET_PRODUCT_LIST':
             return {...state, productList: action.payload};
         case 'SET_RECEIPT_LIST':
-            return {...state, recieptList: action.payload};
+            return {...state, receiptList: action.payload};
         default:
             return state;
     }

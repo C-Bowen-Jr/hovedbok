@@ -1,23 +1,31 @@
 import * as React from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
-import store from './Store.js'
+import { setReceiptList, setProductList } from './Store';
 
 export default function ProductImageGrid() {
-    const itemData = useSelector((state) => state.productList);
+    const productList = useSelector((state) => state.productList);
+    const receiptList = useSelector((state) => state.receiptList);
 
-    if (itemData.length > 0) {
+    const dispatch = useDispatch();
+
+    const handleProductClicked = (item) => {
+        const newItem = { myProduct: true, quantity:1, name:item.title, tags:'', price:0.00 };
+        dispatch(setReceiptList([...receiptList, newItem]));
+    };
+
+    if (productList.length > 0) {
         return (
             <ImageList sx={{ width: 800, height: 450 }} cols={4} rowHeight={200} gap={0}>
-                {itemData.map((item) => (
+                {productList.map((item) => (
                     <ImageListItem key={item.img}>
                         <img
                             src={`${item.img}?w=200&h=200&fit=crop&auto=format`}
                             srcSet={`${item.img}?w=200&h=200&fit=crop&auto=format&dpr=2 2x`}
                             alt={item.title}
                             loading="lazy"
-                            onClick={() => console.log(`${item.title}`)}
+                            onClick={() => handleProductClicked(item)}
                         />
                     </ImageListItem>
                 ))}

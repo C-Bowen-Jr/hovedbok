@@ -46,6 +46,7 @@ export default function BasicTabs() {
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
+        console.log("Clear receipt");
     };
 
     return (

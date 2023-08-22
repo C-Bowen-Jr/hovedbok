@@ -30,13 +30,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-function createData(quantity, name, tags, price) {
-  return { quantity, name, tags, price };
-}
 
-const recieptItems = [
-  createData(1, 'Product', 'Etsy,International', 0.00),
-];
 
 export default function CustomizedTables() {
   const receiptList = useSelector((state) => state.receiptList);
