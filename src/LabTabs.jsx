@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
@@ -7,6 +8,8 @@ import Box from '@mui/material/Box';
 import { Button } from '@mui/base/Button';
 import Paper from '@mui/material/Paper';
 import ProductImageGrid from './ProductImageGrid';
+import { setReceiptList } from './Store';
+
 
 function CustomTabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -44,9 +47,12 @@ function a11yProps(index) {
 export default function BasicTabs() {
     const [value, setValue] = React.useState(0);
 
+    const dispatch = useDispatch();
+
     const handleChange = (event, newValue) => {
         setValue(newValue);
-        console.log("Clear receipt");
+        const updateState = [];
+        dispatch(setReceiptList(updateState));
     };
 
     return (
