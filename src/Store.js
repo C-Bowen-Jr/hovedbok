@@ -5,13 +5,7 @@ const initialState = {
         img: 'https://images.unsplash.com/photo-1551782450-a2132b4ba21d',
         title: 'Burger',
     }],
-    receiptList: [{
-        myProduct: true,
-        quantity: 1,
-        name: "My product",
-        tags: '',
-        price: 0.00,
-    }],
+    receiptList: new Map(),
 };
 
 export const setProductList = (value) => ({

@@ -11,8 +11,19 @@ export default function ProductImageGrid() {
     const dispatch = useDispatch();
 
     const handleProductClicked = (item) => {
-        const newItem = { myProduct: true, quantity:1, name:item.title, tags:'', price:0.00 };
-        dispatch(setReceiptList([...receiptList, newItem]));
+        let previousQuantity = 0;
+        if (receiptList.has(item.title)) {
+            previousQuantity = receiptList.get(item.title).quantity;
+        }
+        
+        receiptList.set(item.title, {
+            myProduct: true,
+            quantity: previousQuantity + 1,
+            cost: 0.0,
+            tags: "",
+        });
+        const updatedList = new Map(receiptList);
+        dispatch(setReceiptList(updatedList));
     };
 
     if (productList.length > 0) {

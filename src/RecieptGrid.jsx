@@ -36,7 +36,7 @@ export default function CustomizedTables() {
   const receiptList = useSelector((state) => state.receiptList);
 
   const dispatch = useDispatch();
-  if (receiptList.length == 0) {
+  if (receiptList.size == 0) {
     return (
       <TableContainer sx={{ maxWidth: 800, paddingInline: "24px"}}>
         <Table aria-label="customized table">
@@ -46,17 +46,13 @@ export default function CustomizedTables() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {receiptList.map((item) => (
-              <StyledTableRow key={item.name}>
-                <StyledTableCell align="center" component="th" scope="row"></StyledTableCell>
-              </StyledTableRow>
-            ))}
           </TableBody>
         </Table>
       </TableContainer>
     );
   }
-  if (receiptList[0].myProduct) // Selling
+  const isPersonalProducts = receiptList.values().next().value;
+  if (isPersonalProducts) // Selling
   return (
     <TableContainer sx={{ maxWidth: 800, paddingInline: "24px"}}>
       <Table aria-label="customized table">
@@ -68,12 +64,12 @@ export default function CustomizedTables() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {receiptList.map((item) => (
-            <StyledTableRow key={item.name}>
+          {Array.from(receiptList).map(([name, details]) => (
+            <StyledTableRow key={name}>
               <StyledTableCell align="right" component="th" scope="row">
-                {item.quantity}
+                {details.quantity}
               </StyledTableCell>
-              <StyledTableCell align="left">{item.name}</StyledTableCell>
+              <StyledTableCell align="left">{name}</StyledTableCell>
               <StyledTableCell align="center"><HighlightOffIcon /></StyledTableCell>
             </StyledTableRow>
           ))}
@@ -97,14 +93,14 @@ export default function CustomizedTables() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {receiptList.map((item) => (
-            <StyledTableRow key={item.name}>
+          {Array.from(receiptList).map(([name, details]) => (
+            <StyledTableRow key={name}>
               <StyledTableCell align="right" component="th" scope="row">
-                {item.quantity}
+                {details.quantity}
               </StyledTableCell>
-              <StyledTableCell align="left">{item.name}</StyledTableCell>
-              <StyledTableCell align="right">{item.tags}</StyledTableCell>
-              <StyledTableCell align="right">{item.price}</StyledTableCell>
+              <StyledTableCell align="left">{name}</StyledTableCell>
+              <StyledTableCell align="right">{details.tags}</StyledTableCell>
+              <StyledTableCell align="right">{details.price}</StyledTableCell>
               <StyledTableCell align="center"><HighlightOffIcon /></StyledTableCell>
             </StyledTableRow>
           ))}
