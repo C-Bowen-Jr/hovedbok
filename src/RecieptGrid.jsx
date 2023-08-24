@@ -7,6 +7,7 @@ import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import { setReceiptList } from './Store';
 
@@ -34,6 +35,13 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 export default function CustomizedTables() {
   const receiptList = useSelector((state) => state.receiptList);
+
+  const handleRemoveReceiptItem = (item) => {
+    const newList = new Map(
+      [...receiptList].filter(([k,v]) => k != item)
+    );
+    dispatch(setReceiptList(newList));
+  };
 
   const dispatch = useDispatch();
   if (receiptList.size == 0) {
@@ -65,12 +73,27 @@ export default function CustomizedTables() {
         </TableHead>
         <TableBody>
           {Array.from(receiptList).map(([name, details]) => (
-            <StyledTableRow key={name}>
+            <StyledTableRow key={name} component={Paper} hover sx={{
+              '&:hover': {
+                border: 1,
+              },
+            }}>
               <StyledTableCell align="right" component="th" scope="row">
                 {details.quantity}
               </StyledTableCell>
               <StyledTableCell align="left">{name}</StyledTableCell>
-              <StyledTableCell align="center"><HighlightOffIcon /></StyledTableCell>
+              <StyledTableCell align="center">
+                <HighlightOffIcon 
+                    sx={{
+                      '&:hover': {
+                        '& > path,use': {
+                          fill: '#f44336',
+                        },
+                      },
+                    }}
+                    onClick={() => {handleRemoveReceiptItem(name)}}
+                />
+              </StyledTableCell>
             </StyledTableRow>
           ))}
         </TableBody>
