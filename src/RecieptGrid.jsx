@@ -35,6 +35,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 export default function CustomizedTables() {
   const receiptList = useSelector((state) => state.receiptList);
+  const isReceiptSelling = useSelector((state) => state.isReceiptSelling);
 
   const handleRemoveReceiptItem = (item) => {
     const newList = new Map(
@@ -59,9 +60,8 @@ export default function CustomizedTables() {
       </TableContainer>
     );
   }
-  // This doesn't update in a timely fasion: use redux state
-  const isPersonalProducts = receiptList.values().next().value;
-  if (isPersonalProducts) // Selling
+  
+  if (isReceiptSelling) // Selling
   return (
     <TableContainer sx={{ maxWidth: 800, paddingInline: "24px"}}>
       <Table aria-label="customized table">

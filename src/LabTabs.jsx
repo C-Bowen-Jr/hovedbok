@@ -8,7 +8,7 @@ import Box from '@mui/material/Box';
 import { Button } from '@mui/base/Button';
 import Paper from '@mui/material/Paper';
 import ProductImageGrid from './ProductImageGrid';
-import { setReceiptList } from './Store';
+import { setReceiptList, setReceiptSelling } from './Store';
 
 
 function CustomTabPanel(props) {
@@ -61,6 +61,7 @@ export default function BasicTabs() {
         const updatedList = new Map(receiptList);
         updatedList.set(name,{myProduct: false, quantity: 1, cost: 3.14, tags: "Operations"});
         dispatch(setReceiptList(updatedList));
+        dispatch(setReceiptSelling(false));
     };
 
     return (

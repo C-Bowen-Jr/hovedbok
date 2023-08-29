@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
-import { setReceiptList } from './Store';
+import { setReceiptList, setReceiptSelling } from './Store';
 
 export default function ProductImageGrid() {
     const productList = useSelector((state) => state.productList);
@@ -24,6 +24,7 @@ export default function ProductImageGrid() {
         });
         const updatedList = new Map(receiptList);
         dispatch(setReceiptList(updatedList));
+        dispatch(setReceiptSelling(true));
     };
 
     if (productList.length > 0) {
