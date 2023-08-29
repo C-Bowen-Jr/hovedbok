@@ -112,7 +112,7 @@ export default function CustomizedTables() {
             <StyledTableCell align="right" sx={{width: 1/8}}>Quantity</StyledTableCell>
             <StyledTableCell align="left">Product Name</StyledTableCell>
             <StyledTableCell align="right">Tags</StyledTableCell>
-            <StyledTableCell align="right" sx={{width: 1/8}}>Price</StyledTableCell>
+            <StyledTableCell align="right" sx={{width: 1/8}}>Cost</StyledTableCell>
             <StyledTableCell align="center" sx={{width: 1/12}}></StyledTableCell>
           </TableRow>
         </TableHead>
@@ -124,7 +124,7 @@ export default function CustomizedTables() {
               </StyledTableCell>
               <StyledTableCell align="left">{name}</StyledTableCell>
               <StyledTableCell align="right">{details.tags}</StyledTableCell>
-              <StyledTableCell align="right">{details.price}</StyledTableCell>
+              <StyledTableCell align="right">{details.cost}</StyledTableCell>
               <StyledTableCell align="center"><HighlightOffIcon /></StyledTableCell>
             </StyledTableRow>
           ))}

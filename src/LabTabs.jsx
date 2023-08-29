@@ -59,7 +59,7 @@ export default function BasicTabs() {
     const handleBuy = (name) => {
         
         const updatedList = new Map(receiptList);
-        updatedList.set(name,{myProduct: false, quantity: 1, cost: 3.14, tags: "Operations"});
+        updatedList.set(name,{myProduct: false, quantity: 1, cost: "3.14", tags: "Operations"});
         dispatch(setReceiptList(updatedList));
         dispatch(setReceiptSelling(false));
     };

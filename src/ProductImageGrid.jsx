@@ -19,7 +19,7 @@ export default function ProductImageGrid() {
         receiptList.set(item.title, {
             myProduct: true,
             quantity: previousQuantity + 1,
-            cost: 0.0,
+            cost: "0.00",
             tags: "",
         });
         const updatedList = new Map(receiptList);
