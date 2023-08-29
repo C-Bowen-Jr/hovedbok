@@ -46,13 +46,21 @@ function a11yProps(index) {
 
 export default function BasicTabs() {
     const [value, setValue] = React.useState(0);
+    const receiptList = useSelector((state) => state.receiptList);
 
     const dispatch = useDispatch();
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
-        const updateState = [];
+        const updateState = new Map();
         dispatch(setReceiptList(updateState));
+    };
+
+    const handleBuy = (name) => {
+        
+        const updatedList = new Map(receiptList);
+        updatedList.set(name,{myProduct: false, quantity: 1, cost: 3.14, tags: "Operations"});
+        dispatch(setReceiptList(updatedList));
     };
 
     return (
@@ -70,7 +78,10 @@ export default function BasicTabs() {
                 </Paper>
             </CustomTabPanel>
             <CustomTabPanel value={value} index={1}>
-                <Paper sx={{ maxWidth: "800px", padding: '10px'}}>Item Two</Paper>
+                <Paper sx={{ maxWidth: "800px", padding: '10px'}}>
+                    <Button onClick={() => {handleBuy("item 1")}}>Test add a purchase</Button>
+                    <Button onClick={() => {handleBuy("item 2")}}>Test add a purchase</Button>
+                </Paper>
             </CustomTabPanel>
             <CustomTabPanel value={value} index={2}>
                 <div>

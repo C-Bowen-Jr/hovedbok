@@ -59,6 +59,7 @@ export default function CustomizedTables() {
       </TableContainer>
     );
   }
+  // This doesn't update in a timely fasion: use redux state
   const isPersonalProducts = receiptList.values().next().value;
   if (isPersonalProducts) // Selling
   return (
