@@ -5,3 +5,5 @@
 ## Current State
 
 Currently, the project is not in a working version.
+
+// This is a test, github stopped recognizing my contributions as my own
