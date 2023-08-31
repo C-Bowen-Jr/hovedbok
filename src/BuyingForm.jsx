@@ -15,6 +15,9 @@ export default function BuyingForm() {
     const [name, setName] = useState("");
     const [tags, setTags] = useState("");
     const [cost, setCost] = useState("");
+    const [badQuantity, setBadQuantity] = useState(false);
+    const [badName, setBadName] = useState(false);
+    const [badCost, setBadCost] = useState(false);
 
     const receiptList = useSelector((state) => state.receiptList);
 
@@ -22,14 +25,29 @@ export default function BuyingForm() {
 
     const handleQuantity = (event) => {
         setQuantity(event.target.value);
+        if(/^[1-9]\d*$/.test(event.target.value)) {
+            setBadQuantity(false);
+        } else {
+            setBadQuantity(true);
+        }
     };
 
     const handleName = (event) => {
         setName(event.target.value);
+        if(event.target.value.length > 2) {
+            setBadName(false);
+        } else {
+            setBadName(true);
+        }
     };
 
     const handleCost = (event) => {
         setCost(event.target.value);
+        if(/^\d*.[0-9][0-9]$/.test(event.target.value)) {
+            setBadCost(false);
+        } else {
+            setBadCost(true);
+        }
     };
 
     const handleTags = (event) => {
@@ -37,14 +55,26 @@ export default function BuyingForm() {
     };
 
     const handleCostBlur = (event) => {
-        setCost(formatCurrency(event.target.value));
+        const formattedCost = formatCurrency(event.target.value);
+        if (formattedCost === "NaN") {
+            setCost("");
+        } else {
+            setCost(formattedCost);
+            handleCost(event);
+        }
     };
 
-    const handleSubmit = () => {
-        if (!/^[1-9]\d*$/.test(document.getElementById("quantity").value)) {
-            document.getElementById("quantity").ariaInvalid = "false";
-            return;
+    const anyBadInput = () => {
+        // If any required field is failing
+        if (badQuantity || badName || badCost) {
+            return true;
         }
+        if (quantity == "" || name == "" || cost == "") {
+            return true;
+        }
+        return false;
+    };
+    const handleSubmit = () => {
         handleBuy(name);
     };
     const handleBuy = (name) => {
@@ -56,15 +86,17 @@ export default function BuyingForm() {
     };
 
     return (
-        <Box sx={{ padding: "8px" }}>
+        <Box component="form" sx={{ padding: "8px" }}>
             <div>
                 <TextField
                     required
                     id="quantity"
                     label="Quantity"
                     autoComplete="off"
+                    type="text"
                     value={quantity}
                     onChange={handleQuantity}
+                    error={badQuantity}
                     onDoubleClick={() => { setQuantity("") }}
                     sx={{ width: 1 / 4, margin: "8px 4px" }}
                 />
@@ -74,6 +106,7 @@ export default function BuyingForm() {
                     label="Name of Purchase"
                     value={name}
                     onChange={handleName}
+                    error={badName}
                     onDoubleClick={() => { setName("") }}
                     sx={{ width: 4 / 6, margin: "8px 4px" }}
                 />
@@ -86,6 +119,7 @@ export default function BuyingForm() {
                     autoComplete="off"
                     value={cost}
                     onChange={handleCost}
+                    error={badCost}
                     onDoubleClick={() => { setCost("") }}
                     onBlur={handleCostBlur}
                     sx={{ width: 1 / 4, margin: "8px 4px" }}
@@ -100,7 +134,7 @@ export default function BuyingForm() {
                     sx={{ width: 4 / 6, margin: "8px 4px" }}
                 />
             </div>
-            <div><Button onClick={handleSubmit}>Submit</Button></div>
+            <div><Button disabled={anyBadInput()} onClick={handleSubmit}>Submit</Button></div>
         </Box>
     );
 }
