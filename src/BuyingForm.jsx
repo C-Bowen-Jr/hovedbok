@@ -12,8 +12,8 @@ import { setReceiptList, setReceiptSelling } from './Store';
 export default function BuyingForm() {
     // Localized states for fields, gets compiled to object on submit
     const [quantity, setQuantity] = useState();
-    const [name, setName] = useState(""); 
-    const [tags, setTags] = useState(""); 
+    const [name, setName] = useState("");
+    const [tags, setTags] = useState("");
     const [cost, setCost] = useState("");
 
     const receiptList = useSelector((state) => state.receiptList);
@@ -41,6 +41,10 @@ export default function BuyingForm() {
     };
 
     const handleSubmit = () => {
+        if (!/^[1-9]\d*$/.test(document.getElementById("quantity").value)) {
+            document.getElementById("quantity").ariaInvalid = "false";
+            return;
+        }
         handleBuy(name);
     };
     const handleBuy = (name) => {
@@ -52,18 +56,17 @@ export default function BuyingForm() {
     };
 
     return (
-        <Box sx={{padding: "8px"}}>
+        <Box sx={{ padding: "8px" }}>
             <div>
                 <TextField
                     required
                     id="quantity"
                     label="Quantity"
-                    type="number"
                     autoComplete="off"
                     value={quantity}
                     onChange={handleQuantity}
-                    onDoubleClick={() => {setQuantity("")}}
-                    sx={{width: 1/4, margin:"8px 4px"}}
+                    onDoubleClick={() => { setQuantity("") }}
+                    sx={{ width: 1 / 4, margin: "8px 4px" }}
                 />
                 <TextField
                     required
@@ -71,11 +74,11 @@ export default function BuyingForm() {
                     label="Name of Purchase"
                     value={name}
                     onChange={handleName}
-                    onDoubleClick={() => {setName("")}}
-                    sx={{width:4/6, margin:"8px 4px"}}
+                    onDoubleClick={() => { setName("") }}
+                    sx={{ width: 4 / 6, margin: "8px 4px" }}
                 />
-                </div>
-                <div>
+            </div>
+            <div>
                 <TextField
                     required
                     id="cost"
@@ -83,9 +86,9 @@ export default function BuyingForm() {
                     autoComplete="off"
                     value={cost}
                     onChange={handleCost}
-                    onDoubleClick={() => {setCost("")}}
+                    onDoubleClick={() => { setCost("") }}
                     onBlur={handleCostBlur}
-                    sx={{width:1/4, margin:"8px 4px"}}
+                    sx={{ width: 1 / 4, margin: "8px 4px" }}
                 />
                 <TextField
                     id="tags"
@@ -93,8 +96,8 @@ export default function BuyingForm() {
                     helperText="Separate with commas"
                     value={tags}
                     onChange={handleTags}
-                    onDoubleClick={() => {setTags("")}}
-                    sx={{width:4/6, margin:"8px 4px"}}
+                    onDoubleClick={() => { setTags("") }}
+                    sx={{ width: 4 / 6, margin: "8px 4px" }}
                 />
             </div>
             <div><Button onClick={handleSubmit}>Submit</Button></div>
