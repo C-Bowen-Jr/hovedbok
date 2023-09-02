@@ -125,7 +125,18 @@ export default function CustomizedTables() {
                             <StyledTableCell align="left">{name}</StyledTableCell>
                             <StyledTableCell align="right">{details.tags}</StyledTableCell>
                             <StyledTableCell align="right">{details.cost}</StyledTableCell>
-                            <StyledTableCell align="center"><HighlightOffIcon /></StyledTableCell>
+                            <StyledTableCell align="center">
+                                <HighlightOffIcon 
+                                    sx={{
+                                        '&:hover': {
+                                            '& > path,use': {
+                                                fill: '#f44336',
+                                            },
+                                        },
+                                    }}
+                                    onClick={() => { handleRemoveReceiptItem(name) }}
+                                />
+                            </StyledTableCell>
                         </StyledTableRow>
                     ))}
                 </TableBody>
