@@ -4,6 +4,7 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import { TextField, FormControl, useFormControl } from '@mui/material';
 import { Button } from '@mui/base/Button';
+import { Select, MenuItem, InputLabel } from '@mui/material';
 import Paper from '@mui/material/Paper';
 import { formatCurrency } from './utils.js';
 import { setReceiptList, setReceiptSelling } from './Store';
@@ -65,7 +66,7 @@ export default function BuyingForm() {
         }
     };
 
-    const anyBadInput = () => {
+    const isAnyBadInput = () => {
         // If any required field is failing
         if (badQuantity || badName || badCost) {
             return true;
@@ -74,6 +75,18 @@ export default function BuyingForm() {
             return true;
         }
         return false;
+    };
+
+    const isNewPreset = () => {
+        console.log("TODO BuyingForm.isNewPreset");
+        return true;
+    }
+
+    const handlePreset = (event) => {
+        setQuantity(event.target.value.quantity);
+        setName(event.target.value.name);
+        setCost(event.target.value.cost);
+        setTags(event.target.value.tags);
     };
 
     const resetForm = () => {
@@ -100,6 +113,29 @@ export default function BuyingForm() {
     };
 
     return (
+        <>
+        <Box sx={{ padding: "8px "}}>
+            <h3>Presets</h3>
+            
+            <InputLabel id="preset-select-label">Presets</InputLabel>
+            <Select
+                labelId="preset-select-label"
+                id="preset-purchase"
+                label="Presets"
+                value={""}
+                sx= {{ width: "200px" }}
+                onChange={handlePreset}
+            >
+                <MenuItem value={{quantity: "",name: "Test 1", cost: "", tags: "operations"}}>
+                    Test 1
+                </MenuItem>
+                <MenuItem value={{quantity: "1",name: "Test 2", cost: "3.33", tags: "operations"}}>
+                    Test 2
+                </MenuItem>
+            </Select>
+            <Button className="btn bold">Hosting</Button>
+            <Button className="btn bold">Payroll</Button>
+        </Box>
         <Box component="form" sx={{ padding: "8px" }}>
             <div>
                 <TextField
@@ -149,9 +185,11 @@ export default function BuyingForm() {
                 />
             </div>
             <div>
-                <Button disabled={anyBadInput()} onClick={handleSubmit}>Submit</Button>
-                <Button onClick={resetForm}>Cancel</Button>    
+                <Button disabled={isAnyBadInput()} onClick={handleSubmit} className="btn bold">Submit</Button>
+                <Button disabled={isAnyBadInput() && isNewPreset()} className="btn bold">Save</Button>
+                <Button onClick={resetForm} className="btn bold">Cancel</Button>    
             </div>
         </Box>
+        </>
     );
 }
