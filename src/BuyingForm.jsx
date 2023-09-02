@@ -56,10 +56,13 @@ export default function BuyingForm() {
 
     const handleCostBlur = (event) => {
         const formattedCost = formatCurrency(event.target.value);
+        console.log(event.target.value);
+        console.log(formattedCost)
         if (formattedCost === "NaN") {
             setCost("");
         } else {
             setCost(formattedCost);
+            event.target.value = formattedCost;
             handleCost(event);
         }
     };
