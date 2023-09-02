@@ -56,8 +56,6 @@ export default function BuyingForm() {
 
     const handleCostBlur = (event) => {
         const formattedCost = formatCurrency(event.target.value);
-        console.log(event.target.value);
-        console.log(formattedCost)
         if (formattedCost === "NaN") {
             setCost("");
         } else {
@@ -77,15 +75,28 @@ export default function BuyingForm() {
         }
         return false;
     };
+
+    const resetForm = () => {
+        setQuantity("");
+        setName("");
+        setCost("");
+        setTags("");
+        setBadQuantity(false);
+        setBadName(false);
+        setBadCost(false);
+    }
+
     const handleSubmit = () => {
         handleBuy(name);
     };
+
     const handleBuy = (name) => {
 
         const updatedList = new Map(receiptList);
         updatedList.set(name, { myProduct: false, quantity: quantity, cost: cost, tags: tags });
         dispatch(setReceiptList(updatedList));
         dispatch(setReceiptSelling(false));
+        resetForm();
     };
 
     return (
@@ -137,7 +148,10 @@ export default function BuyingForm() {
                     sx={{ width: 4 / 6, margin: "8px 4px" }}
                 />
             </div>
-            <div><Button disabled={anyBadInput()} onClick={handleSubmit}>Submit</Button></div>
+            <div>
+                <Button disabled={anyBadInput()} onClick={handleSubmit}>Submit</Button>
+                <Button onClick={resetForm}>Cancel</Button>    
+            </div>
         </Box>
     );
 }
