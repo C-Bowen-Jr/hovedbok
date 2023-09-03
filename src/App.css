@@ -82,8 +82,6 @@ nav .menu_spacer {
   background-color: var(--alert);
 }
 
-.DEPRICATE_product_grid {
-  border: 2px inset;
-  height: 450px;
-  width: 800px;
+.form_divider {
+  margin-top: 8px;
 }
