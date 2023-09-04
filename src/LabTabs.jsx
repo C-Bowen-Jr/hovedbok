@@ -9,6 +9,7 @@ import { Button } from '@mui/base/Button';
 import Paper from '@mui/material/Paper';
 import ProductImageGrid from './ProductImageGrid';
 import BuyingForm from './BuyingForm';
+import SellingForm from './SellingForm';
 import { setReceiptList, setReceiptSelling } from './Store';
 
 
@@ -75,6 +76,9 @@ export default function BasicTabs() {
                 </Tabs>
             </Box>
             <CustomTabPanel value={value} index={0}>
+            <Paper className="grid" sx={{width: 800}} elevation={1}>
+                    <SellingForm />
+                </Paper>
                 <Paper className="grid" sx={{width: 800}} elevation={1}>
                     <ProductImageGrid />
                 </Paper>
