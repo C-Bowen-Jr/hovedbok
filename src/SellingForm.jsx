@@ -12,43 +12,38 @@ import { setReceiptList, setReceiptSelling } from './Store';
 
 export default function SellingForm() {
     // Localized states for fields, gets compiled to object on submit
-    const [quantity, setQuantity] = useState();
-    const [name, setName] = useState("");
-    const [tags, setTags] = useState("");
-    const [cost, setCost] = useState("");
-    const [badQuantity, setBadQuantity] = useState(false);
-    const [badName, setBadName] = useState(false);
-    const [badCost, setBadCost] = useState(false);
+    const [expense, setExpense] = useState();
+    const [earnings, setEarnings] = useState("");
+    const [fee, setFee] = useState("");
+    const [newTag, setNewTag] = useState("");
+    const [badExpense, setBadExpense] = useState(false);
+    const [badEarnings, setBadEarnings] = useState(false);
+    const [badFee, setBadFee] = useState(false);
 
     const receiptList = useSelector((state) => state.receiptList);
 
     const dispatch = useDispatch();
 
-    const handleQuantity = (event) => {
-        setQuantity(event.target.value);
+    const handleExpense = (event) => {
+        setExpense(event.target.value);
         if (/^[1-9]\d*$/.test(event.target.value)) {
-            setBadQuantity(false);
+            setBadExpense(false);
         } else {
-            setBadQuantity(true);
+            setBadExpense(true);
         }
     };
 
-    const handleName = (event) => {
-        setName(event.target.value);
-        if (event.target.value.length > 2) {
-            setBadName(false);
+    const handleEarnings = (event) => {
+        setEarnings(event.target.value);
+        if (/^[1-9]\d*$/.test(event.target.value)) {
+            setBadEarnings(false);
         } else {
-            setBadName(true);
+            setBadEarnings(true);
         }
     };
 
-    const handleCost = (event) => {
-        setCost(event.target.value);
-        if (/^\d*.[0-9][0-9]$/.test(event.target.value)) {
-            setBadCost(false);
-        } else {
-            setBadCost(true);
-        }
+    const handleFee = () => {
+        //
     };
 
     const handleTags = (event) => {
@@ -58,83 +53,50 @@ export default function SellingForm() {
     const handleCostBlur = (event) => {
         const formattedCost = formatCurrency(event.target.value);
         if (formattedCost === "NaN") {
-            setCost("");
+            //setCost("");
         } else {
-            setCost(formattedCost);
+            //setCost(formattedCost);
             event.target.value = formattedCost;
-            handleCost(event);
+            //handleCost(event);
         }
     };
 
     const isAnyBadInput = () => {
         // If any required field is failing
-        if (badQuantity || badName || badCost) {
+        if (badExpense || badEarnings || badFee) {
             return true;
         }
-        if (quantity == "" || name == "" || cost == "") {
+        if (expense == "" || earnings == "" || fee == "") {
             return true;
         }
         return false;
     };
 
     const isNewPreset = () => {
-        console.log("TODO BuyingForm.isNewPreset");
+        console.log("TODO SellingForm.isNewPreset");
         return true;
     }
 
-    const handlePreset = (event) => {
-        setQuantity(event.target.value.quantity);
-        setName(event.target.value.name);
-        setCost(event.target.value.cost);
-        setTags(event.target.value.tags);
-    };
-
     const resetForm = () => {
-        setQuantity("");
-        setName("");
-        setCost("");
+        setExpense("");
+        setEarnings("");
+        setFee("");
         setTags("");
-        setBadQuantity(false);
-        setBadName(false);
-        setBadCost(false);
+        setBadExpense(false);
+        setBadEarnings(false);
+        setBadFee(false);
     }
 
     const handleSubmit = () => {
-        handleBuy(name);
+        handleSell();
     };
 
-    const handleBuy = (name) => {
-
-        const updatedList = new Map(receiptList);
-        updatedList.set(name, { myProduct: false, quantity: quantity, cost: cost, tags: tags });
-        dispatch(setReceiptList(updatedList));
-        dispatch(setReceiptSelling(false));
-        resetForm();
+    const handleSell = () => {
+        //
     };
 
     return (
         <>
-            <Box sx={{ padding: "8px " }}>
-                <Divider sx={{ marginTop: "16px" }} textAlign="left">Presets</Divider>
-                <InputLabel id="preset-select-label">Presets</InputLabel>
-                <Select
-                    labelId="preset-select-label"
-                    id="preset-purchase"
-                    label="Presets"
-                    value={""}
-                    sx={{ width: "200px" }}
-                    onChange={handlePreset}
-                >
-                    <MenuItem value={{ quantity: "", name: "Test 1", cost: "", tags: "operations" }}>
-                        Test 1
-                    </MenuItem>
-                    <MenuItem value={{ quantity: "1", name: "Test 2", cost: "3.33", tags: "operations" }}>
-                        Test 2
-                    </MenuItem>
-                </Select>
-                <Button className="btn bold">Hosting</Button>
-                <Button className="btn bold">Payroll</Button>
-            </Box>
             <Box component="form" sx={{ padding: "8px" }}>
                 <Divider sx={{ marginTop: "16px" }} textAlign="left">Purchase Form</Divider>
                 <div>
@@ -144,10 +106,10 @@ export default function SellingForm() {
                         label="Expense"
                         autoComplete="off"
                         type="text"
-                        value={quantity}
-                        onChange={handleQuantity}
-                        error={badQuantity}
-                        onDoubleClick={() => { setQuantity("") }}
+                        value={expense}
+                        onChange={handleExpense}
+                        error={badExpense}
+                        onDoubleClick={() => { setExpense("") }}
                         sx={{ width: 4 / 6, margin: "8px 4px" }}
                     />
                 </div>
@@ -158,16 +120,16 @@ export default function SellingForm() {
                         label="Earnings"
                         autoComplete="off"
                         type="text"
-                        value={quantity}
-                        onChange={handleQuantity}
-                        error={badQuantity}
-                        onDoubleClick={() => { setQuantity("") }}
+                        value={earnings}
+                        onChange={handleEarnings}
+                        error={badEarnings}
+                        onDoubleClick={() => { setEarnings("") }}
                         sx={{ width: 4 / 6, margin: "8px 4px" }}
                     />
                 </div>
-                <Divider sx={{ marginTop: "16px", textAlign: "left" }}>Seller Fees</Divider>
-                <Button>Etsy</Button>
-                <Button>PayPal</Button>
+                <Divider sx={{ marginTop: "16px" }} textAlign="left">Seller Fees</Divider>
+                <Button className="btn bold" sx={{ bgColor: "994400" }}>Etsy</Button>
+                <Button className="btn bold">PayPal</Button>
                 <div>
                 <TextField
                         required
@@ -175,14 +137,15 @@ export default function SellingForm() {
                         label="Fee"
                         autoComplete="off"
                         type="text"
-                        value={quantity}
-                        onChange={handleQuantity}
-                        error={badQuantity}
-                        onDoubleClick={() => { setQuantity("") }}
+                        value={fee}
+                        disabled
+                        onChange={handleFee}
+                        error={badFee}
+                        onDoubleClick={() => { setFee("") }}
                         sx={{ width: 4 / 6, margin: "8px 4px" }}
                     />
                 </div>
-                <Divider sx={{ marginTop: "16px", textAlign: "left" }}>Tags</Divider>
+                <Divider sx={{ marginTop: "16px" }} textAlign="left">Tags</Divider>
                 <InputLabel id="preset-select-label">Presets</InputLabel>
                 <Select
                     labelId="preset-select-label"
@@ -190,12 +153,11 @@ export default function SellingForm() {
                     label="Presets"
                     value={""}
                     sx={{ width: "200px" }}
-                    onChange={handlePreset}
                 >
-                    <MenuItem value={{ quantity: "", name: "Test 1", cost: "", tags: "operations" }}>
+                    <MenuItem>
                         Test 1
                     </MenuItem>
-                    <MenuItem value={{ quantity: "1", name: "Test 2", cost: "3.33", tags: "operations" }}>
+                    <MenuItem>
                         Test 2
                     </MenuItem>
                 </Select>
