@@ -26,16 +26,17 @@ export default function SellingForm() {
 
     const handleExpense = (event) => {
         setExpense(event.target.value);
-        if (/^[1-9]\d*$/.test(event.target.value)) {
+        if (/^\d.[0-9][0-9]*$/.test(event.target.value)) {
             setBadExpense(false);
         } else {
             setBadExpense(true);
         }
+        console.log(badExpense);
     };
 
     const handleEarnings = (event) => {
         setEarnings(event.target.value);
-        if (/^[1-9]\d*$/.test(event.target.value)) {
+        if (/^\d*$/.test(event.target.value)) {
             setBadEarnings(false);
         } else {
             setBadEarnings(true);
@@ -50,14 +51,36 @@ export default function SellingForm() {
         setTags(event.target.value);
     };
 
-    const handleCostBlur = (event) => {
+    const handleExpenseBlur = (event) => {
         const formattedCost = formatCurrency(event.target.value);
         if (formattedCost === "NaN") {
-            //setCost("");
+            setExpense("");
         } else {
-            //setCost(formattedCost);
+            setExpense(formattedCost);
             event.target.value = formattedCost;
-            //handleCost(event);
+            handleExpense(event);
+        }
+    };
+
+    const handleEarningsBlur = (event) => {
+        const formattedCost = formatCurrency(event.target.value);
+        if (formattedCost === "NaN") {
+            setEarnings("");
+        } else {
+            setEarnings(formattedCost);
+            event.target.value = formattedCost;
+            handleEarnings(event);
+        }
+    };
+
+    const handleFeeBlur = (event) => {
+        const formattedCost = formatCurrency(event.target.value);
+        if (formattedCost === "NaN") {
+            setFee("");
+        } else {
+            setFee(formattedCost);
+            event.target.value = formattedCost;
+            handleFee(event);
         }
     };
 
@@ -109,6 +132,7 @@ export default function SellingForm() {
                         value={expense}
                         onChange={handleExpense}
                         error={badExpense}
+                        onBlur={handleExpenseBlur}
                         onDoubleClick={() => { setExpense("") }}
                         sx={{ width: 4 / 6, margin: "8px 4px" }}
                     />
@@ -123,6 +147,7 @@ export default function SellingForm() {
                         value={earnings}
                         onChange={handleEarnings}
                         error={badEarnings}
+                        onBlur={handleEarningsBlur}
                         onDoubleClick={() => { setEarnings("") }}
                         sx={{ width: 4 / 6, margin: "8px 4px" }}
                     />
