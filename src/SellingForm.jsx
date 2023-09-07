@@ -31,7 +31,6 @@ export default function SellingForm() {
         } else {
             setBadExpense(true);
         }
-        console.log(badExpense);
     };
 
     const handleEarnings = (event) => {

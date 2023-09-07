@@ -85,3 +85,25 @@ nav .menu_spacer {
 .form_divider {
   margin-top: 8px;
 }
+
+.flex-tab-panel {
+  display: flex;
+  flex-direction: row;
+}
+
+@media (max-width: 1644px) {
+  .flex-tab-panel {
+    flex-direction: column;
+  }
+  .card {
+    margin-block-end: 16px;
+  }
+}
+
+.card {
+  margin-inline-end: 16px;
+}
+
+.poduct-grid {
+  height: 450px;
+}

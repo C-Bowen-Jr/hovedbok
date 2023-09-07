@@ -29,7 +29,7 @@ export default function ProductImageGrid() {
 
     if (productList.length > 0) {
         return (
-            <ImageList sx={{ width: 800, height: 450 }} cols={4} rowHeight={200} gap={0}>
+            <ImageList sx={{ width: 800, height: 450, marginBlock: 0 }} cols={4} rowHeight={200} gap={0}>
                 {productList.map((item) => (
                     <ImageListItem key={item.img}>
                         <img

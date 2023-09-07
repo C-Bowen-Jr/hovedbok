@@ -6,6 +6,7 @@ import { Menu } from '@mui/base/Menu';
 import { MenuButton } from '@mui/base/MenuButton';
 import { MenuItem } from '@mui/base/MenuItem';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import Box from '@mui/material/Box';
 import CustomTabPanel from './LabTabs';
 import CustomizedTables from './RecieptGrid';
 import './App.css';
@@ -60,6 +61,7 @@ function App() {
             </nav>
             <CustomTabPanel />
             <CustomizedTables />
+            <Box sx={{ height: "32px" }} />
             
         </ThemeProvider>
     )

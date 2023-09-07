@@ -76,15 +76,17 @@ export default function BasicTabs() {
                 </Tabs>
             </Box>
             <CustomTabPanel value={value} index={0}>
-            <Paper className="grid" sx={{width: 800}} elevation={1}>
-                    <SellingForm />
-                </Paper>
-                <Paper className="grid" sx={{width: 800}} elevation={1}>
+                <Box className="flex-tab-panel">
+                <Paper className="card product-grid" sx={{width: 800}} elevation={1}>
                     <ProductImageGrid />
                 </Paper>
+                <Paper className="card" sx={{width: 800}} elevation={1}>
+                    <SellingForm />
+                </Paper>
+                </Box>
             </CustomTabPanel>
             <CustomTabPanel value={value} index={1}>
-            <Paper className="grid" sx={{width: 800}} elevation={1}>
+            <Paper className="card" sx={{width: 800}} elevation={1}>
                     <BuyingForm />
                 </Paper>
             </CustomTabPanel>
