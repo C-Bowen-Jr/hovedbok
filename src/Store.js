@@ -1,10 +1,8 @@
 import { createStore } from 'redux';
+import productJsonFile from '../public/products.json';
 
 const initialState = {
-    productList: [{
-        img: 'https://images.unsplash.com/photo-1551782450-a2132b4ba21d',
-        title: 'Burger',
-    }],
+    productList: productJsonFile,
     receiptList: new Map(),
     isReceiptSelling: true,
 };
