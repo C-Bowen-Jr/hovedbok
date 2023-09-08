@@ -102,8 +102,9 @@ nav .menu_spacer {
 
 .card {
   margin-inline-end: 16px;
+  height: min-content;
 }
 
 .poduct-grid {
-  height: 450px;
+  height: 480px;
 }
