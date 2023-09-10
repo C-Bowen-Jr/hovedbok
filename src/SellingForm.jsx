@@ -120,7 +120,7 @@ export default function SellingForm() {
     return (
         <>
             <Box component="form" sx={{ padding: "8px" }}>
-                <Divider sx={{ marginTop: "16px" }} textAlign="left">Purchase Form</Divider>
+                <Divider sx={{ marginTop: "16px" }} textAlign="left">Selling Form</Divider>
                 <div>
                     <TextField
                         required
@@ -188,6 +188,28 @@ export default function SellingForm() {
                 <Button className="btn bold">Add</Button>
                 <Button className="btn bold">Save</Button>
                 <Button className="btn bold">Remove</Button>
+                <Divider sx={{ marginTop: "16px" }} textAlign="left">Packing Slip</Divider>
+                <div>
+                    <TextField
+                        required
+                        id="address"
+                        label="Address"
+                        autoComplete="off"
+                        multiline
+                        maxRows={5}
+                        sx={{ width: 4 / 6, margin: "8px 4px" }}
+                    />
+                </div>
+                <div>
+                    <TextField
+                        id="gift-message"
+                        label="GiftMessage"
+                        autoComplete="off"
+                        multiline
+                        maxRows={5}
+                        sx={{ width: 4 / 6, margin: "8px 4px" }}
+                    />
+                </div>
             </Box>
             <Box sx={{ alignContent: "right", marginTop: "16px", padding:"8px" }}>
                 <Button disabled={isAnyBadInput()} onClick={handleSubmit} className="btn bold">Submit</Button>
