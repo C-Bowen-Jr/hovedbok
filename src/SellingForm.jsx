@@ -203,7 +203,7 @@ export default function SellingForm() {
                 <div>
                     <TextField
                         id="gift-message"
-                        label="GiftMessage"
+                        label="Gift Message"
                         autoComplete="off"
                         multiline
                         maxRows={5}

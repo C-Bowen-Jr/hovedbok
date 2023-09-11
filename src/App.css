@@ -28,7 +28,7 @@ nav .menu_button {
   margin: 2px;
 }
 
-nav .menu_spacer {
+nav .depricate_menu_spacer {
   background-color: rgba(255,255,255,0.15);
   border: 1px solid rgba(0,0,0,0.70);
   padding: 4.5px 100px;
@@ -37,7 +37,7 @@ nav .menu_spacer {
   display: inline;
 }
 
-.MuiPopper-root {
+.depricate_MuiPopper-root {
   background: rgba(0,0,0,0.90);
   border: 1px solid white;
   padding: 4px;
@@ -107,4 +107,8 @@ nav .menu_spacer {
 
 .poduct-grid {
   height: 480px;
+}
+
+.list_box {
+  list-style-type: none;
 }

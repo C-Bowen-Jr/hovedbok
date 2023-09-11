@@ -4,17 +4,17 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Dropdown } from '@mui/base/Dropdown';
 import { Menu } from '@mui/base/Menu';
 import { MenuButton } from '@mui/base/MenuButton';
-import { MenuItem } from '@mui/base/MenuItem';
-import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import Box from '@mui/material/Box';
 import CustomTabPanel from './LabTabs';
 import CustomizedTables from './RecieptGrid';
+import FileMenu from './FileMenu';
+import AppMenu from './AppMenu';
 import './App.css';
 import { setProductList } from './Store';
 
 function App() {
 
-    const VERSION = "0.0.9";
+    const VERSION = "0.0.11";
 
     const productList = useSelector((state) => state.productList);
 
@@ -45,16 +45,14 @@ function App() {
             <nav>
                 <Dropdown>
                     <MenuButton className="menu_button">File</MenuButton>
-                    <Menu className="list_box">
-                        <MenuItem onClick={newProduct} ><AddCircleOutlineIcon/>New Product</MenuItem>
-                        <MenuItem>Exit</MenuItem>
+                    <Menu>
+                        <FileMenu />
                     </Menu>
                 </Dropdown>
                 <Dropdown>
                     <MenuButton className="menu_button">Hovedbok</MenuButton>
                     <Menu className="list_box">
-                        <MenuItem>About</MenuItem>
-                        <MenuItem>Help</MenuItem>
+                        <AppMenu />
                     </Menu>
                     <div className="menu_spacer"></div>
                 </Dropdown>
