@@ -8,13 +8,14 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { useFilePicker } from 'react-sage';
-import { setNewProductWindow } from './Store';
+import { setNewProductWindow, setProductList } from './Store';
 
 export default function NewProductDialog() {
     const [productName, setProductName] = useState("");
     const [productFilename, setProductFilename] = useState("./products/");
     const [isBadName, setBadName] = useState(false);
 
+    const productList = useSelector((state) => state.productList);
     const isNewProductWindow = useSelector((state) => state.isNewProductWindow);
 
     const dispatch = useDispatch();
@@ -37,7 +38,15 @@ export default function NewProductDialog() {
     };
     
     const handleAdd = () => {
-        console.log(productFilename);
+        if (productName != "" && !isBadName && productFilename != "./products/") {
+            const newItem = {
+                img: productFilename,
+                title: productName,
+            };
+            dispatch(setProductList([...productList, newItem]));
+            // TODO: Save productList to json file
+            dispatch(setNewProductWindow(false));
+        }
     };
 
     return (
