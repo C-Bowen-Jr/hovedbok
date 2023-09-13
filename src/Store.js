@@ -5,6 +5,7 @@ const initialState = {
     productList: productJsonFile,
     receiptList: new Map(),
     isReceiptSelling: true,
+    isNewProductWindow: true,
 };
 
 export const setProductList = (value) => ({
@@ -22,6 +23,11 @@ export const setReceiptSelling = (value) => ({
     payload: value,
 });
 
+export const setNewProductWindow = (value) => ({
+    type: 'SET_NEW_PRODUCT_WINDOW',
+    payload: value,
+});
+
 const reducer = (state = initialState, action) => {
     switch (action.type) {
         case 'SET_PRODUCT_LIST':
@@ -29,7 +35,9 @@ const reducer = (state = initialState, action) => {
         case 'SET_RECEIPT_LIST':
             return {...state, receiptList: action.payload};
         case 'SET_RECEIPT_SELLING':
-                return {...state, isReceiptSelling: action.payload};
+            return {...state, isReceiptSelling: action.payload};
+        case 'SET_NEW_PRODUCT_WINDOW':
+            return {...state, isNewProductWindow: action.payload};
         default:
             return state;
     }

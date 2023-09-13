@@ -9,12 +9,13 @@ import CustomTabPanel from './LabTabs';
 import CustomizedTables from './RecieptGrid';
 import FileMenu from './FileMenu';
 import AppMenu from './AppMenu';
+import NewProductDialog from './NewProductWindow';
 import './App.css';
 import { setProductList } from './Store';
 
 function App() {
 
-    const VERSION = "0.0.11";
+    const VERSION = "0.0.12";
 
     const productList = useSelector((state) => state.productList);
 
@@ -57,6 +58,7 @@ function App() {
                     <div className="menu_spacer"></div>
                 </Dropdown>
             </nav>
+            <NewProductDialog />
             <CustomTabPanel />
             <CustomizedTables />
             <Box sx={{ height: "32px" }} />
