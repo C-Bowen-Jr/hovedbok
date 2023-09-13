@@ -10,6 +10,7 @@ import Paper from '@mui/material/Paper';
 import ProductImageGrid from './ProductImageGrid';
 import BuyingForm from './BuyingForm';
 import SellingForm from './SellingForm';
+import ReceiptGrid from './RecieptGrid';
 import { setReceiptList, setReceiptSelling } from './Store';
 
 
