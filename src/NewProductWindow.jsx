@@ -12,14 +12,31 @@ import { setNewProductWindow } from './Store';
 
 export default function NewProductDialog() {
     const [productName, setProductName] = useState("");
-    const [productFilename, setProductFilename] = useState("");
+    const [productFilename, setProductFilename] = useState("./products/");
+    const [isBadName, setBadName] = useState(false);
 
     const isNewProductWindow = useSelector((state) => state.isNewProductWindow);
 
     const dispatch = useDispatch();
 
+    const handleProductName = (event) => {
+        setProductName(event.target.value);
+        if (event.target.value.length > 2) {
+            setBadName(false);
+        } else {
+            setBadName(true);
+        }
+    };
+
+    const handleProductFilename = (event) => {
+        setProductFilename(productFilename.concat(event.target.files[0].name));
+    };
+
     const handleClose = () => {
         dispatch(setNewProductWindow(false));
+    };
+    
+    const handleAdd = () => {
         console.log(productFilename);
     };
 
@@ -39,13 +56,25 @@ export default function NewProductDialog() {
                         type="text"
                         fullWidth
                         variant="standard"
+                        error={isBadName}
                         value={productName}
+                        onChange={handleProductName}
+                    />
+                    <TextField
+                        disabled
+                        margin="dense"
+                        id="file_name"
+                        type="text"
+                        fullWidth
+                        variant="standard"
+                        value={productFilename}
+                        
                     />
                 </DialogContent>
-                <input type="file" value={productFilename} />
+                <input type="file" accept="image/*" onChange={handleProductFilename} />
                 <DialogActions>
                     <Button onClick={handleClose}>Cancel</Button>
-                    <Button sx={{fontWeight: "bold" }} onClick={handleClose}>Add</Button>
+                    <Button sx={{fontWeight: "bold" }} onClick={handleAdd}>Add</Button>
                 </DialogActions>
             </Dialog>
         </>
