@@ -74,6 +74,7 @@ export default function TagControls() {
                     inputProps={{ 'aria-label': 'controlled' }}
                 />
                 <Button className="btn bold">Add</Button>
+                <Button className="btn bold">Save</Button>
             </>
         );
     }

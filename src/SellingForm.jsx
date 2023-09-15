@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import { TextField, Divider } from '@mui/material';
 import { Button } from '@mui/base/Button';
+import TagControls from './TagControls.jsx';
+import TagDisplay from './TagDisplay.jsx';
 import { Select, MenuItem, InputLabel } from '@mui/material';
-import Paper from '@mui/material/Paper';
 import { formatCurrency } from './utils.js';
 import { setReceiptList, setReceiptSelling } from './Store';
-import TagControls from './TagControls.jsx';
+
 
 
 export default function SellingForm() {
@@ -171,6 +171,7 @@ export default function SellingForm() {
                     />
                 </div>
                 <Divider sx={{ marginTop: "16px" }} textAlign="left">Tags</Divider>
+                <TagDisplay />
                 <TagControls />
                 <Divider sx={{ marginTop: "16px" }} textAlign="left">Packing Slip</Divider>
                 <div>
