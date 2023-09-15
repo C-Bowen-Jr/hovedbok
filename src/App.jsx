@@ -15,7 +15,7 @@ import { setProductList } from './Store';
 
 function App() {
 
-    const VERSION = "0.0.13";
+    const VERSION = "0.0.15";
 
     const productList = useSelector((state) => state.productList);
 

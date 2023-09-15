@@ -8,6 +8,7 @@ import { Select, MenuItem, InputLabel } from '@mui/material';
 import Paper from '@mui/material/Paper';
 import { formatCurrency } from './utils.js';
 import { setReceiptList, setReceiptSelling } from './Store';
+import TagControls from './TagControls.jsx';
 
 
 export default function SellingForm() {
@@ -170,24 +171,7 @@ export default function SellingForm() {
                     />
                 </div>
                 <Divider sx={{ marginTop: "16px" }} textAlign="left">Tags</Divider>
-                <InputLabel id="preset-select-label">Presets</InputLabel>
-                <Select
-                    labelId="preset-select-label"
-                    id="preset-tag"
-                    label="Presets"
-                    value={""}
-                    sx={{ width: "200px" }}
-                >
-                    <MenuItem>
-                        Test 1
-                    </MenuItem>
-                    <MenuItem>
-                        Test 2
-                    </MenuItem>
-                </Select>
-                <Button className="btn bold">Add</Button>
-                <Button className="btn bold">Save</Button>
-                <Button className="btn bold">Remove</Button>
+                <TagControls />
                 <Divider sx={{ marginTop: "16px" }} textAlign="left">Packing Slip</Divider>
                 <div>
                     <TextField

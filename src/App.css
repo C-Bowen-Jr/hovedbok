@@ -55,6 +55,7 @@ nav .depricate_menu_spacer {
   border-radius: 8px;
   padding: 16px 32px;
   margin: 4px;
+  min-width: 120px;
 }
 
 .bold {
