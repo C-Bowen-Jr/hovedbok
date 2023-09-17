@@ -4,8 +4,14 @@ import productJsonFile from '../public/products.json';
 const initialState = {
     productList: productJsonFile,
     receiptList: new Map(),
+    tagPresets: [
+        { key: 0, label: 'Angular' },
+        { key: 1, label: 'jQuery' },
+        { key: 2, label: 'Polymer' },
+    ],
+    sellTags: [],
     isReceiptSelling: true,
-    isNewProductWindow: true,
+    isNewProductWindow: false,
 };
 
 export const setProductList = (value) => ({
@@ -15,6 +21,16 @@ export const setProductList = (value) => ({
 
 export const setReceiptList = (value) => ({
     type: 'SET_RECEIPT_LIST',
+    payload: value,
+});
+
+export const setTagPresets = (value) => ({
+    type: 'SET_TAG_PRESETS',
+    payload: value,
+});
+
+export const setSellTags = (value) => ({
+    type: 'SET_SELL_TAGS',
     payload: value,
 });
 
@@ -34,6 +50,10 @@ const reducer = (state = initialState, action) => {
             return {...state, productList: action.payload};
         case 'SET_RECEIPT_LIST':
             return {...state, receiptList: action.payload};
+        case 'SET_TAG_PRESETS':
+            return {...state, tagPresets: action.payload};
+        case 'SET_SELL_TAGS':
+            return {...state, sellTags: action.payload};
         case 'SET_RECEIPT_SELLING':
             return {...state, isReceiptSelling: action.payload};
         case 'SET_NEW_PRODUCT_WINDOW':

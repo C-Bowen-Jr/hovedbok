@@ -2,17 +2,17 @@ import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { TextField, Button, Switch } from '@mui/material';
 import { Select, MenuItem, InputLabel } from '@mui/material';
-import { setReceiptList, setReceiptSelling } from './Store';
+import { setSellTags, setReceiptSelling } from './Store';
 
 
 export default function TagControls() {
     // Localized states for fields, gets compiled to object on submit
     const [isTagModeText, setTagModeText] = useState(false);
     const [newTag, setNewTag] = useState("");
-    const [sellTags, setSellTags] = useState([]);
     const [badNewTag, setNewBadTag] = useState(false);
 
-    const receiptList = useSelector((state) => state.receiptList);
+    const sellTags = useSelector((state) => state.sellTags);
+    const tagPresets = useSelector((state) => state.tagPresets);
 
     const dispatch = useDispatch();
 
@@ -27,15 +27,17 @@ export default function TagControls() {
         }
     };
 
-    const handleUniqueTag = (tag) => {
-        if (!sellTags.includes(tag)) {
-            setSellTags([...sellTags, tag]);
+    const handleTagFromPreset = (event) => {
+        if (event.target.value.label) {
+            handleUniqueTag(event.target.value.label);
         }
-    };
+    }
 
-    const handleRemoveTag = (tag) => {
-        const newList = sellTags.filter((checkTag) => checkTag !== tag);
-        setSellTags(newList);
+    const handleUniqueTag = (tag) => {
+        const addTag = { key: tag, label: tag };
+        if (!sellTags.some(addTag => addTag.key == tag)) {
+            dispatch(setSellTags([...sellTags, addTag]));
+        }
     };
 
     const handleTagMode = (event) => {
@@ -73,7 +75,7 @@ export default function TagControls() {
                     onChange={handleTagMode}
                     inputProps={{ 'aria-label': 'controlled' }}
                 />
-                <Button className="btn bold">Add</Button>
+                <Button className="btn bold" onClick={handleTagAdd}>Add</Button>
                 <Button className="btn bold">Save</Button>
             </>
         );
@@ -84,15 +86,15 @@ export default function TagControls() {
             <Select
                 labelId="preset-select-label"
                 id="preset-tag"
-                value={"Tag"}
+                value={newTag}
+                onChange={handleTagFromPreset}
                 sx={{ width: 1/4, margin: "8px 4px" }}
             >
-                <MenuItem>
-                    Test 1
-                </MenuItem>
-                <MenuItem>
-                    Test 2
-                </MenuItem>
+                {Array.from(tagPresets).map((data) => (
+                    <MenuItem key={data.key} value={{data}} >
+                        {data.label}
+                    </MenuItem>
+                ))}
             </Select>
             <Switch
                 checked={isTagModeText}

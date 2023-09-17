@@ -1,28 +1,27 @@
 import * as React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { styled } from '@mui/material/styles';
 import Chip from '@mui/material/Chip';
 import Paper from '@mui/material/Paper';
 import OutlinedTagIcon from '@mui/icons-material/LocalOfferOutlined';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
+import { setSellTags, setTagPresets } from './Store';
 
 const ListItem = styled('li')(({ theme }) => ({
     margin: theme.spacing(0.5),
 }));
 
 export default function TagArray() {
-    const [chipData, setChipData] = React.useState([
-        { key: 0, label: 'Angular' },
-        { key: 1, label: 'jQuery' },
-        { key: 2, label: 'Polymer' },
-        { key: 3, label: 'React' },
-        { key: 4, label: 'Vue.js' },
-    ]);
+    const sellTags = useSelector((state) => state.sellTags);
 
-    const handleDelete = (chipToDelete) => () => {
-        setChipData((chips) => chips.filter((chip) => chip.key !== chipToDelete.key));
+    const dispatch = useDispatch();
+
+    const handleDelete = (tagToDelete) => {
+        const newList = sellTags.filter((checkTag) => checkTag.key !== tagToDelete.key);
+        dispatch(setSellTags(newList));
     };
 
-    if (chipData.length > 0) {
+    if (sellTags.length > 0) {
         return (
             <Paper
                 elevation={2}
@@ -36,7 +35,7 @@ export default function TagArray() {
                 }}
                 component="ul"
             >
-                {chipData.map((data) => {
+                {sellTags.map((data) => {
                     return (
                         <ListItem key={data.key}>
                             <Chip
@@ -51,7 +50,7 @@ export default function TagArray() {
                                         },
                                     }}
                                 />}
-                                onDelete={handleDelete(data)}
+                                onDelete={() => {handleDelete(data)}}
                             />
                         </ListItem>
                     );
