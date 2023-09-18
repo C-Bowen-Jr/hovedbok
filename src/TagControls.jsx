@@ -72,11 +72,13 @@ export default function TagControls() {
                     onDoubleClick={() => { setNewTag("") }}
                     sx={{ width: 1 / 4, margin: "8px 4px" }}
                 />
+                Saved
                 <Switch
                     checked={isTagModeText}
                     onChange={handleTagMode}
                     inputProps={{ 'aria-label': 'controlled' }}
                 />
+                <b>Manual</b>
                 <Button className="btn bold" onClick={handleTagAdd}>Add</Button>
                 <Button className="btn bold">Save</Button>
             </>
@@ -89,22 +91,24 @@ export default function TagControls() {
                 labelId="preset-select-label"
                 id="preset-tag"
                 value={newTag}
+                displayEmpty
                 onChange={handleTagFromPreset}
                 sx={{ width: 1/4, margin: "8px 4px" }}
             >
+                <MenuItem disabled value="">Saved Tags</MenuItem>
                 {Array.from(tagPresets).map((data) => (
                     <MenuItem key={data.key} value={data} >
                         {data.label}
                     </MenuItem>
                 ))}
             </Select>
+            <b>Saved</b>
             <Switch
                 checked={isTagModeText}
                 onChange={handleTagMode}
                 inputProps={{ 'aria-label': 'controlled' }}
             />
-            <Button className="btn bold">Add</Button>
-            <Button className="btn bold">Remove</Button>
+            Manual
         </>
     );
 }
