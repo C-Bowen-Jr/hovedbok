@@ -28,6 +28,8 @@ export default function TagControls() {
     };
 
     const handleTagFromPreset = (event) => {
+        console.log(event);
+        console.log(event.target.value);
         if (event.target.value.label) {
             handleUniqueTag(event.target.value.label);
         }
@@ -91,7 +93,7 @@ export default function TagControls() {
                 sx={{ width: 1/4, margin: "8px 4px" }}
             >
                 {Array.from(tagPresets).map((data) => (
-                    <MenuItem key={data.key} value={{data}} >
+                    <MenuItem key={data.key} value={data} >
                         {data.label}
                     </MenuItem>
                 ))}
