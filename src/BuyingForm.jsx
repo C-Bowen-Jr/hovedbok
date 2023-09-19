@@ -89,7 +89,18 @@ export default function BuyingForm() {
         if (buyingPresets.some(check => check.name.toLowerCase() == "hosting")) {
             return false;
         }
-        if (buyingPresets.some(check => check.tags.toLowerCase == "hosting")) {
+        if (buyingPresets.some(check => check.tags.toLowerCase() == "hosting")) {
+            return false;
+        }
+        return true;
+    };
+
+    const isPayrollMissing = () => {
+        // Depending on how user prefers, may be name or tag
+        if (buyingPresets.some(check => check.name.toLowerCase() == "payroll")) {
+            return false;
+        }
+        if (buyingPresets.some(check => check.tags.toLowerCase() == "payroll")) {
             return false;
         }
         return true;
@@ -160,8 +171,17 @@ export default function BuyingForm() {
                         </MenuItem>
                     ))}
                 </Select>
-                <Button disabled={isHostingMissing()} className="btn bold">Hosting</Button>
-                <Button className="btn bold">Payroll</Button>
+
+                <Button 
+                    disabled={isHostingMissing()} 
+                    className="btn bold">
+                        Hosting
+                </Button>
+                <Button 
+                    disabled={isPayrollMissing()} 
+                    className="btn bold">
+                        Payroll
+                </Button>
             </Box>
             <Box component="form" sx={{ padding: "8px" }}>
                 <Divider sx={{ marginTop: "16px" }} textAlign="left">Purchase Form</Divider>
@@ -214,9 +234,23 @@ export default function BuyingForm() {
                 </div>
             </Box>
             <Box sx={{ alignContent: "right", marginTop: "16px", padding: "8px" }}>
-                <Button disabled={isAnyBadInput()} onClick={handleSubmit} className="btn bold">Submit</Button>
-                <Button disabled={isNotNamed() && isNewPreset()} onClick={handleSave} className="btn bold">Save</Button>
-                <Button onClick={resetForm} className="btn bold">Cancel</Button>
+                <Button 
+                    disabled={isAnyBadInput()} 
+                    onClick={handleSubmit} 
+                    className="btn bold">
+                        Submit
+                </Button>
+                <Button 
+                    disabled={isNotNamed() && isNewPreset()} 
+                    onClick={handleSave} 
+                    className="btn bold">
+                        Save
+                </Button>
+                <Button 
+                    onClick={resetForm} 
+                    className="btn bold">
+                        Cancel
+                </Button>
             </Box>
         </>
     );
