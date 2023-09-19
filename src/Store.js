@@ -1,8 +1,8 @@
 import { createStore } from 'redux';
-import productJsonFile from '../public/products.json';
+import jsonFile from '../public/data.json';
 
 const initialState = {
-    productList: productJsonFile,
+    productList: jsonFile.products,
     receiptList: new Map(),
     tagPresets: [],
     buyingPresets: [
