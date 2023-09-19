@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { TextField, Button, Switch } from '@mui/material';
 import { Select, MenuItem, InputLabel } from '@mui/material';
-import { setSellTags, setReceiptSelling } from './Store';
+import { setSellTags, updateSave } from './Store';
 
 
 export default function TagControls() {
@@ -44,6 +44,10 @@ export default function TagControls() {
         setTagModeText(event.target.checked);
     };
 
+    const handleSave = () => {
+        updateSave();
+    };
+
     const isAnyBadInput = () => {
         // If any required field is failing
         if (badNewTag) {
@@ -78,7 +82,7 @@ export default function TagControls() {
                 />
                 <b>Manual</b>
                 <Button className="btn bold" onClick={handleTagAdd}>Add</Button>
-                <Button className="btn bold">Save</Button>
+                <Button className="btn bold" onClick={handleSave}>Save</Button>
             </>
         );
     }

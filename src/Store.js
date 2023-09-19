@@ -1,14 +1,14 @@
 import { createStore } from 'redux';
+import { invoke } from '@tauri-apps/api/tauri';
 import jsonFile from '../public/data.json';
+
+//const invoke = window.__TAURI__.invoke;
 
 const initialState = {
     productList: jsonFile.products,
     receiptList: new Map(),
-    tagPresets: [],
-    buyingPresets: [
-        { quantity: "1", name: "Website", cost: "29.99", tags: "Hosting", includes: "[# $ \u{1f9fe} \u{1f3f7}]" },
-        { quantity: "", name: "Bubble Mailers", cost: "", tags: "Supplies", includes: "[\u2800 \u2800 \u{1f9fe} \u{1f3f7}]"}
-    ],
+    tagPresets: jsonFile.tagPresets,
+    buyingPresets: jsonFile.buyingPresets,
     sellTags: [],
     isReceiptSelling: true,
     isNewProductWindow: false,
@@ -68,6 +68,10 @@ const reducer = (state = initialState, action) => {
         default:
             return state;
     }
+};
+
+export const updateSave = () => {
+    invoke('update_save_file', {invokeMessage: JSON.stringify(jsonFile)});
 };
 
 const store = createStore(reducer);
