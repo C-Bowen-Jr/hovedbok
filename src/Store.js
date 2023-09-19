@@ -4,10 +4,10 @@ import productJsonFile from '../public/products.json';
 const initialState = {
     productList: productJsonFile,
     receiptList: new Map(),
-    tagPresets: [
-        { key: 0, label: 'Angular' },
-        { key: 1, label: 'jQuery' },
-        { key: 2, label: 'Polymer' },
+    tagPresets: [],
+    buyingPresets: [
+        { quantity: "1", name: "Website", cost: "29.99", tags: "Hosting", includes: "[# $ \u{1f9fe} \u{1f3f7}]" },
+        { quantity: "", name: "Bubble Mailers", cost: "", tags: "Supplies", includes: "[\u2800 \u2800 \u{1f9fe} \u{1f3f7}]"}
     ],
     sellTags: [],
     isReceiptSelling: true,
@@ -26,6 +26,11 @@ export const setReceiptList = (value) => ({
 
 export const setTagPresets = (value) => ({
     type: 'SET_TAG_PRESETS',
+    payload: value,
+});
+
+export const setBuyingPresets = (value) => ({
+    type: 'SET_BUYING_PRESETS',
     payload: value,
 });
 
@@ -52,6 +57,8 @@ const reducer = (state = initialState, action) => {
             return {...state, receiptList: action.payload};
         case 'SET_TAG_PRESETS':
             return {...state, tagPresets: action.payload};
+        case 'SET_BUYING_PRESETS':
+            return {...state, buyingPresets: action.payload};
         case 'SET_SELL_TAGS':
             return {...state, sellTags: action.payload};
         case 'SET_RECEIPT_SELLING':

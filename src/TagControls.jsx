@@ -28,8 +28,6 @@ export default function TagControls() {
     };
 
     const handleTagFromPreset = (event) => {
-        console.log(event);
-        console.log(event.target.value);
         if (event.target.value.label) {
             handleUniqueTag(event.target.value.label);
         }

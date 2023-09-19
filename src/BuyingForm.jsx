@@ -5,9 +5,8 @@ import Box from '@mui/material/Box';
 import { TextField, Divider } from '@mui/material';
 import { Button } from '@mui/base/Button';
 import { Select, MenuItem, InputLabel } from '@mui/material';
-import Paper from '@mui/material/Paper';
 import { formatCurrency } from './utils.js';
-import { setReceiptList, setReceiptSelling } from './Store';
+import { setReceiptList, setReceiptSelling, setBuyingPresets } from './Store';
 
 
 export default function BuyingForm() {
@@ -21,6 +20,7 @@ export default function BuyingForm() {
     const [badCost, setBadCost] = useState(false);
 
     const receiptList = useSelector((state) => state.receiptList);
+    const buyingPresets = useSelector((state) => state.buyingPresets);
 
     const dispatch = useDispatch();
 
@@ -77,6 +77,24 @@ export default function BuyingForm() {
         return false;
     };
 
+    const isNotNamed = () => {
+        if (name === "") {
+            return true;
+        }
+        return false;
+    };
+
+    const isHostingMissing = () => {
+        // Depending on how user prefers, may be name or tag
+        if (buyingPresets.some(check => check.name.toLowerCase() == "hosting")) {
+            return false;
+        }
+        if (buyingPresets.some(check => check.tags.toLowerCase == "hosting")) {
+            return false;
+        }
+        return true;
+    };
+
     const isNewPreset = () => {
         console.log("TODO BuyingForm.isNewPreset");
         return true;
@@ -103,6 +121,17 @@ export default function BuyingForm() {
         handleBuy(name);
     };
 
+    const handleSave = () => {
+        var buildInclude = "["
+        buildInclude += (quantity === "") ? "\u2800" : "#";
+        buildInclude += (cost === "") ? "\u2800" : "$";
+        buildInclude += "\u{1f9fe}";
+        buildInclude += (tags === "") ? "\u2800]" : "\{u1f3f7}]";
+        const newPreset = { quantity: quantity, name: name, cost: cost, tags: tags, includes: buildInclude};
+        
+        dispatch(setBuyingPresets([...buyingPresets, newPreset]));
+    };
+
     const handleBuy = (name) => {
 
         const updatedList = new Map(receiptList);
@@ -116,23 +145,22 @@ export default function BuyingForm() {
         <>
             <Box sx={{ padding: "8px " }}>
                 <Divider sx={{ marginTop: "16px" }} textAlign="left">Presets</Divider>
-                <InputLabel id="preset-select-label">Presets</InputLabel>
                 <Select
                     labelId="preset-select-label"
                     id="preset-purchase"
-                    label="Presets"
+                    displayEmpty
                     value={""}
                     sx={{ width: "200px" }}
                     onChange={handlePreset}
                 >
-                    <MenuItem value={{ quantity: "", name: "Test 1", cost: "", tags: "operations" }}>
-                        Test 1
-                    </MenuItem>
-                    <MenuItem value={{ quantity: "1", name: "Test 2", cost: "3.33", tags: "operations" }}>
-                        Test 2
-                    </MenuItem>
+                    <MenuItem disabled value="">Saved Items</MenuItem>
+                    {Array.from(buyingPresets).map((data) => (
+                        <MenuItem key={data.name} value={data} >
+                            {data.includes} {data.name}
+                        </MenuItem>
+                    ))}
                 </Select>
-                <Button className="btn bold">Hosting</Button>
+                <Button disabled={isHostingMissing()} className="btn bold">Hosting</Button>
                 <Button className="btn bold">Payroll</Button>
             </Box>
             <Box component="form" sx={{ padding: "8px" }}>
@@ -185,9 +213,9 @@ export default function BuyingForm() {
                     />
                 </div>
             </Box>
-            <Box sx={{ alignContent: "right", marginTop: "16px", padding:"8px" }}>
+            <Box sx={{ alignContent: "right", marginTop: "16px", padding: "8px" }}>
                 <Button disabled={isAnyBadInput()} onClick={handleSubmit} className="btn bold">Submit</Button>
-                <Button disabled={isAnyBadInput() && isNewPreset()} className="btn bold">Save</Button>
+                <Button disabled={isNotNamed() && isNewPreset()} onClick={handleSave} className="btn bold">Save</Button>
                 <Button onClick={resetForm} className="btn bold">Cancel</Button>
             </Box>
         </>
