@@ -55,7 +55,9 @@ function App() {
                     <Menu className="list_box">
                         <AppMenu />
                     </Menu>
-                    <div className="menu_spacer"></div>
+                </Dropdown>
+                <Dropdown>
+                    <MenuButton className="menu_button">Order: Connecting...</MenuButton>
                 </Dropdown>
             </nav>
             <NewProductDialog />

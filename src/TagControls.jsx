@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { TextField, Button, Switch } from '@mui/material';
+import { TextField, Button, Switch, Box } from '@mui/material';
 import { Select, MenuItem, InputLabel } from '@mui/material';
 import { setSellTags, updateSave } from './Store';
+import { Palette } from '@mui/icons-material';
 
 
 export default function TagControls() {
@@ -72,17 +73,19 @@ export default function TagControls() {
                     onChange={handleNewTag}
                     error={badNewTag}
                     onDoubleClick={() => { setNewTag("") }}
-                    sx={{ width: 1 / 4, margin: "8px 4px" }}
+                    sx={{ width: 2/5, margin: "8px 4px" }}
                 />
-                Saved
-                <Switch
-                    checked={isTagModeText}
-                    onChange={handleTagMode}
-                    inputProps={{ 'aria-label': 'controlled' }}
-                />
-                <b>Manual</b>
-                <Button className="btn bold" onClick={handleTagAdd}>Add</Button>
-                <Button className="btn bold" onClick={handleSave}>Save</Button>
+                <Box sx={{ width: 1 }}>
+                    Saved
+                    <Switch
+                        checked={isTagModeText}
+                        onChange={handleTagMode}
+                        inputProps={{ 'aria-label': 'controlled' }}
+                    />
+                    <b>Manual</b>
+                    <Button className="btn bold" onClick={handleTagAdd}>Add</Button>
+                    <Button className="btn bold" onClick={handleSave}>Save</Button>
+                </Box>
             </>
         );
     }
@@ -95,7 +98,7 @@ export default function TagControls() {
                 value={newTag}
                 displayEmpty
                 onChange={handleTagFromPreset}
-                sx={{ width: 1/4, margin: "8px 4px" }}
+                sx={{ width: 2/5, margin: "8px 4px" }}
             >
                 <MenuItem disabled value="">Saved Tags</MenuItem>
                 {Array.from(tagPresets).map((data) => (
@@ -104,13 +107,15 @@ export default function TagControls() {
                     </MenuItem>
                 ))}
             </Select>
-            <b>Saved</b>
-            <Switch
-                checked={isTagModeText}
-                onChange={handleTagMode}
-                inputProps={{ 'aria-label': 'controlled' }}
-            />
-            Manual
+            <Box sx={{ width: 1 }}>
+                <b sx={{color: "primary.main"}}>Saved</b>
+                <Switch
+                    checked={isTagModeText}
+                    onChange={handleTagMode}
+                    inputProps={{ 'aria-label': 'controlled' }}
+                />
+                Manual
+            </Box>
         </>
     );
 }
