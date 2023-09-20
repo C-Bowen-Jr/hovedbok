@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { TextField, Button, Switch, Box } from '@mui/material';
-import { Select, MenuItem, InputLabel } from '@mui/material';
+import { Select, MenuItem, Typography } from '@mui/material';
 import { setSellTags, updateSave } from './Store';
 import { Palette } from '@mui/icons-material';
 
@@ -75,16 +75,16 @@ export default function TagControls() {
                     onDoubleClick={() => { setNewTag("") }}
                     sx={{ width: 2/5, margin: "8px 4px" }}
                 />
-                <Box sx={{ width: 1 }}>
+                <Box sx={{ width: 1, marginInline: "8px" }}>
                     Saved
                     <Switch
                         checked={isTagModeText}
                         onChange={handleTagMode}
                         inputProps={{ 'aria-label': 'controlled' }}
                     />
-                    <b>Manual</b>
-                    <Button className="btn bold" onClick={handleTagAdd}>Add</Button>
-                    <Button className="btn bold" onClick={handleSave}>Save</Button>
+                    <Typography sx={{ display: "inline", fontWeight: "bold", color: "primary.main"}}>Manual</Typography>
+                    <button className="mini_button" onClick={handleTagAdd}>Add</button>
+                    <button className="mini_button" onClick={handleSave}>Save</button>
                 </Box>
             </>
         );
@@ -107,8 +107,8 @@ export default function TagControls() {
                     </MenuItem>
                 ))}
             </Select>
-            <Box sx={{ width: 1 }}>
-                <b sx={{color: "primary.main"}}>Saved</b>
+            <Box sx={{ width: 1, marginInline: "8px" }}>
+                <Typography sx={{ display: "inline", fontWeight: "bold", color: "primary.main"}}>Saved</Typography>
                 <Switch
                     checked={isTagModeText}
                     onChange={handleTagMode}

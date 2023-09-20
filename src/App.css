@@ -58,12 +58,25 @@ nav .depricate_menu_spacer {
   min-width: 120px;
 }
 
+.mini_button {
+  background-color: rgba(255, 255, 255, 0.15);
+  border: 1.5px solid rgba(0,0,0,0);
+  border-radius: 8px;
+  padding: 4px 24px;
+  margin: 8px;
+}
+
+.mini_button:hover {
+  border: 1.5px solid var(--primary);
+  opacity: 0.8;
+}
+
 .bold {
   font-weight: bold;
 }
 
 .btn:hover {
-  border: 1.5px solid var(--lightest);
+  border: 1.5px solid var(--primary);
   opacity: 0.8;
 }
 
