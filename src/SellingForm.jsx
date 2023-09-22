@@ -163,8 +163,8 @@ export default function SellingForm() {
                     />
                 </div>
                 <Divider sx={{ marginTop: "16px" }} textAlign="left">Seller Fees</Divider>
-                <Button className="btn bold" sx={{ color: "#eb6d20" }}>Etsy</Button>
-                <Button className="btn bold" sx={{ color: "#003087" }}>PayPal</Button>
+                <Button className="btn bold etsy" sx={{ color: "" }}>Etsy</Button>
+                <Button className="btn bold paypal" sx={{ color: "#" }}>PayPal</Button>
                 <Button className="btn bold" onClick={handleManualFee}>Manual</Button>
                 <div>
                 <TextField

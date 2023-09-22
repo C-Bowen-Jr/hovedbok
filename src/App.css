@@ -8,6 +8,8 @@
   --alert: #bc2d29;
   --darkest: #202321;
   --lightest: #eeeff6;
+  --etsy: #eb6d20;
+  --paypal: #003087;
 }
 
 body {
@@ -78,6 +80,22 @@ nav .depricate_menu_spacer {
 .btn:hover {
   border: 1.5px solid var(--primary);
   opacity: 0.8;
+}
+
+.etsy {
+  background-color: var(--etsy);
+}
+
+.paypal {
+  background-color: var(--paypal);
+}
+
+.etsy:hover {
+  border: 1.5px solid var(--lightest);
+}
+
+.paypal:hover {
+  border: 1.5px solid var(--lightest); 
 }
 
 .primary_button {
