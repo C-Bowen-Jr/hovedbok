@@ -124,8 +124,29 @@ export default function SellingForm() {
         handleSell();
     };
 
+    /* Example JSON object
+   '{
+        "order": {
+            "date": "2023-10-26",
+            "order_number": 1,
+            "expense": "3.14",
+            "fee": "1.23",
+            "earnings": "10.26",
+            "tags": "Etsy,Discount",
+            "order_line": [
+                {
+                    "order_number": 1,
+                    "sku": "DSCORPS",
+                    "quantity": 1,
+                }
+            ]
+        }
+    }'
+
+    */
+
     const handleSell = () => {
-        //
+        const sellObject = JSON.parse('{"order": "null"}')
     };
 
     return (
