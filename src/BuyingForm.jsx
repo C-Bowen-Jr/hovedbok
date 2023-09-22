@@ -137,7 +137,7 @@ export default function BuyingForm() {
         buildInclude += (quantity === "") ? "\u2800" : "#";
         buildInclude += (cost === "") ? "\u2800" : "$";
         buildInclude += "\u{1f9fe}";
-        buildInclude += (tags === "") ? "\u2800]" : "\{u1f3f7}]";
+        buildInclude += (tags === "") ? "\u2800]" : "\u{1f3f7}]";
         const newPreset = { quantity: quantity, name: name, cost: cost, tags: tags, includes: buildInclude};
         
         dispatch(setBuyingPresets([...buyingPresets, newPreset]));
