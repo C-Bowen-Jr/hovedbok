@@ -59,6 +59,13 @@ export default function TagControls() {
         }
         return false;
     };
+    
+    const isNewTagEmpty = () => {
+        if (newTag === "") {
+            return true;
+        }
+        return false;
+    };
 
     if (isTagModeText) {
         return (
@@ -83,8 +90,16 @@ export default function TagControls() {
                         inputProps={{ 'aria-label': 'controlled' }}
                     />
                     <Typography sx={{ display: "inline", fontWeight: "bold", color: "primary.main"}}>Manual</Typography>
-                    <button className="mini_button" onClick={handleTagAdd}>Add</button>
-                    <button className="mini_button" onClick={handleSave}>Save</button>
+                    <button 
+                        className="mini_button" 
+                        onClick={handleTagAdd}
+                        disabled={isNewTagEmpty()}>Add
+                    </button>
+                    <button 
+                        className="mini_button" 
+                        onClick={handleSave}
+                        disabled={isNewTagEmpty()}>Save
+                    </button>
                 </Box>
             </>
         );
