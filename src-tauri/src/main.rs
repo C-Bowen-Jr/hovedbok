@@ -9,7 +9,7 @@ fn update_save_file(invoke_message: String) {
 
 fn main() {
     let file_menu = Submenu::new("File", Menu::new()
-      .add_item(CustomMenuItem::new("newproduct", "New Product"))
+      .add_item(CustomMenuItem::new("newproduct", "New Product").accelerator("cmdOrControl+N"))
       .add_item(CustomMenuItem::new("editproduct", "Edit Product"))
       .add_native_item(MenuItem::Separator)
       .add_native_item(MenuItem::Quit));
@@ -23,11 +23,11 @@ fn main() {
     .menu(menu)
     .on_menu_event(|event| {
       match event.menu_item_id() {
+        "newproduct" => {
+            let _ = event.window().emit("menu-event", "new-product-event").unwrap();
+          }
         "quit" => {
           std::process::exit(0);
-        }
-        "close" => {
-          event.window().close().unwrap();
         }
         _ => {}
       }

@@ -55,10 +55,10 @@
     "windows": [
       {
         "fullscreen": false,
-        "height": 900,
+        "height": 1000,
         "resizable": true,
         "title": "Hovedbok - Ledger Software",
-        "width": 1200
+        "width": 1680
       }
     ]
   }

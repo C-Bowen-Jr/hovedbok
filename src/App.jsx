@@ -15,7 +15,7 @@ import { setProductList } from './Store';
 
 function App() {
 
-    const VERSION = "0.0.16";
+    const VERSION = "0.0.17";
 
     const productList = useSelector((state) => state.productList);
 
@@ -41,9 +41,10 @@ function App() {
         dispatch(setProductList([...productList, newItem]));
     }
 
+    // TODO: nav display tied to state, tauri = none, browser = display
     return (
         <ThemeProvider theme={theme}>
-            <nav>
+            <nav style={{display: "none"}}>
                 <Dropdown>
                     <MenuButton className="menu_button">File</MenuButton>
                     <Menu>

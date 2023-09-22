@@ -2,8 +2,6 @@ import { createStore } from 'redux';
 import { invoke } from '@tauri-apps/api/tauri';
 import jsonFile from '../public/data.json';
 
-//const invoke = window.__TAURI__.invoke;
-
 const initialState = {
     productList: jsonFile.products,
     receiptList: new Map(),
