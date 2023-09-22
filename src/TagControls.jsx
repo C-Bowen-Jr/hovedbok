@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { TextField, Button, Switch, Box } from '@mui/material';
 import { Select, MenuItem, Typography } from '@mui/material';
-import { setSellTags, updateSave } from './Store';
+import { setSellTags, setTagPresets, updateSave } from './Store';
 import { Palette } from '@mui/icons-material';
 
 
@@ -10,7 +10,7 @@ export default function TagControls() {
     // Localized states for fields, gets compiled to object on submit
     const [isTagModeText, setTagModeText] = useState(false);
     const [newTag, setNewTag] = useState("");
-    const [badNewTag, setNewBadTag] = useState(false);
+    const [badNewTag, setBadNewTag] = useState(false);
 
     const sellTags = useSelector((state) => state.sellTags);
     const tagPresets = useSelector((state) => state.tagPresets);
@@ -19,6 +19,7 @@ export default function TagControls() {
 
     const handleNewTag = (event) => {
         setNewTag(event.target.value);
+        setBadNewTag(false);
     };
 
     const handleTagAdd = () => {
@@ -46,7 +47,14 @@ export default function TagControls() {
     };
 
     const handleSave = () => {
-        updateSave();
+        const addTag = { key: newTag, label: newTag };
+        if(!tagPresets.some(addTag => addTag.key  == newTag)) {
+            dispatch(setTagPresets([...tagPresets, addTag]));
+            updateSave();
+        }
+        else {
+            setBadNewTag(true);
+        }
     };
 
     const isAnyBadInput = () => {
