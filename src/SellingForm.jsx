@@ -20,6 +20,7 @@ export default function SellingForm() {
     const [badExpense, setBadExpense] = useState(false);
     const [badEarnings, setBadEarnings] = useState(false);
     const [badFee, setBadFee] = useState(false);
+    const [isAutoFee, setIsAutoFee] = useState(true);
 
     const receiptList = useSelector((state) => state.receiptList);
 
@@ -27,7 +28,7 @@ export default function SellingForm() {
 
     const handleExpense = (event) => {
         setExpense(event.target.value);
-        if (/^\d.[0-9][0-9]*$/.test(event.target.value)) {
+        if (/^\d+.[0-9][0-9]*$/.test(event.target.value)) {
             setBadExpense(false);
         } else {
             setBadExpense(true);
@@ -36,15 +37,20 @@ export default function SellingForm() {
 
     const handleEarnings = (event) => {
         setEarnings(event.target.value);
-        if (/^\d*$/.test(event.target.value)) {
+        if (/^\d+.[0-9][0-9]*$/.test(event.target.value)) {
             setBadEarnings(false);
         } else {
             setBadEarnings(true);
         }
     };
 
-    const handleFee = () => {
-        //
+    const handleFee = (event) => {
+        setFee(event.target.value);
+        if (/^\d.[0-9][0-9]*$/.test(event.target.value)) {
+            setBadFee(false);
+        } else {
+            setBadFee(true);
+        }
     };
 
     const handleTags = (event) => {
@@ -56,7 +62,6 @@ export default function SellingForm() {
         if (formattedCost === "NaN") {
             setExpense("");
         } else {
-            setExpense(formattedCost);
             event.target.value = formattedCost;
             handleExpense(event);
         }
@@ -67,7 +72,6 @@ export default function SellingForm() {
         if (formattedCost === "NaN") {
             setEarnings("");
         } else {
-            setEarnings(formattedCost);
             event.target.value = formattedCost;
             handleEarnings(event);
         }
@@ -78,10 +82,10 @@ export default function SellingForm() {
         if (formattedCost === "NaN") {
             setFee("");
         } else {
-            setFee(formattedCost);
             event.target.value = formattedCost;
             handleFee(event);
         }
+        setIsAutoFee(true);
     };
 
     const isAnyBadInput = () => {
@@ -93,6 +97,11 @@ export default function SellingForm() {
             return true;
         }
         return false;
+    };
+
+    const handleManualFee = () => {
+        setIsAutoFee(false);
+        document.getElementById("fee").focus();
     };
 
     const isNewPreset = () => {
@@ -108,6 +117,7 @@ export default function SellingForm() {
         setBadExpense(false);
         setBadEarnings(false);
         setBadFee(false);
+        setIsAutoFee(true);
     }
 
     const handleSubmit = () => {
@@ -153,8 +163,9 @@ export default function SellingForm() {
                     />
                 </div>
                 <Divider sx={{ marginTop: "16px" }} textAlign="left">Seller Fees</Divider>
-                <Button className="btn bold" sx={{ bgColor: "994400" }}>Etsy</Button>
-                <Button className="btn bold">PayPal</Button>
+                <Button className="btn bold" sx={{ color: "#eb6d20" }}>Etsy</Button>
+                <Button className="btn bold" sx={{ color: "#003087" }}>PayPal</Button>
+                <Button className="btn bold" onClick={handleManualFee}>Manual</Button>
                 <div>
                 <TextField
                         required
@@ -163,8 +174,9 @@ export default function SellingForm() {
                         autoComplete="off"
                         type="text"
                         value={fee}
-                        disabled
+                        disabled={isAutoFee}
                         onChange={handleFee}
+                        onBlur={handleFeeBlur}
                         error={badFee}
                         onDoubleClick={() => { setFee("") }}
                         sx={{ width: 4 / 6, margin: "8px 4px" }}
