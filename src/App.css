@@ -82,6 +82,14 @@ nav .depricate_menu_spacer {
   opacity: 0.8;
 }
 
+.btn:disabled {
+  background-color: rgba(255,255,255,0.05);
+}
+
+.btn:disabled:hover {
+  border: 1.5px solid rgba(0,0,0,0);
+}
+
 .etsy {
   background-color: var(--etsy);
 }
