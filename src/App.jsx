@@ -6,7 +6,7 @@ import { Menu } from '@mui/base/Menu';
 import { MenuButton } from '@mui/base/MenuButton';
 import Box from '@mui/material/Box';
 import CustomTabPanel from './LabTabs';
-import CustomizedTables from './RecieptGrid';
+//import RecieptPanel from './RecieptGrid';
 import FileMenu from './FileMenu';
 import AppMenu from './AppMenu';
 import NewProductDialog from './NewProductWindow';
@@ -63,7 +63,6 @@ function App() {
             </nav>
             <NewProductDialog />
             <CustomTabPanel />
-            <CustomizedTables />
             <Box sx={{ height: "32px" }} />
             
         </ThemeProvider>

@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { TextField, Button, Switch, Box } from '@mui/material';
 import { Select, MenuItem, Typography } from '@mui/material';
-import { setSellTags, setTagPresets, updateSave } from './Store';
-import { Palette } from '@mui/icons-material';
+import { setSellTags, setTagPresets } from './Store';
+import { updateSave } from './SaveHelper.js';
 
 
 export default function TagControls() {

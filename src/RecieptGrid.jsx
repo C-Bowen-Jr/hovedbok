@@ -33,7 +33,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 
 
-export default function CustomizedTables() {
+export default function RecieptPanel() {
     const receiptList = useSelector((state) => state.receiptList);
     const isReceiptSelling = useSelector((state) => state.isReceiptSelling);
 
@@ -47,7 +47,7 @@ export default function CustomizedTables() {
     const dispatch = useDispatch();
     if (receiptList.size == 0) {
         return (
-            <TableContainer sx={{ maxWidth: 800, paddingInline: "24px" }}>
+            <TableContainer sx={{ maxWidth: 800, paddingBottom: "24px" }}>
                 <Table aria-label="customized table">
                     <TableHead>
                         <TableRow>
@@ -63,7 +63,7 @@ export default function CustomizedTables() {
 
     if (isReceiptSelling) // Selling
         return (
-            <TableContainer sx={{ maxWidth: 800, paddingInline: "24px" }}>
+            <TableContainer sx={{ maxWidth: 800, paddingBottom: "24px" }}>
                 <Table aria-label="customized table">
                     <TableHead>
                         <TableRow>
@@ -105,7 +105,7 @@ export default function CustomizedTables() {
     // Implied else
     // Buying
     return (
-        <TableContainer sx={{ maxWidth: 800, paddingInline: "24px" }}>
+        <TableContainer sx={{ maxWidth: 800, paddingBottom: "24px" }}>
             <Table aria-label="customized table">
                 <TableHead>
                     <TableRow>

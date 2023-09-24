@@ -1,5 +1,4 @@
 import { createStore } from 'redux';
-import { invoke } from '@tauri-apps/api/tauri';
 import jsonFile from '../public/data.json';
 
 const initialState = {
@@ -66,10 +65,6 @@ const reducer = (state = initialState, action) => {
         default:
             return state;
     }
-};
-
-export const updateSave = () => {
-    invoke('update_save_file', {invokeMessage: JSON.stringify(jsonFile)});
 };
 
 const store = createStore(reducer);

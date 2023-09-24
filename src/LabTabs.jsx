@@ -10,7 +10,7 @@ import Paper from '@mui/material/Paper';
 import ProductImageGrid from './ProductImageGrid';
 import BuyingForm from './BuyingForm';
 import SellingForm from './SellingForm';
-import ReceiptGrid from './RecieptGrid';
+import RecieptPanel from './RecieptGrid';
 import { setReceiptList, setReceiptSelling } from './Store';
 
 
@@ -60,9 +60,9 @@ export default function BasicTabs() {
     };
 
     const handleBuy = (name) => {
-        
+
         const updatedList = new Map(receiptList);
-        updatedList.set(name,{myProduct: false, quantity: 1, cost: "3.14", tags: "Operations"});
+        updatedList.set(name, { myProduct: false, quantity: 1, cost: "3.14", tags: "Operations" });
         dispatch(setReceiptList(updatedList));
         dispatch(setReceiptSelling(false));
     };
@@ -78,18 +78,24 @@ export default function BasicTabs() {
             </Box>
             <CustomTabPanel value={value} index={0}>
                 <Box className="flex-tab-panel">
-                <Paper className="card product-grid" sx={{width: 800}} elevation={1}>
-                    <ProductImageGrid />
-                </Paper>
-                <Paper className="card" sx={{width: 800}} elevation={1}>
-                    <SellingForm />
-                </Paper>
+                    <div className="reciept-group">
+                        <Paper className="card" sx={{ width: 800 }} elevation={1}>
+                            <ProductImageGrid />
+                        </Paper>
+                        <RecieptPanel />
+                    </div>
+                    <Paper className="card" sx={{ width: 800 }} elevation={1}>
+                        <SellingForm />
+                    </Paper>
                 </Box>
             </CustomTabPanel>
             <CustomTabPanel value={value} index={1}>
-            <Paper className="card" sx={{width: 800}} elevation={1}>
-                    <BuyingForm />
-                </Paper>
+                <div className="reciept-group">
+                    <Paper className="card" sx={{ width: 800 }} elevation={1}>
+                        <BuyingForm />
+                    </Paper>
+                    <RecieptPanel />
+                </div>
             </CustomTabPanel>
             <CustomTabPanel value={value} index={2}>
                 <div>
