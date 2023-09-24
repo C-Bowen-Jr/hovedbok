@@ -1,5 +1,5 @@
 use tauri::{CustomMenuItem, Menu, MenuItem, Submenu};
-use rusty-money::{Money, iso};
+use rusty_money::{Money, iso};
 // Prevents additional console window on Windows in release, DO NOT REMOVE!!
 #[cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
@@ -7,6 +7,13 @@ use rusty-money::{Money, iso};
 fn update_save_file(invoke_message: String) {
   println!("Do save with this: {}", invoke_message);
 } 
+
+#[tauri::command]
+fn calculate_fee(js_expense: String) -> String {
+    let rs_expense = Money::from_str(js_expense.as_str(), iso::USD).expect("Invalid expense recieved");
+    println!("{}", rs_expense * 65);
+    return "result".to_string();
+}
 
 fn main() {
     let file_menu = Submenu::new("File", Menu::new()
@@ -33,7 +40,7 @@ fn main() {
         _ => {}
       }
     })
-    .invoke_handler(tauri::generate_handler![update_save_file])
+    .invoke_handler(tauri::generate_handler![update_save_file, calculate_fee])
     .run(tauri::generate_context!())
     .expect("Error while running tauri application");
 }

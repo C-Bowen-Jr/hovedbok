@@ -5,6 +5,7 @@ import { TextField, Divider } from '@mui/material';
 import { Button } from '@mui/base/Button';
 import TagControls from './TagControls.jsx';
 import TagDisplay from './TagDisplay.jsx';
+import { invoke } from '@tauri-apps/api/tauri';
 import { Select, MenuItem, InputLabel } from '@mui/material';
 import { formatCurrency } from './utils.js';
 import { setReceiptList, setReceiptSelling } from './Store';
@@ -77,6 +78,14 @@ export default function SellingForm() {
         }
     };
 
+    const handleEtsyButton = () => {
+        invoke('calculate_fee', {jsExpense: expense, jsQuantity: getTotalProductCount}).then((result) => setFee(result));
+    };
+
+    const handlePaypalButton = () => {
+        invoke('calculate_fee', {jsExpense: expense}).then((result) => setFee(result));
+    };
+
     const handleFeeBlur = (event) => {
         const formattedCost = formatCurrency(event.target.value);
         if (formattedCost === "NaN") {
@@ -88,12 +97,22 @@ export default function SellingForm() {
         setIsAutoFee(true);
     };
 
+    const isFeeNotCalculatable = () => {
+        if (badExpense || badEarnings) {
+            return true;
+        }
+        if (expense == "" || earnings == "" || receiptList.size === 0) {
+            return true;
+        }
+        return false;
+    };
+
     const isAnyBadInput = () => {
         // If any required field is failing
         if (badExpense || badEarnings || badFee) {
             return true;
         }
-        if (expense == "" || earnings == "" || fee == "") {
+        if (expense == "" || earnings == "" || fee == "" || receiptList.size === 0) {
             return true;
         }
         return false;
@@ -108,6 +127,17 @@ export default function SellingForm() {
         console.log("TODO SellingForm.isNewPreset");
         return true;
     }
+
+    const getUniqueProductCount = () => {
+        return receiptList.length;
+    };
+
+    const getTotalProductCount = () => {
+        let total = 0;
+        const receiptArray = Array.from(receiptList.values())
+        receiptArray.forEach((receiptItem) => total += receiptItem.quantity);
+        return total;
+    };
 
     const resetForm = () => {
         setExpense("");
@@ -184,8 +214,14 @@ export default function SellingForm() {
                     />
                 </div>
                 <Divider sx={{ marginTop: "16px" }} textAlign="left">Seller Fees</Divider>
-                <Button className="btn bold etsy" sx={{ color: "" }}>Etsy</Button>
-                <Button className="btn bold paypal" sx={{ color: "#" }}>PayPal</Button>
+                <Button 
+                    className="btn bold etsy" 
+                    disabled={isFeeNotCalculatable()}
+                    onClick={handleEtsyButton}>Etsy</Button>
+                <Button 
+                    className="btn bold paypal" 
+                    disabled={isFeeNotCalculatable()}
+                    onClick={handlePaypalButton}>PayPal</Button>
                 <Button className="btn bold" onClick={handleManualFee}>Manual</Button>
                 <div>
                 <TextField
