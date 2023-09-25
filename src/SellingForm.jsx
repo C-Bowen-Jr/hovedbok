@@ -8,7 +8,7 @@ import TagDisplay from './TagDisplay.jsx';
 import { invoke } from '@tauri-apps/api/tauri';
 import { Select, MenuItem, InputLabel } from '@mui/material';
 import { formatCurrency } from './utils.js';
-import { setReceiptList, setReceiptSelling } from './Store';
+import { setSellTags } from './Store';
 
 
 
@@ -24,6 +24,7 @@ export default function SellingForm() {
     const [isAutoFee, setIsAutoFee] = useState(true);
 
     const receiptList = useSelector((state) => state.receiptList);
+    const sellTags = useSelector((state) => state.sellTags);
 
     const dispatch = useDispatch();
 
@@ -54,8 +55,11 @@ export default function SellingForm() {
         }
     };
 
-    const handleTags = (event) => {
-        setTags(event.target.value);
+    const handleUniqueTag = (tag) => {
+        const addTag = { key: tag, label: tag };
+        if (!sellTags.some(addTag => addTag.key == tag)) {
+            dispatch(setSellTags([...sellTags, addTag]));
+        }
     };
 
     const handleExpenseBlur = (event) => {
@@ -81,10 +85,20 @@ export default function SellingForm() {
     const handleEtsyButton = () => {
         const itemCount = getTotalProductCount();
         invoke('calculate_etsy_fee', {jsEarnings: earnings, jsQuantity: itemCount}).then((result) => setFee(result));
+        
+        handleUniqueTag("Etsy").then((result) => {
+            const newList = sellTags.filter((checkTag) => checkTag.key !== "PayPal");
+            dispatch(setSellTags(newList));
+        });
     };
 
     const handlePaypalButton = () => {
         invoke('calculate_paypal_fee', {jsEarnings: earnings}).then((result) => setFee(result));
+
+        handleUniqueTag("PayPal").then((result) => {
+            const newList = sellTags.filter((checkTag) => checkTag.key !== "Etsy");
+            dispatch(setSellTags(newList));
+        });
     };
 
     const handleFeeBlur = (event) => {
@@ -99,10 +113,10 @@ export default function SellingForm() {
     };
 
     const isFeeNotCalculatable = () => {
-        if (badExpense || badEarnings) {
+        if (badEarnings) {
             return true;
         }
-        if (expense == "" || earnings == "" || receiptList.size === 0) {
+        if (earnings == "" || receiptList.size === 0) {
             return true;
         }
         return false;
