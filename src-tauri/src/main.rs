@@ -9,9 +9,14 @@ fn update_save_file(invoke_message: String) {
 } 
 
 #[tauri::command]
-fn calculate_fee(js_expense: String) -> String {
-    let rs_expense = Money::from_str(js_expense.as_str(), iso::USD).expect("Invalid expense recieved");
-    println!("{}", rs_expense * 65);
+fn calculate_etsy_fee(js_earnings: String, js_quantity: i32) -> String {
+    let rs_earnings = Money::from_str(js_earnings.as_str(), iso::USD).expect("Invalid earnings recieved");
+    return format!("{} * {}", &rs_earnings, &js_quantity).to_string();
+}
+
+#[tauri::command]
+fn calculate_paypal_fee(js_earnings: String) -> String {
+    let rs_earnings = Money::from_str(js_earnings.as_str(), iso::USD).expect("Invalid earnings recieved");
     return "result".to_string();
 }
 
@@ -40,7 +45,7 @@ fn main() {
         _ => {}
       }
     })
-    .invoke_handler(tauri::generate_handler![update_save_file, calculate_fee])
+    .invoke_handler(tauri::generate_handler![update_save_file, calculate_etsy_fee, calculate_paypal_fee])
     .run(tauri::generate_context!())
     .expect("Error while running tauri application");
 }

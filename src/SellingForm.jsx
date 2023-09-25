@@ -79,11 +79,12 @@ export default function SellingForm() {
     };
 
     const handleEtsyButton = () => {
-        invoke('calculate_fee', {jsExpense: expense, jsQuantity: getTotalProductCount}).then((result) => setFee(result));
+        const itemCount = getTotalProductCount();
+        invoke('calculate_etsy_fee', {jsEarnings: earnings, jsQuantity: itemCount}).then((result) => setFee(result));
     };
 
     const handlePaypalButton = () => {
-        invoke('calculate_fee', {jsExpense: expense}).then((result) => setFee(result));
+        invoke('calculate_paypal_fee', {jsEarnings: earnings}).then((result) => setFee(result));
     };
 
     const handleFeeBlur = (event) => {
