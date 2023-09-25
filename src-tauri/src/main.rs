@@ -1,5 +1,6 @@
 use tauri::{CustomMenuItem, Menu, MenuItem, Submenu};
 use rusty_money::{Money, iso};
+use rust_decimal::prelude::*;
 // Prevents additional console window on Windows in release, DO NOT REMOVE!!
 #[cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
@@ -11,13 +12,19 @@ fn update_save_file(invoke_message: String) {
 #[tauri::command]
 fn calculate_etsy_fee(js_earnings: String, js_quantity: i32) -> String {
     let rs_earnings = Money::from_str(js_earnings.as_str(), iso::USD).expect("Invalid earnings recieved");
-    return format!("{} * {}", &rs_earnings, &js_quantity).to_string();
+    let cost_from_per_item = Money::from_minor(20, iso::USD) * js_quantity;
+    let cost_from_earnings_percentage = rs_earnings * Decimal::new(65,3); // 6.5%
+    let fee = cost_from_earnings_percentage + cost_from_per_item;
+    return format!("{}", &fee).to_string();
 }
 
 #[tauri::command]
 fn calculate_paypal_fee(js_earnings: String) -> String {
     let rs_earnings = Money::from_str(js_earnings.as_str(), iso::USD).expect("Invalid earnings recieved");
-    return "result".to_string();
+    let cost_per_transaction = Money::from_minor(30, iso::USD);
+    let cost_from_earnings_percentage = rs_earnings * Decimal::new(29,3); // 2.9%
+    let fee = cost_from_earnings_percentage + cost_per_transaction;
+    return format!("{}", &fee).to_string();
 }
 
 fn main() {
