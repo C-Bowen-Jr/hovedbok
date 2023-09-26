@@ -1,12 +1,10 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import Box from '@mui/material/Box';
-import { TextField, Divider } from '@mui/material';
+import { Box, TextField, Divider } from '@mui/material';
 import { Button } from '@mui/base/Button';
 import TagControls from './TagControls.jsx';
 import TagDisplay from './TagDisplay.jsx';
 import { invoke } from '@tauri-apps/api/tauri';
-import { Select, MenuItem, InputLabel } from '@mui/material';
 import { formatCurrency } from './utils.js';
 import { setSellTags } from './Store';
 

@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
-import { TextField, Divider } from '@mui/material';
+import { Box, TextField, Divider } from '@mui/material';
 import { Button } from '@mui/base/Button';
-import { Select, MenuItem, InputLabel } from '@mui/material';
+import { Select, MenuItem } from '@mui/material';
 import { formatCurrency } from './utils.js';
 import { setReceiptList, setReceiptSelling, setBuyingPresets } from './Store';
 

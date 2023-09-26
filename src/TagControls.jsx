@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { TextField, Button, Switch, Box } from '@mui/material';
+import { TextField, Switch, Box } from '@mui/material';
 import { Select, MenuItem, Typography } from '@mui/material';
 import { setSellTags, setTagPresets } from './Store';
 import { updateSave } from './SaveHelper.js';
@@ -55,17 +55,6 @@ export default function TagControls() {
         else {
             setBadNewTag(true);
         }
-    };
-
-    const isAnyBadInput = () => {
-        // If any required field is failing
-        if (badNewTag) {
-            return true;
-        }
-        if (newTag == "") {
-            return true;
-        }
-        return false;
     };
     
     const isNewTagEmpty = () => {

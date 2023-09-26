@@ -1,8 +1,8 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { Paper, Stack, Chip } from '@mui/material';
+import { Paper, Stack } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import {format_date} from './utils.js';
+import { format_date } from './utils.js';
 
 const Item = styled(Paper)(({ theme }) => ({
     ...theme.typography.body2,

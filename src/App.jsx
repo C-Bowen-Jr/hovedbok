@@ -1,12 +1,8 @@
-import { useState } from 'react';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useSelector, useDispatch } from 'react-redux';
-import { Dropdown } from '@mui/base/Dropdown';
-import { Menu } from '@mui/base/Menu';
-import { MenuButton } from '@mui/base/MenuButton';
+import { Dropdown, Menu, MenuButton } from '@mui/base';
 import Box from '@mui/material/Box';
 import CustomTabPanel from './LabTabs';
-//import RecieptPanel from './RecieptGrid';
 import FileMenu from './FileMenu';
 import AppMenu from './AppMenu';
 import NewProductDialog from './NewProductWindow';
@@ -15,7 +11,7 @@ import { setProductList } from './Store';
 
 function App() {
 
-    const VERSION = "0.0.19";
+    const VERSION = "0.0.20";
 
     const productList = useSelector((state) => state.productList);
 

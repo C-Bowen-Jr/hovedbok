@@ -1,13 +1,8 @@
-import * as React from 'react';
+import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
-import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
+import { Box, Divider, Paper, Tab, Tabs, Typography } from '@mui/material';
 import { Button } from '@mui/base/Button';
-import { Divider } from '@mui/material';
-import Paper from '@mui/material/Paper';
 import ProductImageGrid from './ProductImageGrid';
 import BuyingForm from './BuyingForm';
 import SellingForm from './SellingForm';
