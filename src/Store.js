@@ -7,6 +7,7 @@ const initialState = {
     tagPresets: jsonFile.tagPresets,
     buyingPresets: jsonFile.buyingPresets,
     sellTags: [],
+    currentOrderNumber: 1,
     isReceiptSelling: true,
     isNewProductWindow: false,
 };

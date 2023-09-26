@@ -6,11 +6,13 @@ import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import { Button } from '@mui/base/Button';
+import { Divider } from '@mui/material';
 import Paper from '@mui/material/Paper';
 import ProductImageGrid from './ProductImageGrid';
 import BuyingForm from './BuyingForm';
 import SellingForm from './SellingForm';
 import RecieptPanel from './RecieptGrid';
+import InfoStack from "./InfoStack";
 import { setReceiptList, setReceiptSelling } from './Store';
 
 
@@ -74,6 +76,8 @@ export default function BasicTabs() {
                     <Tab label="Selling" {...a11yProps(0)} />
                     <Tab label="Buying" {...a11yProps(1)} />
                     <Tab label="Playground" {...a11yProps(2)} />
+                    <Divider orientation="vertical" flexItem />
+                    <InfoStack />
                 </Tabs>
             </Box>
             <CustomTabPanel value={value} index={0}>
