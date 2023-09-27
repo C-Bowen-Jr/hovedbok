@@ -1,12 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
+import { Button, TextField } from '@mui/material';
+import { Dialog, DialogActions, DialogTitle } from '@mui/material';
+import { DialogContent, DialogContentText } from '@mui/material';
 import { listen } from '@tauri-apps/api/event';
 import { setNewProductWindow, setProductList } from './Store';
 
@@ -51,7 +47,6 @@ export default function NewProductDialog() {
 
     useEffect(() => {
         listen("menu-event", (e) => {
-          console.log(e.payload);
           dispatch(setNewProductWindow(true));
         })
     }, []);
