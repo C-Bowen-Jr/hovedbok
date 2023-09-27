@@ -1,7 +1,6 @@
-import * as React from 'react';
+import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import ImageList from '@mui/material/ImageList';
-import ImageListItem from '@mui/material/ImageListItem';
+import { ImageList, ImageListItem } from '@mui/material';
 import { setReceiptList, setReceiptSelling } from './Store';
 
 export default function ProductImageGrid() {
@@ -18,6 +17,7 @@ export default function ProductImageGrid() {
         
         receiptList.set(item.title, {
             myProduct: true,
+            sku: item.sku,
             quantity: previousQuantity + 1,
             cost: "0.00",
             tags: "",

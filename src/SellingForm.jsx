@@ -5,7 +5,7 @@ import { Button } from '@mui/base/Button';
 import TagControls from './TagControls.jsx';
 import TagDisplay from './TagDisplay.jsx';
 import { invoke } from '@tauri-apps/api/tauri';
-import { formatCurrency } from './utils.js';
+import { formatCurrency, format_date_db } from './utils.js';
 import { setSellTags } from './Store';
 
 
@@ -21,10 +21,12 @@ export default function SellingForm() {
     const [badFee, setBadFee] = useState(false);
     const [isAutoFee, setIsAutoFee] = useState(true);
 
+    const currentOrderNumber = useSelector((state) => state.currentOrderNumber);
     const receiptList = useSelector((state) => state.receiptList);
     const sellTags = useSelector((state) => state.sellTags);
 
     const dispatch = useDispatch();
+    const todaysDate = new Date();
 
     const handleExpense = (event) => {
         setExpense(event.target.value);
@@ -189,7 +191,26 @@ export default function SellingForm() {
     */
 
     const handleSell = () => {
-        const sellObject = JSON.parse('{"order": "null"}')
+        const rawTags = Array.from(sellTags, (entry) => entry.label);
+        const orderLines = Array.from(receiptList).map(([name, details]) => (
+            {
+                "order_number": currentOrderNumber,
+                "sku": details.sku,
+                "quantity": details.quantity
+            }
+        ));
+        
+        const sellObject = {
+            "order": {
+                "date": format_date_db(todaysDate),
+                "order_number": currentOrderNumber,
+                "expense": expense,
+                "fee": fee,
+                "earnings": earnings,
+                "tags": rawTags.join(),
+                "order_line": orderLines
+            }
+        };
     };
 
     return (

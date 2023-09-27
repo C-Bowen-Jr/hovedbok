@@ -8,8 +8,10 @@ import { setNewProductWindow, setProductList } from './Store';
 
 export default function NewProductDialog() {
     const [productName, setProductName] = useState("");
+    const [productSku, setProductSku] = useState("");
     const [productFilename, setProductFilename] = useState("./products/");
     const [isBadName, setBadName] = useState(false);
+    const [isBadSku, setBadSku] = useState(false);
 
     const productList = useSelector((state) => state.productList);
     const isNewProductWindow = useSelector((state) => state.isNewProductWindow);
@@ -25,6 +27,15 @@ export default function NewProductDialog() {
         }
     };
 
+    const handleProductSku = (event) => {
+        setProductSku(event.target.value);
+        if(event.target.value.length > 2 && !event.target.value.includes(" ")) {
+            setBadSku(false);
+        } else {
+            setBadSku(true);
+        }
+    };
+
     const handleProductFilename = (event) => {
         setProductFilename(productFilename.concat(event.target.files[0].name));
     };
@@ -34,10 +45,11 @@ export default function NewProductDialog() {
     };
     
     const handleAdd = () => {
-        if (productName != "" && !isBadName && productFilename != "./products/") {
+        if (productName != "" && !isBadName && productSku != "" && !isBadSku && productFilename != "./products/") {
             const newItem = {
                 img: productFilename,
                 title: productName,
+                sku: productSku
             };
             dispatch(setProductList([...productList, newItem]));
             // TODO: Save productList to json file
@@ -72,6 +84,17 @@ export default function NewProductDialog() {
                         onChange={handleProductName}
                     />
                     <TextField
+                        margin="dense"
+                        id="new_sku"
+                        label="Product SKU"
+                        type="text"
+                        fullWidth
+                        variant="standard"
+                        error={isBadSku}
+                        value={productSku}
+                        onChange={handleProductSku}
+                    />
+                    <TextField
                         disabled
                         margin="dense"
                         id="file_name"
@@ -79,7 +102,6 @@ export default function NewProductDialog() {
                         fullWidth
                         variant="standard"
                         value={productFilename}
-                        
                     />
                 </DialogContent>
                 <input type="file" accept="image/*" onChange={handleProductFilename} />
