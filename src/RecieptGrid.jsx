@@ -63,6 +63,7 @@ export default function RecieptPanel() {
                         <TableRow>
                             <StyledTableCell align="right" sx={{ width: 1 / 8 }}>Quantity</StyledTableCell>
                             <StyledTableCell align="left">Product Name</StyledTableCell>
+                            <StyledTableCell align="left" sx={{ width: 1 / 4 }}>SKU</StyledTableCell>
                             <StyledTableCell align="center" sx={{ width: 1 / 12 }}></StyledTableCell>
                         </TableRow>
                     </TableHead>
@@ -77,6 +78,7 @@ export default function RecieptPanel() {
                                     {details.quantity}
                                 </StyledTableCell>
                                 <StyledTableCell align="left">{name}</StyledTableCell>
+                                <StyledTableCell align="left">{details.sku}</StyledTableCell>
                                 <StyledTableCell align="center">
                                     <HighlightOffIcon
                                         sx={{
