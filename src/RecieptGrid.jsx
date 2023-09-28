@@ -58,7 +58,7 @@ export default function RecieptPanel() {
     if (isReceiptSelling) // Selling
         return (
             <TableContainer sx={{ maxWidth: 800, paddingBottom: "24px" }}>
-                <Table aria-label="customized table">
+                <Table aria-label="customized table" size="small">
                     <TableHead>
                         <TableRow>
                             <StyledTableCell align="right" sx={{ width: 1 / 8 }}>Quantity</StyledTableCell>
@@ -100,7 +100,7 @@ export default function RecieptPanel() {
     // Buying
     return (
         <TableContainer sx={{ maxWidth: 800, paddingBottom: "24px" }}>
-            <Table aria-label="customized table">
+            <Table aria-label="customized table" size="small">
                 <TableHead>
                     <TableRow>
                         <StyledTableCell align="right" sx={{ width: 1 / 8 }}>Quantity</StyledTableCell>
