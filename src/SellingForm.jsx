@@ -187,7 +187,6 @@ export default function SellingForm() {
             ]
         }
     }'
-
     */
 
     const handleSell = () => {
@@ -208,9 +207,11 @@ export default function SellingForm() {
                 "fee": fee,
                 "earnings": earnings,
                 "tags": rawTags.join(),
-                "order_line": orderLines
+                "order_lines": orderLines
             }
         };
+        invoke('publish_sale', {payload: JSON.stringify(sellObject["order"])})
+            .then((result) => console.log(result));
     };
 
     return (

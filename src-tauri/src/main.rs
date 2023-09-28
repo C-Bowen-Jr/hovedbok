@@ -1,12 +1,50 @@
 use tauri::{CustomMenuItem, Menu, MenuItem, Submenu};
 use rusty_money::{Money, iso};
 use rust_decimal::prelude::*;
+use serde::{Deserialize, Serialize};
+use serde_json::Result;
 // Prevents additional console window on Windows in release, DO NOT REMOVE!!
 #[cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
+/* Example JSON object
+   '{
+        "order": {
+            "date": "2023-10-26",
+            "order_number": 1,
+            "expense": "3.14",
+            "fee": "1.23",
+            "earnings": "10.26",
+            "tags": "Etsy,Discount",
+            "order_line": [
+                {
+                    "order_number": 1,
+                    "sku": "DSCORPS",
+                    "quantity": 1,
+                }
+            ]
+        }
+    }'
+    */
+#[derive(Serialize, Deserialize)]
+struct Order {
+    date: String,
+    order_number: u16,
+    expense: String,
+    fee: String,
+    earnings: String,
+    tags: String,
+    order_lines: Vec<OrderLine>,
+}
+
+#[derive(Serialize, Deserialize)]
+struct OrderLine {
+     order_number: u16,
+     sku: String,
+     quantity: u16,
+}
 
 #[tauri::command]
 fn update_save_file(invoke_message: String) {
-  println!("Do save with this: {}", invoke_message);
+    println!("Do save with this: {}", invoke_message);
 } 
 
 #[tauri::command]
@@ -25,6 +63,17 @@ fn calculate_paypal_fee(js_earnings: String) -> String {
     let cost_from_earnings_percentage = rs_earnings * Decimal::new(29,3); // 2.9%
     let fee = cost_from_earnings_percentage + cost_per_transaction;
     return format!("{}", &fee).to_string();
+}
+
+#[tauri::command]
+fn publish_sale(payload: String) -> bool {
+    let read_order = serde_json::from_str(&payload);
+    let order_object: Order = match read_order {
+        Ok(order) => order,
+        Err(error) => {println!("{:?}",error); return false;},
+    };
+    println!("Got data on order number {}", &order_object.order_number);
+    return true;
 }
 
 fn main() {
@@ -52,7 +101,7 @@ fn main() {
         _ => {}
       }
     })
-    .invoke_handler(tauri::generate_handler![update_save_file, calculate_etsy_fee, calculate_paypal_fee])
+    .invoke_handler(tauri::generate_handler![update_save_file, calculate_etsy_fee, calculate_paypal_fee, publish_sale])
     .run(tauri::generate_context!())
     .expect("Error while running tauri application");
 }
