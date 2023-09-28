@@ -70,7 +70,7 @@ export default function RecieptPanel() {
                         {Array.from(receiptList).map(([name, details]) => (
                             <StyledTableRow key={name} component={Paper} hover sx={{
                                 '&:hover': {
-                                    border: 1,
+                                    boxShadow: "inset 0 0 0 3px green",
                                 },
                             }}>
                                 <StyledTableCell align="right" component="th" scope="row">
@@ -112,7 +112,11 @@ export default function RecieptPanel() {
                 </TableHead>
                 <TableBody>
                     {Array.from(receiptList).map(([name, details]) => (
-                        <StyledTableRow key={name}>
+                        <StyledTableRow key={name} component={Paper} hover sx={{
+                            '&:hover': {
+                                boxShadow: "inset 0 0 0 3px green",
+                            },
+                        }}>
                             <StyledTableCell align="right" component="th" scope="row">
                                 {details.quantity}
                             </StyledTableCell>
