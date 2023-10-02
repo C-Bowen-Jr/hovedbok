@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { TextField, Switch, Box } from '@mui/material';
 import { Select, MenuItem, Typography } from '@mui/material';
-import { setSellTags, setTagPresets } from './Store';
+import { setSellTags, setTagPresets, saveFile } from './Store';
 import { updateSave } from './SaveHelper.js';
 
 
@@ -50,7 +50,7 @@ export default function TagControls() {
         const addTag = { key: newTag, label: newTag };
         if(!tagPresets.some(addTag => addTag.key  == newTag)) {
             dispatch(setTagPresets([...tagPresets, addTag]));
-            updateSave();
+            dispatch(saveFile());
         }
         else {
             setBadNewTag(true);

@@ -1,4 +1,5 @@
 import { createStore } from 'redux';
+import { invoke } from '@tauri-apps/api/tauri';
 import jsonFile from '../public/data.json';
 
 const initialState = {
@@ -47,6 +48,11 @@ export const setNewProductWindow = (value) => ({
     payload: value,
 });
 
+export const saveFile = () => ({
+    type: 'SAVE_FILE',
+    payload: undefined,
+});
+
 const reducer = (state = initialState, action) => {
     switch (action.type) {
         case 'SET_PRODUCT_LIST':
@@ -63,6 +69,15 @@ const reducer = (state = initialState, action) => {
             return {...state, isReceiptSelling: action.payload};
         case 'SET_NEW_PRODUCT_WINDOW':
             return {...state, isNewProductWindow: action.payload};
+        case 'SAVE_FILE':
+        { 
+            var updatedJson = jsonFile;
+            updatedJson["tagPresets"] = state.tagPresets;
+            console.log(updatedJson);
+            invoke('update_save_file', {payload: JSON.stringify(updatedJson)})
+            .then((result) => console.log(result));
+            return state; 
+        }
         default:
             return state;
     }

@@ -74,6 +74,7 @@ struct Purchase {
 #[tauri::command]
 fn update_save_file(payload: String) -> bool {
     let read_save = serde_json::from_str(&payload);
+    println!("Got json string: {}", &payload);
     let save_object: Save = match read_save {
         Ok(save) => save,
         Err(error) => { println!("{:?}",error); return false; },
