@@ -5,8 +5,8 @@ import jsonFile from '../public/data.json';
 const initialState = {
     productList: jsonFile.products,
     receiptList: new Map(),
-    tagPresets: jsonFile.tagPresets,
-    buyingPresets: jsonFile.buyingPresets,
+    tagPresets: jsonFile.tag_presets,
+    buyingPresets: jsonFile.buying_presets,
     sellTags: [],
     currentOrderNumber: 1,
     isReceiptSelling: true,
@@ -72,7 +72,7 @@ const reducer = (state = initialState, action) => {
         case 'SAVE_FILE':
         { 
             var updatedJson = jsonFile;
-            updatedJson["tagPresets"] = state.tagPresets;
+            updatedJson["tag_presets"] = state.tagPresets;
             console.log(updatedJson);
             invoke('update_save_file', {payload: JSON.stringify(updatedJson)})
             .then((result) => console.log(result));

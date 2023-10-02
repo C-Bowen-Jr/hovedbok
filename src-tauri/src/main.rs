@@ -1,8 +1,9 @@
+use std::fs::File;
+use std::io::Write;
 use tauri::{CustomMenuItem, Menu, MenuItem, Submenu};
 use rusty_money::{Money, iso};
 use rust_decimal::prelude::*;
 use serde::{Deserialize, Serialize};
-use serde_json::Result;
 // Prevents additional console window on Windows in release, DO NOT REMOVE!!
 #[cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 /* Example JSON object
@@ -79,7 +80,10 @@ fn update_save_file(payload: String) -> bool {
         Ok(save) => save,
         Err(error) => { println!("{:?}",error); return false; },
       };
-      println!("stuff {}", &save_object.tag_presets[0].label);
+      
+      let mut save_file = File::create("../public/data.json").expect("Couldn't override data.json");
+      let save_text = serde_json::to_string_pretty(&save_object).expect("Coudn't unwrap JSON save object");
+      save_file.write(&save_text.as_bytes()).expect("Couldn't write data");
       return true;
 } 
 
