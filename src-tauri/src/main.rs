@@ -42,9 +42,44 @@ struct OrderLine {
      quantity: u16,
 }
 
+#[derive(Serialize, Deserialize)]
+struct Save {
+    products: Vec<Product>,
+    tag_presets: Vec<Tag>,
+    buying_presets: Vec<Purchase>,
+}
+
+#[derive(Serialize, Deserialize)]
+struct Product {
+    img: String,
+    title: String,
+    sku: String,
+}
+
+#[derive(Serialize, Deserialize)]
+struct Tag {
+    key: String,
+    label: String,
+}
+
+#[derive(Serialize, Deserialize)]
+struct Purchase {
+    quantity: String,
+    name: String,
+    cost: String,
+    tags: String,
+    includes: String,
+}
+
 #[tauri::command]
-fn update_save_file(invoke_message: String) {
-    println!("Do save with this: {}", invoke_message);
+fn update_save_file(payload: String) -> bool {
+    let read_save = serde_json::from_str(&payload);
+    let save_object: Save = match read_save {
+        Ok(save) => save,
+        Err(error) => { println!("{:?}",error); return false; },
+      };
+      println!("stuff {}", &save_object.tag_presets[0].label);
+      return true;
 } 
 
 #[tauri::command]
@@ -70,7 +105,7 @@ fn publish_sale(payload: String) -> bool {
     let read_order = serde_json::from_str(&payload);
     let order_object: Order = match read_order {
         Ok(order) => order,
-        Err(error) => {println!("{:?}",error); return false;},
+        Err(error) => { println!("{:?}",error); return false; },
     };
     println!("Got data on order number {}", &order_object.order_number);
     return true;

@@ -4,7 +4,11 @@ import jsonFile from '../public/data.json';
 
 export function updateSave() {
     const tagPresets = useSelector((state) => state.tagPresets);
+    console.log(tagPresets);
     var updatedJson = jsonFile;
     updatedJson["tagPresets"] = tagPresets;
-    invoke('update_save_file', {invokeMessage: JSON.stringify(jsonFile)});
+    console.log(jsonFile);
+    console.log(updatedJson);
+    //invoke('update_save_file', {payload: JSON.stringify(updatedJson)})
+            //.then((result) => console.log(result));
 };
