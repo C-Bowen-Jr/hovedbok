@@ -57,8 +57,16 @@ export default function TagControls() {
         }
     };
     
-    const isNewTagEmpty = () => {
-        if (newTag === "") {
+    const isTagAddable = () => {
+        const addTag = { key: newTag, label: newTag };
+        if (newTag === "" || sellTags.some(addTag => addTag.key == newTag)) {
+            return true;
+        }
+        return false;
+    };
+
+    const isTagSavable = () => {
+        if (newTag === "" || tagPresets.some(addTag => addTag.key == newTag)) {
             return true;
         }
         return false;
@@ -90,12 +98,12 @@ export default function TagControls() {
                     <button 
                         className="mini_button" 
                         onClick={handleTagAdd}
-                        disabled={isNewTagEmpty()}>Add
+                        disabled={isTagAddable()}>Add
                     </button>
                     <button 
                         className="mini_button" 
                         onClick={handleSave}
-                        disabled={isNewTagEmpty()}>Save
+                        disabled={isTagSavable()}>Save
                     </button>
                 </Box>
             </>
