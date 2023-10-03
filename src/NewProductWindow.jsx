@@ -4,7 +4,7 @@ import { Button, TextField } from '@mui/material';
 import { Dialog, DialogActions, DialogTitle } from '@mui/material';
 import { DialogContent, DialogContentText } from '@mui/material';
 import { listen } from '@tauri-apps/api/event';
-import { setNewProductWindow, setProductList } from './Store';
+import { setNewProductWindow, setProductList, saveFile } from './Store';
 
 export default function NewProductDialog() {
     const [productName, setProductName] = useState("");
@@ -52,7 +52,7 @@ export default function NewProductDialog() {
                 sku: productSku
             };
             dispatch(setProductList([...productList, newItem]));
-            // TODO: Save productList to json file
+            dispatch(saveFile());
             dispatch(setNewProductWindow(false));
         }
     };

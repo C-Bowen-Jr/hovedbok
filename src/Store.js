@@ -72,10 +72,10 @@ const reducer = (state = initialState, action) => {
         case 'SAVE_FILE':
         { 
             var updatedJson = jsonFile;
+            updatedJson["products"] = state.productList;
             updatedJson["tag_presets"] = state.tagPresets;
-            console.log(updatedJson);
-            invoke('update_save_file', {payload: JSON.stringify(updatedJson)})
-            .then((result) => console.log(result));
+            updatedJson["buying_presets"] = state.buyingPresets;
+            invoke('update_save_file', {payload: JSON.stringify(updatedJson)});
             return state; 
         }
         default:

@@ -3,8 +3,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import { TextField, Switch, Box } from '@mui/material';
 import { Select, MenuItem, Typography } from '@mui/material';
 import { setSellTags, setTagPresets, saveFile } from './Store';
-import { updateSave } from './SaveHelper.js';
-
 
 export default function TagControls() {
     // Localized states for fields, gets compiled to object on submit

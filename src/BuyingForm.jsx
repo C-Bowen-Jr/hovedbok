@@ -4,7 +4,7 @@ import { Box, TextField, Divider } from '@mui/material';
 import { Button } from '@mui/base/Button';
 import { Select, MenuItem } from '@mui/material';
 import { formatCurrency } from './utils.js';
-import { setReceiptList, setReceiptSelling, setBuyingPresets } from './Store';
+import { setReceiptList, setReceiptSelling, setBuyingPresets, saveFile } from './Store';
 
 
 export default function BuyingForm() {
@@ -139,6 +139,7 @@ export default function BuyingForm() {
         const newPreset = { quantity: quantity, name: name, cost: cost, tags: tags, includes: buildInclude};
         
         dispatch(setBuyingPresets([...buyingPresets, newPreset]));
+        dispatch(saveFile());
     };
 
     const handleBuy = (name) => {
