@@ -2,6 +2,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useSelector, useDispatch } from 'react-redux';
 import { Dropdown, Menu, MenuButton } from '@mui/base';
 import Box from '@mui/material/Box';
+import { Toaster } from 'sonner';
 import CustomTabPanel from './LabTabs';
 import FileMenu from './FileMenu';
 import AppMenu from './AppMenu';
@@ -11,7 +12,7 @@ import { setProductList } from './Store';
 
 function App() {
 
-    const VERSION = "0.0.24";
+    const VERSION = "0.0.25";
 
     const productList = useSelector((state) => state.productList);
 
@@ -58,6 +59,7 @@ function App() {
                 </Dropdown>
             </nav>
             <NewProductDialog />
+            <Toaster richColors/>
             <CustomTabPanel />
             <Box sx={{ height: "32px" }} />
             

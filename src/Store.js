@@ -1,5 +1,6 @@
 import { createStore } from 'redux';
 import { invoke } from '@tauri-apps/api/tauri';
+import { toast } from 'sonner';
 import jsonFile from '../public/data.json';
 
 const initialState = {
@@ -75,7 +76,9 @@ const reducer = (state = initialState, action) => {
             updatedJson["products"] = state.productList;
             updatedJson["tag_presets"] = state.tagPresets;
             updatedJson["buying_presets"] = state.buyingPresets;
-            invoke('update_save_file', {payload: JSON.stringify(updatedJson)});
+            const res = invoke('update_save_file', {payload: JSON.stringify(updatedJson)});
+            (res) && toast.success("Save successful");
+            (!res) && toast.error("Save failed!");
             return state; 
         }
         default:

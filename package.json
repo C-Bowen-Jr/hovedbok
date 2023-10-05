@@ -21,7 +21,8 @@
     "react-intl": "^6.4.4",
     "react-redux": "^8.0.7",
     "react-sage": "^0.3.16",
-    "redux": "^4.2.1"
+    "redux": "^4.2.1",
+    "sonner": "^1.0.3"
   },
   "devDependencies": {
     "@types/react": "^18.0.37",
