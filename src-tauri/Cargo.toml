@@ -18,7 +18,7 @@ tauri-build = { version = "1.4.0", features = [] }
 serde_json = "1.0"
 serde = { version = "1.0", features = ["derive"] }
 tauri = { version = "1.4.0", features = [] }
-diesel = { version = "2.1.1", features = ["sqlite"] }
+rusqlite = { version = "0.29.0", features = [] }
 rusty-money = { version = "0.4.1", features = ["iso"] }
 rust_decimal = "1.32.0"
 
