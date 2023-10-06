@@ -77,8 +77,13 @@ const reducer = (state = initialState, action) => {
             updatedJson["tag_presets"] = state.tagPresets;
             updatedJson["buying_presets"] = state.buyingPresets;
             const res = invoke('update_save_file', {payload: JSON.stringify(updatedJson)});
-            (res) && toast.success("Save successful");
-            (!res) && toast.error("Save failed!");
+            toast.promise(res, {
+                loading: 'Saving...',
+                success: 'Save Succesful',
+                error: 'Failed to save',
+            });
+            //(res) && toast.success("Save successful");
+            //(!res) && toast.error("Save failed!");
             return state; 
         }
         default:
