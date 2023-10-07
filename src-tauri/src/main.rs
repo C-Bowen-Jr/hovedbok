@@ -75,13 +75,12 @@ struct Purchase {
 #[tauri::command]
 fn update_save_file(payload: String) -> bool {
     let read_save = serde_json::from_str(&payload);
-    println!("Got json string: {}", &payload);
     let save_object: Save = match read_save {
         Ok(save) => save,
         Err(error) => { println!("{:?}",error); return false; },
       };
       
-      let mut save_file = File::create("../public/data.json").expect("Couldn't override data.json");
+      let mut save_file = File::create("data.json").expect("Couldn't override data.json");
       let save_text = serde_json::to_string_pretty(&save_object).expect("Coudn't unwrap JSON save object");
       save_file.write(&save_text.as_bytes()).expect("Couldn't write data");
       return true;
@@ -112,7 +111,6 @@ fn publish_sale(payload: String) -> bool {
         Ok(order) => order,
         Err(error) => { println!("{:?}",error); return false; },
     };
-    println!("Got data on order number {}", &order_object.order_number);
     return true;
 }
 
