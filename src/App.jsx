@@ -12,7 +12,7 @@ import { setProductList } from './Store';
 
 function App() {
 
-    const VERSION = "0.0.25";
+    const VERSION = "0.0.26";
 
     const productList = useSelector((state) => state.productList);
 

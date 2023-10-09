@@ -12,13 +12,16 @@ import { setSellTags } from './Store';
 
 export default function SellingForm() {
     // Localized states for fields, gets compiled to object on submit
-    const [expense, setExpense] = useState();
+    const [expense, setExpense] = useState("");
     const [earnings, setEarnings] = useState("");
     const [fee, setFee] = useState("");
     const [newTag, setNewTag] = useState("");
+    const [address, setAddress] = useState("");
+    const [giftMessage, setGiftMessage] = useState("");
     const [badExpense, setBadExpense] = useState(false);
     const [badEarnings, setBadEarnings] = useState(false);
     const [badFee, setBadFee] = useState(false);
+    const [badAddress, setBadAddress] = useState(false);
     const [isAutoFee, setIsAutoFee] = useState(true);
 
     const currentOrderNumber = useSelector((state) => state.currentOrderNumber);
@@ -60,6 +63,21 @@ export default function SellingForm() {
         if (!sellTags.some(addTag => addTag.key == tag)) {
             dispatch(setSellTags([...sellTags, addTag]));
         }
+    };
+
+    const handleAddress = (event) => {
+        // Best option would be a free address verify API
+        // However, lacking, don't break at fringe cases and allow this
+        setAddress(event.target.value);
+        if (event.target.value != "") {
+            setBadAddress(false);
+        } else {
+            setBadAddress(true);
+        }
+    };
+
+    const handleGiftMessage = (event) => {
+        setGiftMessage(event.target.value);
     };
 
     const handleExpenseBlur = (event) => {
@@ -124,9 +142,10 @@ export default function SellingForm() {
 
     const isAnyBadInput = () => {
         // If any required field is failing
-        if (badExpense || badEarnings || badFee) {
+        if (badExpense || badEarnings || badFee || badAddress) {
             return true;
         }
+        // If any field is null (which is a valid state, so not badFlag)
         if (expense == "" || earnings == "" || fee == "" || receiptList.size === 0) {
             return true;
         }
@@ -159,10 +178,13 @@ export default function SellingForm() {
         setEarnings("");
         setFee("");
         setTags("");
+        setAddress("");
+        setGiftMessage("");
         setBadExpense(false);
         setBadEarnings(false);
         setBadFee(false);
         setIsAutoFee(true);
+        setBadAddress(false);
     }
 
     const handleSubmit = () => {
@@ -286,6 +308,9 @@ export default function SellingForm() {
                         autoComplete="off"
                         multiline
                         maxRows={5}
+                        onChange={handleAddress}
+                        error={badAddress}
+                        onDoubleClick={() => { setAddress("") }}
                         sx={{ width: 4 / 6, margin: "8px 4px" }}
                     />
                 </div>
@@ -296,6 +321,8 @@ export default function SellingForm() {
                         autoComplete="off"
                         multiline
                         maxRows={5}
+                        onChange={handleGiftMessage}
+                        onDoubleClick={() => { setGiftMessage("") }}
                         sx={{ width: 4 / 6, margin: "8px 4px" }}
                     />
                 </div>
