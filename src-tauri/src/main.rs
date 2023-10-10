@@ -108,8 +108,7 @@ fn calculate_paypal_fee(js_earnings: String) -> String {
 
 #[tauri::command]
 fn publish_sale(payload: String) -> bool {
-    let ledger_database = "./ledger.db";
-    let conn = Connection::open(&ledger_database).expect("Couldn't connect to database");
+    let conn = open_ledger();
 
     let read_order = serde_json::from_str(&payload);
     let order_object: Order = match read_order {
@@ -124,11 +123,16 @@ fn publish_sale(payload: String) -> bool {
     return true;
 }
 
+fn open_ledger() -> Connection {
+    let ledger_database = "./ledger.db";
+    Connection::open(&ledger_database).expect("Couldn't connect to database")
+}
+
 fn main() {
     let ledger_database = "./ledger.db";
     let ledger_path = Path::new(&ledger_database);
     if !ledger_path.exists() {
-        let conn = Connection::open(&ledger_database).expect("Couldn't connect to database");
+        let conn = open_ledger();
         conn.execute(
             "CREATE TABLE sale (
                 id              INTEGER PRIMARY KEY,
