@@ -1,8 +1,10 @@
 use std::fs::File;
 use std::io::Write;
+use std::path::Path;
 use tauri::{CustomMenuItem, Menu, MenuItem, Submenu};
 use rusty_money::{Money, iso};
 use rust_decimal::prelude::*;
+use rusqlite::{Connection, Result};
 use serde::{Deserialize, Serialize};
 // Prevents additional console window on Windows in release, DO NOT REMOVE!!
 #[cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
@@ -115,6 +117,55 @@ fn publish_sale(payload: String) -> bool {
 }
 
 fn main() {
+    let ledger_database = "./ledger.db";
+    let ledger_path = Path::new(&ledger_database);
+    if !ledger_path.exists() {
+        let conn = Connection::open(&ledger_database).expect("Couldn't connect to database");
+        conn.execute(
+            "CREATE TABLE sale (
+                id              INTEGER PRIMARY KEY,
+                date            VARCHAR(10) NOT NULL,
+                order_number    INT NOT NULL,
+                expense         DECIMAL(10,2) NOT NULL,
+                fee             DECIMAL(8,2) NOT NULL,
+                earnings        DECIMAL(12,2) NOT NULL,
+                tags            VARCHAR(64)
+            )",
+            (),
+        ).expect("Create table 'Sale' failed");
+
+        conn.execute("
+            CREATE TABLE saleline (
+                id              INTEGER PRIMARY KEY,
+                order_number    INT NOT NULL,
+                sku             VARCHAR(32) NOT NULL,
+                quantity        INT NOT NULL
+            )", 
+            ()
+        ).expect("Create tabler 'Saleline' failed");
+
+        conn.execute("
+            CREATE TABLE purchase (
+                id              INTEGER PRIMARY KEY,
+                date            VARCHAR(10) NOT NULL,
+                purchase_number INT NOT NULL
+            )", 
+            ()
+        ).expect("Create tabler 'Purchase' failed");
+
+        conn.execute("
+            CREATE TABLE purchaseline (
+                id              INTEGER PRIMARY KEY,
+                purchase_number INT NOT NULL,
+                item            VARCHAR(64) NOT NULL,
+                quantity        INT NOT NULL,
+                expense         DECIMAL(12,2) NOT NULL,
+                tags            VARCHAR(64)
+            )", 
+            ()
+        ).expect("Create tabler 'Purchaseline' failed");
+    }
+    
     let file_menu = Submenu::new("File", Menu::new()
       .add_item(CustomMenuItem::new("newproduct", "New Product").accelerator("cmdOrControl+N"))
       .add_item(CustomMenuItem::new("editproduct", "Edit Product"))
