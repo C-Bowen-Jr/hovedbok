@@ -4,7 +4,7 @@ use std::path::Path;
 use tauri::{CustomMenuItem, Menu, MenuItem, Submenu};
 use rusty_money::{Money, iso};
 use rust_decimal::prelude::*;
-use rusqlite::{Connection, Result};
+use rusqlite::{Connection, params, Result};
 use serde::{Deserialize, Serialize};
 // Prevents additional console window on Windows in release, DO NOT REMOVE!!
 #[cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
@@ -108,11 +108,19 @@ fn calculate_paypal_fee(js_earnings: String) -> String {
 
 #[tauri::command]
 fn publish_sale(payload: String) -> bool {
+    let ledger_database = "./ledger.db";
+    let conn = Connection::open(&ledger_database).expect("Couldn't connect to database");
+
     let read_order = serde_json::from_str(&payload);
     let order_object: Order = match read_order {
-        Ok(order) => order,
+        Ok(order) => {order},
         Err(error) => { println!("{:?}",error); return false; },
     };
+    conn.execute(
+    "INSERT INTO sale (date, order_number, expense, fee, earnings, tags)
+     VALUES (?1, ?2, ?3, ?4, ?5, ?6)",
+     (&order_object.date, &order_object.order_number, &order_object.expense, &order_object.fee, &order_object.earnings, &order_object.tags),
+    ).expect("Failed to handle push to database");
     return true;
 }
 
