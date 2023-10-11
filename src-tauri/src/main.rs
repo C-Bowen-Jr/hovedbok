@@ -126,6 +126,18 @@ fn publish_sale(payload: String) -> bool {
     return true;
 }
 
+#[tauri::command]
+fn get_last_order_number() -> i32 {
+    let conn = open_ledger();
+    match conn.query_row(
+        "SELECT order_number FROM sale ORDER BY rowid DESC LIMIT 1", [],
+        |row| row.get(0),
+    ) {
+        Ok(last_order) => return last_order,
+        Err(_) => return 0,
+    }
+}
+
 fn open_ledger() -> Connection {
     let ledger_database = "./ledger.db";
     Connection::open(&ledger_database).expect("Couldn't connect to database")
@@ -205,7 +217,7 @@ fn main() {
         _ => {}
       }
     })
-    .invoke_handler(tauri::generate_handler![update_save_file, calculate_etsy_fee, calculate_paypal_fee, publish_sale])
+    .invoke_handler(tauri::generate_handler![update_save_file, calculate_etsy_fee, calculate_paypal_fee, publish_sale, get_last_order_number])
     .run(tauri::generate_context!())
     .expect("Error while running tauri application");
 }

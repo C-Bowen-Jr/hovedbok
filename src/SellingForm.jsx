@@ -7,7 +7,7 @@ import TagDisplay from './TagDisplay.jsx';
 import { invoke } from '@tauri-apps/api/tauri';
 import { toast } from 'sonner';
 import { formatCurrency, format_date_db } from './utils.js';
-import { setSellTags } from './Store';
+import { setSellTags, setCurrentOrderNumber } from './Store';
 
 
 
@@ -238,6 +238,9 @@ export default function SellingForm() {
             console.log(res, isSuccessful);
             (isSuccessful) ? toast.success("Ledger appended") : toast.error("Failed to append");
         })
+        invoke('get_last_order_number')
+            .then(last => (last > 0) ? dispatch(setCurrentOrderNumber(last + 1)) : dispatch(setCurrentOrderNumber(1)))
+            .catch(err => dispatch(setCurrentOrderNumber("?")));
     };
 
     return (

@@ -49,6 +49,11 @@ export const setNewProductWindow = (value) => ({
     payload: value,
 });
 
+export const setCurrentOrderNumber = (value) => ({
+    type: 'SET_CURRENT_ORDER_NUMBER',
+    payload: value,
+});
+
 export const saveFile = () => ({
     type: 'SAVE_FILE',
     payload: undefined,
@@ -70,6 +75,8 @@ const reducer = (state = initialState, action) => {
             return {...state, isReceiptSelling: action.payload};
         case 'SET_NEW_PRODUCT_WINDOW':
             return {...state, isNewProductWindow: action.payload};
+        case 'SET_CURRENT_ORDER_NUMBER':
+            return {...state, currentOrderNumber: action.payload};
         case 'SAVE_FILE':
         { 
             var updatedJson = jsonFile;
