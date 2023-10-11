@@ -5,6 +5,7 @@ import { Button } from '@mui/base/Button';
 import TagControls from './TagControls.jsx';
 import TagDisplay from './TagDisplay.jsx';
 import { invoke } from '@tauri-apps/api/tauri';
+import { toast } from 'sonner';
 import { formatCurrency, format_date_db } from './utils.js';
 import { setSellTags } from './Store';
 
@@ -102,8 +103,8 @@ export default function SellingForm() {
 
     const handleEtsyButton = () => {
         const itemCount = getTotalProductCount();
-        invoke('calculate_etsy_fee', {jsEarnings: earnings, jsQuantity: itemCount}).then((result) => setFee(result));
-        
+        invoke('calculate_etsy_fee', { jsEarnings: earnings, jsQuantity: itemCount }).then((result) => setFee(result));
+
         handleUniqueTag("Etsy").then((result) => {
             const newList = sellTags.filter((checkTag) => checkTag.key !== "PayPal");
             dispatch(setSellTags(newList));
@@ -111,7 +112,7 @@ export default function SellingForm() {
     };
 
     const handlePaypalButton = () => {
-        invoke('calculate_paypal_fee', {jsEarnings: earnings}).then((result) => setFee(result));
+        invoke('calculate_paypal_fee', { jsEarnings: earnings }).then((result) => setFee(result));
 
         handleUniqueTag("PayPal").then((result) => {
             const newList = sellTags.filter((checkTag) => checkTag.key !== "Etsy");
@@ -220,7 +221,7 @@ export default function SellingForm() {
                 "quantity": details.quantity
             }
         ));
-        
+
         const sellObject = {
             "order": {
                 "date": format_date_db(todaysDate),
@@ -232,8 +233,11 @@ export default function SellingForm() {
                 "order_lines": orderLines
             }
         };
-        invoke('publish_sale', {payload: JSON.stringify(sellObject["order"])})
-            .then((result) => console.log(result));
+        const res = invoke('publish_sale', { payload: JSON.stringify(sellObject["order"]) });
+        res.then((isSuccessful) => {
+            console.log(res, isSuccessful);
+            (isSuccessful) ? toast.success("Ledger appended") : toast.error("Failed to append");
+        })
     };
 
     return (
@@ -271,17 +275,17 @@ export default function SellingForm() {
                     />
                 </div>
                 <Divider sx={{ marginTop: "16px" }} textAlign="left">Seller Fees</Divider>
-                <Button 
-                    className="btn bold etsy" 
+                <Button
+                    className="btn bold etsy"
                     disabled={isFeeNotCalculatable()}
                     onClick={handleEtsyButton}>Etsy</Button>
-                <Button 
-                    className="btn bold paypal" 
+                <Button
+                    className="btn bold paypal"
                     disabled={isFeeNotCalculatable()}
                     onClick={handlePaypalButton}>PayPal</Button>
                 <Button className="btn bold" onClick={handleManualFee}>Manual</Button>
                 <div>
-                <TextField
+                    <TextField
                         required
                         id="fee"
                         label="Fee"
@@ -308,6 +312,7 @@ export default function SellingForm() {
                         autoComplete="off"
                         multiline
                         maxRows={5}
+                        value={address}
                         onChange={handleAddress}
                         error={badAddress}
                         onDoubleClick={() => { setAddress("") }}
@@ -321,13 +326,14 @@ export default function SellingForm() {
                         autoComplete="off"
                         multiline
                         maxRows={5}
+                        value={giftMessage}
                         onChange={handleGiftMessage}
                         onDoubleClick={() => { setGiftMessage("") }}
                         sx={{ width: 4 / 6, margin: "8px 4px" }}
                     />
                 </div>
             </Box>
-            <Box sx={{ alignContent: "right", marginTop: "16px", padding:"8px" }}>
+            <Box sx={{ alignContent: "right", marginTop: "16px", padding: "8px" }}>
                 <Button disabled={isAnyBadInput()} onClick={handleSubmit} className="btn bold">Submit</Button>
                 <Button onClick={resetForm} className="btn bold">Cancel</Button>
             </Box>

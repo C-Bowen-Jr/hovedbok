@@ -115,11 +115,14 @@ fn publish_sale(payload: String) -> bool {
         Ok(order) => {order},
         Err(error) => { println!("{:?}",error); return false; },
     };
-    conn.execute(
-    "INSERT INTO sale (date, order_number, expense, fee, earnings, tags)
-     VALUES (?1, ?2, ?3, ?4, ?5, ?6)",
-     (&order_object.date, &order_object.order_number, &order_object.expense, &order_object.fee, &order_object.earnings, &order_object.tags),
-    ).expect("Failed to handle push to database");
+    match conn.execute(
+        "INSERT INTO sale (date, order_number, expense, fee, earnings, tags)
+         VALUES (?1, ?2, ?3, ?4, ?5, ?6)",
+        (&order_object.date, &order_object.order_number, &order_object.expense, &order_object.fee, &order_object.earnings, &order_object.tags),
+    ) {
+        Ok(_) => println!(""),
+        Err(error) => { println!("{:?}",error); return false; },
+    }
     return true;
 }
 
