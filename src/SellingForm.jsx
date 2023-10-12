@@ -7,7 +7,7 @@ import TagDisplay from './TagDisplay.jsx';
 import { invoke } from '@tauri-apps/api/tauri';
 import { toast } from 'sonner';
 import { formatCurrency, format_date_db } from './utils.js';
-import { setSellTags, setCurrentOrderNumber } from './Store';
+import { setSellTags, setCurrentOrderNumber, setReceiptList } from './Store';
 
 
 
@@ -19,6 +19,8 @@ export default function SellingForm() {
     const [newTag, setNewTag] = useState("");
     const [address, setAddress] = useState("");
     const [giftMessage, setGiftMessage] = useState("");
+    const [printText, setPrintText] = useState("Print");
+    const [logSuccess, setLogSuccess] = useState(false);
     const [badExpense, setBadExpense] = useState(false);
     const [badEarnings, setBadEarnings] = useState(false);
     const [badFee, setBadFee] = useState(false);
@@ -147,7 +149,7 @@ export default function SellingForm() {
             return true;
         }
         // If any field is null (which is a valid state, so not badFlag)
-        if (expense == "" || earnings == "" || fee == "" || receiptList.size === 0) {
+        if (expense == "" || earnings == "" || fee == "" || address == "" || receiptList.size === 0) {
             return true;
         }
         return false;
@@ -175,12 +177,17 @@ export default function SellingForm() {
     };
 
     const resetForm = () => {
+        console.log("reset found");
         setExpense("");
         setEarnings("");
         setFee("");
-        setTags("");
         setAddress("");
         setGiftMessage("");
+        setPrintText("Print");
+        const updateState = new Map();
+        dispatch(setReceiptList(updateState));
+        dispatch(setSellTags([]));
+        setLogSuccess(false);
         setBadExpense(false);
         setBadEarnings(false);
         setBadFee(false);
@@ -190,6 +197,10 @@ export default function SellingForm() {
 
     const handleSubmit = () => {
         handleSell();
+    };
+
+    const handlePrint = () => {
+        setPrintText("Reprint");
     };
 
     /* Example JSON object
@@ -237,10 +248,15 @@ export default function SellingForm() {
         res.then((isSuccessful) => {
             console.log(res, isSuccessful);
             (isSuccessful) ? toast.success("Ledger appended") : toast.error("Failed to append");
-        })
+        });
+        // Assume true, then return to false if fail. easier this way with inline-if
+        setLogSuccess(true);
         invoke('get_last_order_number')
             .then(last => (last > 0) ? dispatch(setCurrentOrderNumber(last + 1)) : dispatch(setCurrentOrderNumber(1)))
-            .catch(err => dispatch(setCurrentOrderNumber("?")));
+            .catch(err => {
+                dispatch(setCurrentOrderNumber("?"));
+                setLogSuccess(false);
+            });
     };
 
     return (
@@ -337,7 +353,8 @@ export default function SellingForm() {
                 </div>
             </Box>
             <Box sx={{ alignContent: "right", marginTop: "16px", padding: "8px" }}>
-                <Button disabled={isAnyBadInput()} onClick={handleSubmit} className="btn bold">Submit</Button>
+                <Button disabled={isAnyBadInput()} onClick={handlePrint} className="btn bold">{printText}</Button>
+                <Button disabled={isAnyBadInput() || logSuccess } onClick={handleSubmit} className="btn bold">Submit</Button>
                 <Button onClick={resetForm} className="btn bold">Cancel</Button>
             </Box>
         </>
