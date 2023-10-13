@@ -12,6 +12,7 @@ const initialState = {
     currentOrderNumber: 1,
     isReceiptSelling: true,
     isNewProductWindow: false,
+    isPrintPreview: false,
 };
 
 export const setProductList = (value) => ({
@@ -49,6 +50,11 @@ export const setNewProductWindow = (value) => ({
     payload: value,
 });
 
+export const setPrintPreview = (value) => ({
+    type: 'SET_PRINT_PREVIEW',
+    payload: value,
+});
+
 export const setCurrentOrderNumber = (value) => ({
     type: 'SET_CURRENT_ORDER_NUMBER',
     payload: value,
@@ -75,6 +81,8 @@ const reducer = (state = initialState, action) => {
             return {...state, isReceiptSelling: action.payload};
         case 'SET_NEW_PRODUCT_WINDOW':
             return {...state, isNewProductWindow: action.payload};
+        case 'SET_PRINT_PREVIEW':
+                return {...state, isPrintPreview: action.payload};
         case 'SET_CURRENT_ORDER_NUMBER':
             return {...state, currentOrderNumber: action.payload};
         case 'SAVE_FILE':

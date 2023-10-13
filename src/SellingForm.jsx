@@ -4,10 +4,11 @@ import { Box, TextField, Divider } from '@mui/material';
 import { Button } from '@mui/base/Button';
 import TagControls from './TagControls.jsx';
 import TagDisplay from './TagDisplay.jsx';
+import PrintDialog from './PrintDialog.jsx';
 import { invoke } from '@tauri-apps/api/tauri';
 import { toast } from 'sonner';
 import { formatCurrency, format_date_db } from './utils.js';
-import { setSellTags, setCurrentOrderNumber, setReceiptList } from './Store';
+import { setSellTags, setCurrentOrderNumber, setReceiptList, setPrintPreview } from './Store';
 
 
 
@@ -200,6 +201,7 @@ export default function SellingForm() {
     };
 
     const handlePrint = () => {
+        dispatch(setPrintPreview(true));
         setPrintText("Reprint");
     };
 
@@ -356,6 +358,7 @@ export default function SellingForm() {
                 <Button disabled={isAnyBadInput()} onClick={handlePrint} className="btn bold">{printText}</Button>
                 <Button disabled={isAnyBadInput() || logSuccess } onClick={handleSubmit} className="btn bold">Submit</Button>
                 <Button onClick={resetForm} className="btn bold">Cancel</Button>
+                <PrintDialog />
             </Box>
         </>
     );
