@@ -106,7 +106,8 @@ export default function SellingForm() {
 
     const handleEtsyButton = () => {
         const itemCount = getTotalProductCount();
-        invoke('calculate_etsy_fee', { jsEarnings: earnings, jsQuantity: itemCount }).then((result) => setFee(result));
+        invoke('calculate_etsy_fee', { jsEarnings: earnings, jsQuantity: itemCount })
+            .then((result) => setFee(result.replace("$","")));
 
         handleUniqueTag("Etsy").then((result) => {
             const newList = sellTags.filter((checkTag) => checkTag.key !== "PayPal");
@@ -115,7 +116,8 @@ export default function SellingForm() {
     };
 
     const handlePaypalButton = () => {
-        invoke('calculate_paypal_fee', { jsEarnings: earnings }).then((result) => setFee(result));
+        invoke('calculate_paypal_fee', { jsEarnings: earnings })
+            .then((result) => setFee(result.replace("$","")));
 
         handleUniqueTag("PayPal").then((result) => {
             const newList = sellTags.filter((checkTag) => checkTag.key !== "Etsy");
