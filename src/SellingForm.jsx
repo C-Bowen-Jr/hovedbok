@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Box, TextField, Divider } from '@mui/material';
 import { Button } from '@mui/base/Button';
+import InputAdornment from '@mui/material/InputAdornment';
 import TagControls from './TagControls.jsx';
 import TagDisplay from './TagDisplay.jsx';
 import PrintDialog from './PrintDialog.jsx';
@@ -280,6 +281,9 @@ export default function SellingForm() {
                         onBlur={handleExpenseBlur}
                         onDoubleClick={() => { setExpense("") }}
                         sx={{ width: 4 / 6, margin: "8px 4px" }}
+                        InputProps={expense != "" ? {
+                            startAdornment: <InputAdornment position="start">$</InputAdornment>,
+                          } : {}}
                     />
                 </div>
                 <div>
@@ -295,6 +299,9 @@ export default function SellingForm() {
                         onBlur={handleEarningsBlur}
                         onDoubleClick={() => { setEarnings("") }}
                         sx={{ width: 4 / 6, margin: "8px 4px" }}
+                        InputProps={earnings != "" ? {
+                            startAdornment: <InputAdornment position="start">$</InputAdornment>,
+                          } : {}}
                     />
                 </div>
                 <Divider sx={{ marginTop: "16px" }} textAlign="left">Seller Fees</Divider>
@@ -321,6 +328,9 @@ export default function SellingForm() {
                         error={badFee}
                         onDoubleClick={() => { setFee("") }}
                         sx={{ width: 4 / 6, margin: "8px 4px" }}
+                        InputProps={fee != "" ? {
+                            startAdornment: <InputAdornment position="start">$</InputAdornment>,
+                          } : {}}
                     />
                 </div>
                 <Divider sx={{ marginTop: "16px" }} textAlign="left">Tags</Divider>
