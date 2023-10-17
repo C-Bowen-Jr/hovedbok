@@ -112,17 +112,39 @@ fn publish_sale(payload: String) -> bool {
 
     let read_order = serde_json::from_str(&payload);
     let order_object: Order = match read_order {
-        Ok(order) => {order},
-        Err(error) => { println!("{:?}",error); return false; },
+        Ok(order) => order,
+        Err(error) => { 
+            println!("{:?}", error); 
+            return false; 
+        },
     };
+
     match conn.execute(
         "INSERT INTO sale (date, order_number, expense, fee, earnings, tags)
          VALUES (?1, ?2, ?3, ?4, ?5, ?6)",
         (&order_object.date, &order_object.order_number, &order_object.expense, &order_object.fee, &order_object.earnings, &order_object.tags),
     ) {
         Ok(_) => println!(""),
-        Err(error) => { println!("{:?}",error); return false; },
+        Err(error) => { 
+            println!("{:?}", error); 
+            return false; 
+        },
     }
+
+    for line in &order_object.order_lines {
+        match conn.execute(
+            "INSERT INTO saleline (order_number, sku, quantity)
+             VALUES (?1, ?2, ?3)",
+             (&order_object.order_number, &line.sku, &line.quantity),
+        ) {
+            Ok(_) => println!(""),
+            Err(error) => {
+                println!("{:?}", error);
+                return false;
+            },
+        }
+    }
+
     return true;
 }
 
