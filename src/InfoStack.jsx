@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Paper, Stack } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { invoke } from '@tauri-apps/api/tauri';
-import { setCurrentOrderNumber } from './Store';
+import { setCurrentOrderNumber, setCurrentPurchaseNumber } from './Store';
 import { format_date } from './utils.js';
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -23,6 +23,9 @@ export default function InfoStack() {
         invoke('get_last_order_number')
             .then(last => (last > 0) ? dispatch(setCurrentOrderNumber(last + 1)) : dispatch(setCurrentOrderNumber(1)))
             .catch(err => dispatch(setCurrentOrderNumber("?")));
+        invoke('get_last_purchase_number')
+            .then(last => (last > 0) ? dispatch(setCurrentPurchaseNumber(last + 1)) : dispatch(setCurrentPurchaseNumber(1)))
+            .catch(err => dispatch(setCurrentPurchaseNumber("?")));
     }, []);
 
     return (

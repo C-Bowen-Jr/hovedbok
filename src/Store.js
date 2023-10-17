@@ -10,6 +10,7 @@ const initialState = {
     buyingPresets: jsonFile.buying_presets,
     sellTags: [],
     currentOrderNumber: 1,
+    currentPurchaseNumber: 1,
     isReceiptSelling: true,
     isNewProductWindow: false,
     isPrintPreview: false,
@@ -60,6 +61,11 @@ export const setCurrentOrderNumber = (value) => ({
     payload: value,
 });
 
+export const setCurrentPurchaseNumber = (value) => ({
+    type: 'SET_CURRENT_PURCHASE_NUMBER',
+    payload: value,
+});
+
 export const saveFile = () => ({
     type: 'SAVE_FILE',
     payload: undefined,
@@ -85,6 +91,8 @@ const reducer = (state = initialState, action) => {
                 return {...state, isPrintPreview: action.payload};
         case 'SET_CURRENT_ORDER_NUMBER':
             return {...state, currentOrderNumber: action.payload};
+        case 'SET_CURRENT_PURCHASE_NUMBER':
+            return {...state, currentPurchaseNumber: action.payload};
         case 'SAVE_FILE':
         { 
             var updatedJson = jsonFile;
