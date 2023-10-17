@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Box, TextField, Divider } from '@mui/material';
 import { Button } from '@mui/base/Button';
+import { Box, TextField, Divider } from '@mui/material';
 import { Select, MenuItem } from '@mui/material';
+import InputAdornment from '@mui/material/InputAdornment';
 import { formatCurrency } from './utils.js';
 import { setReceiptList, setReceiptSelling, setBuyingPresets, saveFile } from './Store';
 
@@ -220,6 +221,9 @@ export default function BuyingForm() {
                         onDoubleClick={() => { setCost("") }}
                         onBlur={handleCostBlur}
                         sx={{ width: 1 / 4, margin: "8px 4px" }}
+                        InputProps={cost != "" ? {
+                            startAdornment: <InputAdornment position="start">$</InputAdornment>,
+                          } : {}}
                     />
                     <TextField
                         id="tags"
