@@ -46,10 +46,26 @@ struct OrderLine {
 }
 
 #[derive(Serialize, Deserialize)]
+struct Purchase {
+    date: String,
+    purchase_number: u16,
+    purchase_lines: Vec<OrderLine>,
+}
+
+#[derive(Serialize, Deserialize)]
+struct PurchaseLine {
+     order_number: u16,
+     item: String,
+     quantity: u16,
+     cost: String,
+     tags: String,
+}
+
+#[derive(Serialize, Deserialize)]
 struct Save {
     products: Vec<Product>,
     tag_presets: Vec<Tag>,
-    buying_presets: Vec<Purchase>,
+    buying_presets: Vec<Buys>,
 }
 
 #[derive(Serialize, Deserialize)]
@@ -66,7 +82,7 @@ struct Tag {
 }
 
 #[derive(Serialize, Deserialize)]
-struct Purchase {
+struct Buys {
     quantity: String,
     name: String,
     cost: String,
@@ -136,6 +152,48 @@ fn publish_sale(payload: String) -> bool {
             "INSERT INTO saleline (order_number, sku, quantity)
              VALUES (?1, ?2, ?3)",
              (&order_object.order_number, &line.sku, &line.quantity),
+        ) {
+            Ok(_) => println!(""),
+            Err(error) => {
+                println!("{:?}", error);
+                return false;
+            },
+        }
+    }
+
+    return true;
+}
+
+#[tauri::command]
+fn publish_purchase(payload: String) -> bool {
+    let conn = open_ledger();
+
+    let read_purchase = serde_json::from_str(&payload);
+    let purchase_object: Purchase = match read_purchase {
+        Ok(purchase) => purchase,
+        Err(error) => { 
+            println!("{:?}", error); 
+            return false; 
+        },
+    };
+
+    match conn.execute(
+        "INSERT INTO purchase (date, purchase_number)
+         VALUES (?1, ?2)",
+        (&purchase_object.date, &purchase_object.purchase_number),
+    ) {
+        Ok(_) => println!(""),
+        Err(error) => { 
+            println!("{:?}", error); 
+            return false; 
+        },
+    }
+
+    for line in &purchase_object.purchase_lines {
+        match conn.execute(
+            "INSERT INTO purchaseline (purchase_number, item, quantity, cost, tags)
+             VALUES (?1, ?2, ?3, $4, $5)",
+             (&purchase_object.order_number, &line.sku, &line.quantity),
         ) {
             Ok(_) => println!(""),
             Err(error) => {
