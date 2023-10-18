@@ -49,15 +49,15 @@ struct OrderLine {
 struct Purchase {
     date: String,
     purchase_number: u16,
-    purchase_lines: Vec<OrderLine>,
+    purchase_lines: Vec<PurchaseLine>,
 }
 
 #[derive(Serialize, Deserialize)]
 struct PurchaseLine {
-     order_number: u16,
+     purchase_number: u16,
      item: String,
      quantity: u16,
-     cost: String,
+     expense: String,
      tags: String,
 }
 
@@ -130,7 +130,7 @@ fn publish_sale(payload: String) -> bool {
     let order_object: Order = match read_order {
         Ok(order) => order,
         Err(error) => { 
-            println!("{:?}", error); 
+            println!("Publish Sale: Read Sale data:\n{:?}", error); 
             return false; 
         },
     };
@@ -142,7 +142,7 @@ fn publish_sale(payload: String) -> bool {
     ) {
         Ok(_) => println!(""),
         Err(error) => { 
-            println!("{:?}", error); 
+            println!("Publish Sale: Insert Sale:\n{:?}", error); 
             return false; 
         },
     }
@@ -155,7 +155,7 @@ fn publish_sale(payload: String) -> bool {
         ) {
             Ok(_) => println!(""),
             Err(error) => {
-                println!("{:?}", error);
+                println!("Publish Sale: Insert Sale lines:\n{:?}", error);
                 return false;
             },
         }
@@ -172,7 +172,7 @@ fn publish_purchase(payload: String) -> bool {
     let purchase_object: Purchase = match read_purchase {
         Ok(purchase) => purchase,
         Err(error) => { 
-            println!("{:?}", error); 
+            println!("Publish Purchase: Read Purchase data:\n{:?}", error); 
             return false; 
         },
     };
@@ -184,20 +184,20 @@ fn publish_purchase(payload: String) -> bool {
     ) {
         Ok(_) => println!(""),
         Err(error) => { 
-            println!("{:?}", error); 
+            println!("Publish Purchase: Insert Purchase:\n{:?}", error); 
             return false; 
         },
     }
 
     for line in &purchase_object.purchase_lines {
         match conn.execute(
-            "INSERT INTO purchaseline (purchase_number, item, quantity, cost, tags)
-             VALUES (?1, ?2, ?3, $4, $5)",
-             (&purchase_object.order_number, &line.sku, &line.quantity),
+            "INSERT INTO purchaseline (purchase_number, item, quantity, expense, tags)
+             VALUES (?1, ?2, ?3, ?4, ?5)",
+             (&purchase_object.purchase_number, &line.item, &line.quantity, &line.expense, &line.tags),
         ) {
             Ok(_) => println!(""),
             Err(error) => {
-                println!("{:?}", error);
+                println!("Publish Purchase: Insert Purchase lines:\n{:?}", error);
                 return false;
             },
         }

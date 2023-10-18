@@ -4,8 +4,10 @@ import { Button } from '@mui/base/Button';
 import { Box, TextField, Divider } from '@mui/material';
 import { Select, MenuItem } from '@mui/material';
 import InputAdornment from '@mui/material/InputAdornment';
-import { formatCurrency } from './utils.js';
-import { setReceiptList, setReceiptSelling, setBuyingPresets, saveFile } from './Store';
+import { invoke } from '@tauri-apps/api/tauri';
+import { toast } from 'sonner';
+import { formatCurrency, format_date_db } from './utils.js';
+import { setReceiptList, setReceiptSelling, setBuyingPresets, saveFile, setCurrentPurchaseNumber } from './Store';
 
 
 export default function BuyingForm() {
@@ -14,14 +16,17 @@ export default function BuyingForm() {
     const [name, setName] = useState("");
     const [tags, setTags] = useState("");
     const [cost, setCost] = useState("");
+    const [logSuccess, setLogSuccess] = useState(false);
     const [badQuantity, setBadQuantity] = useState(false);
     const [badName, setBadName] = useState(false);
     const [badCost, setBadCost] = useState(false);
 
+    const currentPurchaseNumber = useSelector((state) => state.currentPurchaseNumber);
     const receiptList = useSelector((state) => state.receiptList);
     const buyingPresets = useSelector((state) => state.buyingPresets);
 
     const dispatch = useDispatch();
+    const todaysDate = new Date();
 
     const handleQuantity = (event) => {
         setQuantity(event.target.value);
@@ -128,7 +133,7 @@ export default function BuyingForm() {
     }
 
     const handleSubmit = () => {
-        handleBuy(name);
+        handleBuy();
     };
 
     const handleSave = () => {
@@ -143,13 +148,45 @@ export default function BuyingForm() {
         dispatch(saveFile());
     };
 
-    const handleBuy = (name) => {
-
+    const handleAdd = () => {
         const updatedList = new Map(receiptList);
         updatedList.set(name, { myProduct: false, quantity: quantity, cost: cost, tags: tags });
         dispatch(setReceiptList(updatedList));
         dispatch(setReceiptSelling(false));
         resetForm();
+    };
+
+    const handleBuy = () => {
+        const purchaseLines = Array.from(receiptList).map(([name, details]) => (
+            {
+                "purchase_number": currentPurchaseNumber,
+                "item": name,
+                "quantity": Number(details.quantity),
+                "expense": details.cost,
+                "tags": details.tags
+            }
+        ));
+
+        const buyObject = {
+            "purchase": {
+                "date": format_date_db(todaysDate),
+                "purchase_number": currentPurchaseNumber,
+                "purchase_lines": purchaseLines
+            }
+        };
+        const res = invoke('publish_purchase', { payload: JSON.stringify(buyObject["purchase"]) });
+        res.then((isSuccessful) => {
+            console.log(res, isSuccessful);
+            (isSuccessful) ? toast.success("Ledger appended") : toast.error("Failed to append");
+        });
+        // Assume true, then return to false if fail. easier this way with inline-if
+        setLogSuccess(true);
+        invoke('get_last_purchase_number')
+            .then(last => (last > 0) ? dispatch(setCurrentPurchaseNumber(last + 1)) : dispatch(setCurrentPurchaseNumber(1)))
+            .catch(err => {
+                dispatch(setCurrentPurchaseNumber("?"));
+                setLogSuccess(false);
+            });
     };
 
     return (
@@ -239,6 +276,12 @@ export default function BuyingForm() {
             <Box sx={{ alignContent: "right", marginTop: "16px", padding: "8px" }}>
                 <Button 
                     disabled={isAnyBadInput()} 
+                    onClick={handleAdd} 
+                    className="btn bold">
+                        Add
+                </Button>
+                <Button 
+                    disabled={receiptList.size > 1} 
                     onClick={handleSubmit} 
                     className="btn bold">
                         Submit
