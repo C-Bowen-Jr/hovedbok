@@ -6,6 +6,7 @@ import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogTitle from '@mui/material/DialogTitle';
 import PackingSlip from './PackingSlip.jsx';
+import { PrintFrame } from './PrintFrame.jsx';
 import { setPrintPreview } from './Store';
 
 export default function PrintDialog() {
@@ -17,7 +18,9 @@ export default function PrintDialog() {
     };
 
     const handlePrint = () => {
-        window.print();
+        const printWindow = document.getElementById("print-frame").contentWindow;
+        printWindow.focus();
+        printWindow.print();
     };
 
     return (
@@ -30,7 +33,9 @@ export default function PrintDialog() {
                 {"Print Packing Slip"}
             </DialogTitle>
 
-            <PackingSlip />
+            <PrintFrame id="print-frame">
+                <h3>Test</h3>
+            </PrintFrame>
 
             <DialogActions>
                 <Button onClick={handleClose}>Close</Button>
