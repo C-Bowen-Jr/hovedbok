@@ -48,6 +48,7 @@ function a11yProps(index) {
 export default function BasicTabs() {
     const [value, setValue] = React.useState(0);
     const receiptList = useSelector((state) => state.receiptList);
+    const currentOrderNumber = useSelector((state) => state.currentOrderNumber);
 
     const dispatch = useDispatch();
 
@@ -107,14 +108,14 @@ export default function BasicTabs() {
                     <Button className="btn bold alert_button">Also Button</Button>
                     <Button className="btn">Another</Button>
                 </div>
-                <PDFViewer>
-                <Document>
-    <Page size="A4">
-      <View>
-        <Text>Section #1</Text>
-      </View>
-    </Page>
-  </Document>
+                <PDFViewer style={{width:600, height: 840}}>
+                    <Document>
+                        <Page height={101} width={152}>
+                            <View>
+                                <Text>{currentOrderNumber}</Text>
+                            </View>
+                        </Page>
+                    </Document>
                 </PDFViewer>
             </CustomTabPanel>
         </Box>
