@@ -1,5 +1,6 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { PDFViewer, Document, Page, View, Text } from '@react-pdf/renderer';
 import PropTypes from 'prop-types';
 import { Box, Divider, Paper, Tab, Tabs } from '@mui/material';
 import { Button } from '@mui/base/Button';
@@ -106,6 +107,15 @@ export default function BasicTabs() {
                     <Button className="btn bold alert_button">Also Button</Button>
                     <Button className="btn">Another</Button>
                 </div>
+                <PDFViewer>
+                <Document>
+    <Page size="A4">
+      <View>
+        <Text>Section #1</Text>
+      </View>
+    </Page>
+  </Document>
+                </PDFViewer>
             </CustomTabPanel>
         </Box>
     );
