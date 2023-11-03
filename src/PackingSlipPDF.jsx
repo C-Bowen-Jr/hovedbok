@@ -23,6 +23,18 @@ const styles = StyleSheet.create({
         padding: 10,
         minHeight: 550,
         border: 1
+    },
+    table_header: {
+        textAlign: "center",
+        backgroundColor: "#aaaaaa",
+        color: "#ffffff",
+        padding: 5
+    },
+    line_item: {
+        padding: 5,
+        margin: 2,
+        border: 2,
+        borderStyle: "dotted"
     }
 
 });
@@ -35,14 +47,21 @@ const LabeledText = props => (
                 {props.children}
             </Text>
         </Text>
-        
+
     </View>
 );
 
 // Create Document Component
 export default function PrintPreview() {
     const currentOrderNumber = useSelector((state) => state.currentOrderNumber);
+    const receiptList = useSelector((state) => state.receiptList);
     const todaysDate = new Date();
+
+    const receiptListPDF = Array.from(receiptList).map(function (item) {
+        return (
+            <Text style={styles.line_item}>{item[1].quantity} x {item[0]}</Text>
+        );
+    });
 
     return (
         <PDFViewer debug={true} style={{ width: 600, height: 860 }}>
@@ -50,7 +69,7 @@ export default function PrintPreview() {
                 <Page height={101} width={152} style={styles.page}>
                     <View style={styles.header}>
                         <View style={styles.head_section}>
-                            <Text style={{ fontFamily: 'Times-Bold', fontSize: 22}}>COMPANY NAME</Text>
+                            <Text style={{ fontFamily: 'Times-Bold', fontSize: 22 }}>COMPANY NAME</Text>
                             <Text>www.company-website.com</Text>
                             <Text style={{ fontSize: 78 }}> </Text>
                             <LabeledText boldText={'Ship From'}></LabeledText>
@@ -70,8 +89,12 @@ export default function PrintPreview() {
                             <Text>City, State 12345</Text>
                         </View>
                     </View>
+
                     <View style={styles.body}>
-                        <Text>Body Section</Text>
+                        <View style={styles.table_header}>
+                            <Text>Order Contents</Text>
+                        </View>
+                        {receiptListPDF}
                     </View>
                 </Page>
             </Document>

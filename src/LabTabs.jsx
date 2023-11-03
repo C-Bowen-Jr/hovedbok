@@ -56,7 +56,7 @@ export default function BasicTabs() {
     const handleChange = (event, newValue) => {
         setValue(newValue);
         const updateState = new Map();
-        dispatch(setReceiptList(updateState));
+        //dispatch(setReceiptList(updateState));
     };
 
     const handleBuy = (name) => {
