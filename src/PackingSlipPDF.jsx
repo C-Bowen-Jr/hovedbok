@@ -59,7 +59,12 @@ export default function PrintPreview() {
 
     const receiptListPDF = Array.from(receiptList).map(function (item) {
         return (
-            <Text style={styles.line_item}>{item[1].quantity} x {item[0]}</Text>
+            <Text style={styles.line_item}>
+                {item[1].quantity} x {item[0]} {item[1].variant}
+                {item[1].variant !== "" && (
+                    <Text>{item[1].variant}</Text>
+                )}
+            </Text>
         );
     });
 

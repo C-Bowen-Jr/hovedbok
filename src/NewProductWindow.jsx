@@ -9,6 +9,7 @@ import { setNewProductWindow, setProductList, saveFile } from './Store';
 export default function NewProductDialog() {
     const [productName, setProductName] = useState("");
     const [productSku, setProductSku] = useState("");
+    const [productVariant, setProductVariant] = useState("");
     const [productFilename, setProductFilename] = useState("./products/");
     const [isBadName, setBadName] = useState(false);
     const [isBadSku, setBadSku] = useState(false);
@@ -40,6 +41,10 @@ export default function NewProductDialog() {
         setProductFilename(productFilename.concat(event.target.files[0].name));
     };
 
+    const handleProductVariant = (event) => {
+        setProductVariant(event.target.value);
+    };
+
     const handleClose = () => {
         dispatch(setNewProductWindow(false));
     };
@@ -49,6 +54,7 @@ export default function NewProductDialog() {
             const newItem = {
                 img: productFilename,
                 title: productName,
+                variant: productVariant,
                 sku: productSku
             };
             dispatch(setProductList([...productList, newItem]));
@@ -93,6 +99,17 @@ export default function NewProductDialog() {
                         error={isBadSku}
                         value={productSku}
                         onChange={handleProductSku}
+                    />
+                    <TextField
+                        margin="dense"
+                        id="new_variant"
+                        label="Product Variant"
+                        placeholder="Leave blank if none"
+                        type="text"
+                        fullWidth
+                        variant="standard"
+                        value={productVariant}
+                        onChange={handleProductVariant}
                     />
                     <TextField
                         disabled

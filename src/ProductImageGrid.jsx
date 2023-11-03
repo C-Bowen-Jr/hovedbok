@@ -19,6 +19,7 @@ export default function ProductImageGrid() {
             myProduct: true,
             sku: item.sku,
             quantity: previousQuantity + 1,
+            variant: item.variant,
             cost: "0.00",
             tags: "",
         });

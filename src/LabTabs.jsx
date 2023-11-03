@@ -59,12 +59,8 @@ export default function BasicTabs() {
         //dispatch(setReceiptList(updateState));
     };
 
-    const handleBuy = (name) => {
-
-        const updatedList = new Map(receiptList);
-        updatedList.set(name, { myProduct: false, quantity: 1, cost: "3.14", tags: "Operations" });
-        dispatch(setReceiptList(updatedList));
-        dispatch(setReceiptSelling(false));
+    const handleTest = () => {
+        console.log(receiptList);
     };
 
     return (
@@ -107,7 +103,7 @@ export default function BasicTabs() {
                 <div>
                     <Button className="btn bold warning_button">Test Button</Button>
                     <Button className="btn bold alert_button">Also Button</Button>
-                    <Button className="btn">Another</Button>
+                    <Button onClick={handleTest} className="btn">Another</Button>
                 </div>
                 <PrintPreview />
             </CustomTabPanel>
