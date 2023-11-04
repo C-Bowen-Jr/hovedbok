@@ -28,13 +28,14 @@ const styles = StyleSheet.create({
         textAlign: "center",
         backgroundColor: "#aaaaaa",
         color: "#ffffff",
-        padding: 5
+        padding: 5,
+        marginBottom: 5
     },
     line_item: {
         padding: 5,
         margin: 2,
-        border: 2,
-        borderStyle: "dotted"
+        border: 1.5,
+        borderStyle: "dashed"
     }
 
 });
@@ -59,12 +60,16 @@ export default function PrintPreview() {
 
     const receiptListPDF = Array.from(receiptList).map(function (item) {
         return (
-            <Text style={styles.line_item}>
-                {item[1].quantity} x {item[0]} {item[1].variant}
+            <View style={styles.line_item}>
+                <Text>
+                    <Text style={{ border: 1, borderColor: "#dddddd"}}>
+                    {item[1].quantity}
+                    </Text> * {item[0]}
+                </Text>
                 {item[1].variant !== "" && (
-                    <Text>{item[1].variant}</Text>
+                    <Text style={{marginLeft: 24, borderTop: 1, borderColor: "#aaaaaa"}}> Variant - {item[1].variant}</Text>
                 )}
-            </Text>
+            </View>
         );
     });
 
