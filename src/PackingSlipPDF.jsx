@@ -64,7 +64,7 @@ export default function PrintPreview() {
                 <Text>
                     <Text style={{ border: 1, borderColor: "#dddddd"}}>
                     {item[1].quantity}
-                    </Text> * {item[0]}
+                    </Text> * {item[1].title}
                 </Text>
                 {item[1].variant !== "" && (
                     <Text style={{marginLeft: 24, borderTop: 1, borderColor: "#aaaaaa"}}> Variant - {item[1].variant}</Text>

@@ -11,13 +11,13 @@ export default function ProductImageGrid() {
 
     const handleProductClicked = (item) => {
         let previousQuantity = 0;
-        if (receiptList.has(item.title)) {
-            previousQuantity = receiptList.get(item.title).quantity;
+        if (receiptList.has(item.sku)) {
+            previousQuantity = receiptList.get(item.sku).quantity;
         }
         
-        receiptList.set(item.title, {
+        receiptList.set(item.sku, {
             myProduct: true,
-            sku: item.sku,
+            title: item.title,
             quantity: previousQuantity + 1,
             variant: item.variant,
             cost: "0.00",

@@ -230,10 +230,10 @@ export default function SellingForm() {
 
     const handleSell = () => {
         const rawTags = Array.from(sellTags, (entry) => entry.label);
-        const orderLines = Array.from(receiptList).map(([name, details]) => (
+        const orderLines = Array.from(receiptList).map(([sku, details]) => (
             {
                 "order_number": currentOrderNumber,
-                "sku": details.sku,
+                "sku": sku,
                 "quantity": details.quantity
             }
         ));

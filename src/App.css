@@ -148,9 +148,3 @@ nav .depricate_menu_spacer {
 .list_box {
   list-style-type: none;
 }
-
-.reciept-group {
-  display: grid;
-  grid-template-coloumns: auto auto;
-  grid-row-gap: 8px;
-}

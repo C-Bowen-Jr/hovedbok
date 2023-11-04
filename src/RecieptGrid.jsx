@@ -68,8 +68,8 @@ export default function RecieptPanel() {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {Array.from(receiptList).map(([name, details]) => (
-                            <StyledTableRow key={name} component={Paper} hover sx={{
+                        {Array.from(receiptList).map(([sku, details]) => (
+                            <StyledTableRow key={sku} component={Paper} hover sx={{
                                 '&:hover': {
                                     boxShadow: "inset 0 0 0 3px green",
                                 },
@@ -77,8 +77,8 @@ export default function RecieptPanel() {
                                 <StyledTableCell align="right" component="th" scope="row">
                                     {details.quantity}
                                 </StyledTableCell>
-                                <StyledTableCell align="left">{name}</StyledTableCell>
-                                <StyledTableCell align="left">{details.sku}</StyledTableCell>
+                                <StyledTableCell align="left">{details.title}</StyledTableCell>
+                                <StyledTableCell align="left">{sku}</StyledTableCell>
                                 <StyledTableCell align="center">
                                     <HighlightOffIcon
                                         sx={{
@@ -88,7 +88,7 @@ export default function RecieptPanel() {
                                                 },
                                             },
                                         }}
-                                        onClick={() => { handleRemoveReceiptItem(name) }}
+                                        onClick={() => { handleRemoveReceiptItem(sku) }}
                                     />
                                 </StyledTableCell>
                             </StyledTableRow>
