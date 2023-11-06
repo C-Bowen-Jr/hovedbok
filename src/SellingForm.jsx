@@ -6,6 +6,7 @@ import InputAdornment from '@mui/material/InputAdornment';
 import TagControls from './TagControls.jsx';
 import TagDisplay from './TagDisplay.jsx';
 import PackingSlip from './PackingSlip.jsx';
+import PrintPreview from './PrintPreview.jsx';
 import { invoke } from '@tauri-apps/api/tauri';
 import { toast } from 'sonner';
 import { formatCurrency, format_date_db } from './utils.js';
@@ -367,7 +368,7 @@ export default function SellingForm() {
                 </div>
             </Box>
             <Box sx={{ alignContent: "right", marginTop: "16px", padding: "8px" }}>
-                <PackingSlip />
+                <PrintPreview />
                 <Button disabled={isAnyBadInput() || logSuccess } onClick={handleSubmit} className="btn bold">Submit</Button>
                 <Button onClick={resetForm} className="btn bold">Cancel</Button>
             </Box>
