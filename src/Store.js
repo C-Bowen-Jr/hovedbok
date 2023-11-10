@@ -8,6 +8,7 @@ const initialState = {
     receiptList: new Map(),
     tagPresets: jsonFile.tag_presets,
     buyingPresets: jsonFile.buying_presets,
+    companyInfo: jsonFile.company_info,
     sellTags: [],
     currentOrderNumber: 1,
     currentPurchaseNumber: 1,

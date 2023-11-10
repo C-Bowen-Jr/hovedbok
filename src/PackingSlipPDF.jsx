@@ -70,6 +70,7 @@ const LabeledText = props => (
 export default function PrintPreview() {
     const currentOrderNumber = useSelector((state) => state.currentOrderNumber);
     const receiptList = useSelector((state) => state.receiptList);
+    const companyInfo = useSelector((state) => state.companyInfo);
     const todaysDate = new Date();
 
     const receiptListPDF = Array.from(receiptList).map(function (item) {
@@ -93,17 +94,17 @@ export default function PrintPreview() {
                 <Page height={101} width={152} style={styles.page}>
                     <View style={styles.header}>
                         <View style={styles.head_section}>
-                            <Text style={{ fontFamily: 'Times-Bold', fontSize: 22 }}>COMPANY NAME</Text>
-                            <Text>www.company-website.com</Text>
+                            <Text style={{ fontFamily: 'Times-Bold', fontSize: 22 }}>{companyInfo["name"]}</Text>
+                            <Text>{companyInfo["url"]}</Text>
                             <View style={styles.head_bottom}>
                             <LabeledText boldText={'Date'}>{format_date(todaysDate)}</LabeledText>
                             <LabeledText boldText={'Order'}>{currentOrderNumber}</LabeledText>
                             <Text> </Text>
                             <LabeledText boldText={'Ship From'}></LabeledText>
-                            <Text>Company Name</Text>
-                            <Text>Address Line 1</Text>
-                            <Text>Address Line 2</Text>
-                            <Text>City, State 12345</Text>
+                            <Text>{companyInfo["name"]}</Text>
+                            <Text>{companyInfo["address"]}</Text>
+                            <Text>{companyInfo["unit"]}</Text>
+                            <Text>{companyInfo["city"]}, {companyInfo["state"]} {companyInfo["zip"]}</Text>
                             </View>
                         </View>
                         <View style={styles.head_section}>

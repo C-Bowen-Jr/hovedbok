@@ -1,4 +1,14 @@
 {
+  "company_info": {
+    "name": "Company Name",
+    "address": "Adress line 1",
+    "unit": "Address line 2",
+    "city": "City",
+    "state": "State",
+    "zip": "12345",
+    "logo": "none",
+    "url": "www.company-website.com"
+  },
   "products": [
     {
       "img": "https://images.unsplash.com/photo-1551782450-a2132b4ba21d",
