@@ -18,6 +18,20 @@ const styles = StyleSheet.create({
         minHeight: 250,
         border: 1
     },
+    head_top: {
+        top: 0
+    },
+    head_bottom: {
+        position: "absolute",
+        margin: 10,
+        bottom: 0
+    },
+    logo_section: {
+        backgroundColor: "#aaaaaa",
+        position: "absolute",
+        height: 130,
+        width: 275
+    },
     body: {
         margin: 10,
         padding: 10,
@@ -81,22 +95,26 @@ export default function PrintPreview() {
                         <View style={styles.head_section}>
                             <Text style={{ fontFamily: 'Times-Bold', fontSize: 22 }}>COMPANY NAME</Text>
                             <Text>www.company-website.com</Text>
-                            <Text style={{ fontSize: 78 }}> </Text>
+                            <View style={styles.head_bottom}>
+                            <LabeledText boldText={'Date'}>{format_date(todaysDate)}</LabeledText>
+                            <LabeledText boldText={'Order'}>{currentOrderNumber}</LabeledText>
+                            <Text> </Text>
                             <LabeledText boldText={'Ship From'}></LabeledText>
                             <Text>Company Name</Text>
                             <Text>Address Line 1</Text>
                             <Text>Address Line 2</Text>
                             <Text>City, State 12345</Text>
+                            </View>
                         </View>
                         <View style={styles.head_section}>
-                            <LabeledText boldText={'Date'}>{format_date(todaysDate)}</LabeledText>
-                            <LabeledText boldText={'Order'}>{currentOrderNumber}</LabeledText>
-                            <Text> </Text>
+                            <View style={styles.logo_section}></View>
+                            <View style={styles.head_bottom}>
                             <LabeledText boldText={'Ship To'}></LabeledText>
                             <Text>Customer Name</Text>
                             <Text>Address Line 1</Text>
                             <Text>Address Line 2</Text>
                             <Text>City, State 12345</Text>
+                            </View>
                         </View>
                     </View>
 
