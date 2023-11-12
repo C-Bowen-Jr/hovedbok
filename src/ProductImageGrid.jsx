@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { ImageList, ImageListItem } from '@mui/material';
+import { ImageList, ImageListItem, Badge } from '@mui/material';
 import { setReceiptList, setReceiptSelling } from './Store';
 
 export default function ProductImageGrid() {
@@ -32,6 +32,7 @@ export default function ProductImageGrid() {
         return (
             <ImageList sx={{ width: 800, height: 560, marginBlock: 0 }} cols={4} rowHeight={200} gap={0}>
                 {productList.map((item) => (
+                    
                     <ImageListItem key={item.img}>
                         <img
                             src={`${item.img}?w=200&h=200&fit=crop&auto=format`}
@@ -40,6 +41,7 @@ export default function ProductImageGrid() {
                             loading="lazy"
                             onClick={() => handleProductClicked(item)}
                         />
+                        <Badge sx={{left: -15, top: -15}} badgeContent={item.quantity} color="primary"></Badge>
                     </ImageListItem>
                 ))}
             </ImageList>
