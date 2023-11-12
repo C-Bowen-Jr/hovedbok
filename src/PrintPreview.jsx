@@ -4,7 +4,7 @@ import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import PackingSlipPDF from './PackingSlipPDF.jsx';
 
-export default function PrintPreview() {
+export default function PrintPreview(props) {
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -42,7 +42,7 @@ export default function PrintPreview() {
         >
           <CloseIcon />
         </IconButton>
-        <PackingSlipPDF />
+        <PackingSlipPDF address={props.address} />
       </Dialog>
     </>
   );

@@ -54,6 +54,10 @@ const styles = StyleSheet.create({
 
 });
 
+function parseAddress(address) {
+    return address.split("\n");
+};
+
 const LabeledText = props => (
     <View style={{ fontFamily: 'Times-Bold' }}>
         <Text>
@@ -67,11 +71,18 @@ const LabeledText = props => (
 );
 
 // Create Document Component
-export default function PrintPreview() {
+export default function PrintPreview(props) {
     const currentOrderNumber = useSelector((state) => state.currentOrderNumber);
     const receiptList = useSelector((state) => state.receiptList);
     const companyInfo = useSelector((state) => state.companyInfo);
     const todaysDate = new Date();
+    const addressLines = parseAddress(props.address);
+
+    const customerAddress = addressLines.map(function (line) {
+        return (
+            <Text>{line}</Text>
+        );
+    });
 
     const receiptListPDF = Array.from(receiptList).map(function (item) {
         return (
@@ -111,10 +122,7 @@ export default function PrintPreview() {
                             <View style={styles.logo_section}></View>
                             <View style={styles.head_bottom}>
                             <LabeledText boldText={'Ship To'}></LabeledText>
-                            <Text>Customer Name</Text>
-                            <Text>Address Line 1</Text>
-                            <Text>Address Line 2</Text>
-                            <Text>City, State 12345</Text>
+                            {customerAddress}
                             </View>
                         </View>
                     </View>
