@@ -72,6 +72,11 @@ export const dropReceiptList = () => ({
     payload: undefined,
 });
 
+export const dropReceiptItem = (value) => ({
+    type: 'DROP_RECEIPT_ITEM',
+    payload: value,
+});
+
 export const saveFile = () => ({
     type: 'SAVE_FILE',
     payload: undefined,
@@ -108,6 +113,13 @@ const reducer = (state = initialState, action) => {
             ))
             const updatedList = new Map();
             return {...state, receiptList: updatedList}
+        }
+        case 'DROP_RECEIPT_ITEM':
+        {
+            state.productList.map((products) => (
+                action.payload == products.sku ? products.quantity += state.receiptList.get(action.payload).quantity : undefined
+            ))
+            return state;
         }
         case 'SAVE_FILE':
         { 

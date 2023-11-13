@@ -10,7 +10,7 @@ import PrintPreview from './PrintPreview.jsx';
 import { invoke } from '@tauri-apps/api/tauri';
 import { toast } from 'sonner';
 import { formatCurrency, format_date_db } from './utils.js';
-import { setSellTags, setCurrentOrderNumber, setReceiptList, setPrintPreview } from './Store';
+import { setSellTags, setCurrentOrderNumber, setReceiptList, setPrintPreview, dropReceiptList } from './Store';
 import { PropaneSharp } from '@mui/icons-material';
 
 
@@ -190,8 +190,7 @@ export default function SellingForm() {
         setAddress("");
         setGiftMessage("");
         setPrintText("Print");
-        const updateState = new Map();
-        dispatch(setReceiptList(updateState));
+        dispatch(dropReceiptList());
         dispatch(setSellTags([]));
         setLogSuccess(false);
         setBadExpense(false);

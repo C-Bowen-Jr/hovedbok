@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { styled, Table, TableBody, TableCell, tableCellClasses } from '@mui/material';
 import { TableContainer, TableHead, TableRow, Paper } from '@mui/material';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
-import { setReceiptList } from './Store';
+import { setReceiptList, dropReceiptItem } from './Store';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -31,14 +31,16 @@ export default function RecieptPanel() {
     const receiptList = useSelector((state) => state.receiptList);
     const isReceiptSelling = useSelector((state) => state.isReceiptSelling);
 
+    const dispatch = useDispatch();
+
     const handleRemoveReceiptItem = (item) => {
+        dispatch(dropReceiptItem(item));
         const newList = new Map(
             [...receiptList].filter(([k, v]) => k != item)
         );
         dispatch(setReceiptList(newList));
     };
 
-    const dispatch = useDispatch();
     if (receiptList.size == 0) {
         return (
             <TableContainer sx={{ maxWidth: 800, paddingBottom: "24px" }}>
