@@ -1,6 +1,7 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { ImageList, ImageListItem, Badge } from '@mui/material';
+import { toast } from 'sonner';
 import { setReceiptList, setReceiptSelling } from './Store';
 
 export default function ProductImageGrid() {
@@ -10,6 +11,11 @@ export default function ProductImageGrid() {
     const dispatch = useDispatch();
 
     const handleProductClicked = (item) => {
+        if (item.quantity === 0) {
+            toast.error("Insufficient product stock");
+            return;
+        }
+        item.quantity -= 1;
         let previousQuantity = 0;
         if (receiptList.has(item.sku)) {
             previousQuantity = receiptList.get(item.sku).quantity;
@@ -41,7 +47,10 @@ export default function ProductImageGrid() {
                             loading="lazy"
                             onClick={() => handleProductClicked(item)}
                         />
-                        <Badge sx={{left: -15, top: -15}} badgeContent={item.quantity} color="primary"></Badge>
+                        <Badge 
+                            sx={{left: -15, top: -15}} 
+                            badgeContent={item.quantity} 
+                            color={item.quantity > 0 ? "primary" : "warning"}></Badge>
                     </ImageListItem>
                 ))}
             </ImageList>

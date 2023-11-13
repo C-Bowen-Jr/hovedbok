@@ -10,7 +10,7 @@ import SellingForm from './SellingForm';
 import RecieptPanel from './RecieptGrid';
 import InfoStack from "./InfoStack";
 import PrintPreview from './PackingSlipPDF';
-import { setReceiptList, setReceiptSelling } from './Store';
+import { dropReceiptList, setReceiptList, setReceiptSelling } from './Store';
 
 
 function CustomTabPanel(props) {
@@ -55,8 +55,7 @@ export default function BasicTabs() {
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
-        const updateState = new Map();
-        //dispatch(setReceiptList(updateState));
+        dispatch(dropReceiptList());
     };
 
     const handleTest = () => {

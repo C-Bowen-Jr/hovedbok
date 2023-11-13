@@ -67,6 +67,11 @@ export const setCurrentPurchaseNumber = (value) => ({
     payload: value,
 });
 
+export const dropReceiptList = () => ({
+    type: 'DROP_RECEIPT_LIST',
+    payload: undefined,
+});
+
 export const saveFile = () => ({
     type: 'SAVE_FILE',
     payload: undefined,
@@ -94,6 +99,16 @@ const reducer = (state = initialState, action) => {
             return {...state, currentOrderNumber: action.payload};
         case 'SET_CURRENT_PURCHASE_NUMBER':
             return {...state, currentPurchaseNumber: action.payload};
+        case 'DROP_RECEIPT_LIST':
+        {
+            Array.from(state.receiptList).map((item) => (
+                state.productList.map((products) => (
+                    item[0] == products.sku ? products.quantity += item[1].quantity : undefined
+                ))
+            ))
+            const updatedList = new Map();
+            return {...state, receiptList: updatedList}
+        }
         case 'SAVE_FILE':
         { 
             var updatedJson = jsonFile;
