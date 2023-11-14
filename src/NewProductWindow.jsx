@@ -95,7 +95,10 @@ export default function NewProductDialog() {
                 img: productFilename,
                 title: productName,
                 variant: productVariant,
-                sku: productSku
+                sku: productSku,
+                quantity: stockQuantity,
+                sold: soldQuantity,
+                release: releaseDate,
             };
             dispatch(setProductList([...productList, newItem]));
             dispatch(saveFile());

@@ -73,6 +73,21 @@ struct Product {
     img: String,
     title: String,
     sku: String,
+    quantity: u16,
+    sold: u16,
+    released: String,
+}
+
+#[derive(Serialize, Deserialize)]
+struct CompanyInfo {
+    name: String,
+    address: String,
+    unit: String,
+    city: String,
+    state: String,
+    zip: String,
+    logo: String,
+    url: String,
 }
 
 #[derive(Serialize, Deserialize)]
