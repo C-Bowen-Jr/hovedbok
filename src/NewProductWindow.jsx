@@ -4,15 +4,21 @@ import { Button, TextField } from '@mui/material';
 import { Dialog, DialogActions, DialogTitle } from '@mui/material';
 import { DialogContent, DialogContentText } from '@mui/material';
 import { listen } from '@tauri-apps/api/event';
+import { format_date } from './utils.js';
 import { setNewProductWindow, setProductList, saveFile } from './Store';
 
 export default function NewProductDialog() {
+    const todaysDate = new Date();
     const [productName, setProductName] = useState("");
     const [productSku, setProductSku] = useState("");
     const [productVariant, setProductVariant] = useState("");
+    const [stockQuantity, setStockQuantity] = useState(0);
+    const [soldQuantity, setSoldQuantity] = useState(0);
+    const [releaseDate, setReleaseDate] = useState(format_date(todaysDate));
     const [productFilename, setProductFilename] = useState("./products/");
     const [isBadName, setBadName] = useState(false);
     const [isBadSku, setBadSku] = useState(false);
+    const [isBadReleaseDate, setBadReleaseDate] = useState(false);
 
     const productList = useSelector((state) => state.productList);
     const isNewProductWindow = useSelector((state) => state.isNewProductWindow);
@@ -45,8 +51,42 @@ export default function NewProductDialog() {
         setProductVariant(event.target.value);
     };
 
+    const handleStockQuantity = (event) => {
+        const value = event.target.value
+        if (!isNaN(value) && !isNaN(parseFloat(value)) && value >= 0) {
+            setStockQuantity(event.target.value);
+        }
+    };
+
+    const handleSoldQuantity = (event) => {
+        const value = event.target.value
+        if (!isNaN(value) && !isNaN(parseFloat(value)) && value >= 0) {
+            setSoldQuantity(event.target.value);
+        }
+    };
+
+    const handleReleaseDate = (event) => {
+        setReleaseDate(event.target.value);
+        if (/^([1-9]|1[012])[- \/.]([1-9]|[12][0-9]|3[01])[- \/.](19|20)\d\d$/.test(event.target.value)) {
+            setBadReleaseDate(false);
+        } else {
+            setBadReleaseDate(true);
+        }
+    };
+
     const handleClose = () => {
         dispatch(setNewProductWindow(false));
+    };
+
+    const isAnyBadInput = () => {
+        // If any required field is failing
+        if(isBadName || isBadSku || isBadReleaseDate) {
+            return true;
+        }
+        if (productName == "" || productSku == "" || productFilename == "./products/") {
+            return true;
+        }
+        return false;
     };
     
     const handleAdd = () => {
@@ -112,6 +152,35 @@ export default function NewProductDialog() {
                         onChange={handleProductVariant}
                     />
                     <TextField
+                        margin="dense"
+                        id="in_stock"
+                        label="Current Stock"
+                        type="number"
+                        variant="standard"
+                        value={stockQuantity}
+                        onChange={handleStockQuantity}
+                    />
+                    <TextField
+                        margin="dense"
+                        id="sold"
+                        label="Sold"
+                        type="number"
+                        variant="standard"
+                        value={soldQuantity}
+                        onChange={handleSoldQuantity}
+                    />
+                    <TextField
+                        margin="dense"
+                        id="release_date"
+                        label="release Date"
+                        type="text"
+                        fullWidth
+                        variant="standard"
+                        value={releaseDate}
+                        error={isBadReleaseDate}
+                        onChange={handleReleaseDate}
+                    />
+                    <TextField
                         disabled
                         margin="dense"
                         id="file_name"
@@ -124,7 +193,10 @@ export default function NewProductDialog() {
                 <input type="file" accept="image/*" onChange={handleProductFilename} />
                 <DialogActions>
                     <Button onClick={handleClose}>Cancel</Button>
-                    <Button sx={{fontWeight: "bold" }} onClick={handleAdd}>Add</Button>
+                    <Button 
+                        sx={{fontWeight: "bold" }} 
+                        onClick={handleAdd}
+                        disabled={isAnyBadInput()}>Add</Button>
                 </DialogActions>
             </Dialog>
         </>
