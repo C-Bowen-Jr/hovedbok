@@ -36,7 +36,7 @@ export default function NewProductDialog() {
 
     const handleProductSku = (event) => {
         setProductSku(event.target.value);
-        if(event.target.value.length > 2 && !event.target.value.includes(" ")) {
+        if (event.target.value.length > 2 && !event.target.value.includes(" ")) {
             setBadSku(false);
         } else {
             setBadSku(true);
@@ -80,7 +80,7 @@ export default function NewProductDialog() {
 
     const isAnyBadInput = () => {
         // If any required field is failing
-        if(isBadName || isBadSku || isBadReleaseDate) {
+        if (isBadName || isBadSku || isBadReleaseDate) {
             return true;
         }
         if (productName == "" || productSku == "" || productFilename == "./products/") {
@@ -88,27 +88,25 @@ export default function NewProductDialog() {
         }
         return false;
     };
-    
+
     const handleAdd = () => {
-        if (productName != "" && !isBadName && productSku != "" && !isBadSku && productFilename != "./products/") {
-            const newItem = {
-                img: productFilename,
-                title: productName,
-                variant: productVariant,
-                sku: productSku,
-                quantity: stockQuantity,
-                sold: soldQuantity,
-                release: releaseDate,
-            };
-            dispatch(setProductList([...productList, newItem]));
-            dispatch(saveFile());
-            dispatch(setNewProductWindow(false));
-        }
+        const newItem = {
+            img: productFilename,
+            title: productName,
+            variant: productVariant,
+            sku: productSku,
+            quantity: stockQuantity,
+            sold: soldQuantity,
+            release: releaseDate,
+        };
+        dispatch(setProductList([...productList, newItem]));
+        dispatch(saveFile());
+        dispatch(setNewProductWindow(false));
     };
 
     useEffect(() => {
         listen("menu-event", (e) => {
-          dispatch(setNewProductWindow(true));
+            dispatch(setNewProductWindow(true));
         })
     }, []);
 
@@ -196,8 +194,8 @@ export default function NewProductDialog() {
                 <input type="file" accept="image/*" onChange={handleProductFilename} />
                 <DialogActions>
                     <Button onClick={handleClose}>Cancel</Button>
-                    <Button 
-                        sx={{fontWeight: "bold" }} 
+                    <Button
+                        sx={{ fontWeight: "bold" }}
                         onClick={handleAdd}
                         disabled={isAnyBadInput()}>Add</Button>
                 </DialogActions>
