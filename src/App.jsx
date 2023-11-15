@@ -7,6 +7,7 @@ import CustomTabPanel from './LabTabs';
 import FileMenu from './FileMenu';
 import AppMenu from './AppMenu';
 import NewProductDialog from './NewProductWindow';
+import CompanyInfoDialog from './CompanyInfoWindow';
 import './App.css';
 import { setProductList } from './Store';
 
@@ -59,6 +60,7 @@ function App() {
                 </Dropdown>
             </nav>
             <NewProductDialog />
+            <CompanyInfoDialog />
             <Toaster richColors/>
             <CustomTabPanel />
             <Box sx={{ height: "32px" }} />

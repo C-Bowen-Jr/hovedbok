@@ -14,6 +14,7 @@ const initialState = {
     currentPurchaseNumber: 1,
     isReceiptSelling: true,
     isNewProductWindow: false,
+    isCompanyInfoWindow: true,
     isPrintPreview: false,
 };
 
@@ -49,6 +50,11 @@ export const setReceiptSelling = (value) => ({
 
 export const setNewProductWindow = (value) => ({
     type: 'SET_NEW_PRODUCT_WINDOW',
+    payload: value,
+});
+
+export const setCompanyInfoWindow = (value) => ({
+    type: 'SET_COMPANY_INFO_WINDOW',
     payload: value,
 });
 
@@ -98,6 +104,8 @@ const reducer = (state = initialState, action) => {
             return {...state, isReceiptSelling: action.payload};
         case 'SET_NEW_PRODUCT_WINDOW':
             return {...state, isNewProductWindow: action.payload};
+        case 'SET_COMPANY_INFO_WINDOW':
+            return {...state, isCompanyInfoWindow: action.payload};
         case 'SET_PRINT_PREVIEW':
                 return {...state, isPrintPreview: action.payload};
         case 'SET_CURRENT_ORDER_NUMBER':
