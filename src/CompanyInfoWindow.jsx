@@ -45,7 +45,7 @@ export default function CompanyInfoDialog() {
     };
 
     const handleCompanyZip = (event) => {
-        if (/^\d+$/.test(event.target.value)) {
+        if (/^\d{0,5}$/.test(event.target.value)) {
             setCompanyZip(event.target.value);
         }
     };
