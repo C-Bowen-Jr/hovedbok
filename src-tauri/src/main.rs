@@ -63,6 +63,7 @@ struct PurchaseLine {
 
 #[derive(Serialize, Deserialize)]
 struct Save {
+    company_info: CompanyInfo,
     products: Vec<Product>,
     tag_presets: Vec<Tag>,
     buying_presets: Vec<Buys>,
@@ -73,6 +74,7 @@ struct Product {
     img: String,
     title: String,
     sku: String,
+    variant: String,
     quantity: u16,
     sold: u16,
     released: String,
