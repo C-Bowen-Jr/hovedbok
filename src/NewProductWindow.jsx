@@ -106,7 +106,9 @@ export default function NewProductDialog() {
 
     useEffect(() => {
         listen("menu-event", (e) => {
-            dispatch(setNewProductWindow(true));
+            if (e.payload == "new-product-window") {
+                dispatch(setNewProductWindow(true));
+            }
         })
     }, []);
 

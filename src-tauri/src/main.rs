@@ -304,6 +304,8 @@ fn main() {
       .add_item(CustomMenuItem::new("newproduct", "New Product").accelerator("cmdOrControl+N"))
       .add_item(CustomMenuItem::new("editproduct", "Edit Product"))
       .add_native_item(MenuItem::Separator)
+      .add_item(CustomMenuItem::new("companyinfo", "Set Company Info"))
+      .add_native_item(MenuItem::Separator)
       .add_native_item(MenuItem::Quit));
     let hovedbok_menu = Submenu::new("Hovedbok", Menu::new()
       .add_item(CustomMenuItem::new("help", "Help"))
@@ -318,6 +320,12 @@ fn main() {
         "newproduct" => {
             let _ = event.window().emit("menu-event", "new-product-event").unwrap();
           }
+        "editproduct" => {
+            let _ = event.window().emit("menu-event", "edit-product-event").unwrap();
+        }
+        "companyinfo" => {
+            let _ = event.window().emit("menu-event", "edit-company-info").unwrap();
+        }
         "quit" => {
           std::process::exit(0);
         }

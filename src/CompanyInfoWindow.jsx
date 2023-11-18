@@ -74,7 +74,9 @@ export default function CompanyInfoDialog() {
 
     useEffect(() => {
         listen("menu-event", (e) => {
-            dispatch(setCompanyInfoWindow(true));
+            if(e.payload == "edit-company-info") {
+                dispatch(setCompanyInfoWindow(true));
+            }
         })
     }, []);
 
