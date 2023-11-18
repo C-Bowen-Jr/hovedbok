@@ -4,17 +4,18 @@ import { Button, TextField } from '@mui/material';
 import { Dialog, DialogActions, DialogTitle } from '@mui/material';
 import { DialogContent, DialogContentText } from '@mui/material';
 import { listen } from '@tauri-apps/api/event';
-import { setCompanyInfoWindow, saveFile } from './Store';
+import { setCompanyInfo, setCompanyInfoWindow, saveFile } from './Store';
 
 export default function CompanyInfoDialog() {
-    const [companyName, setCompanyName] = useState("");
-    const [companyAddress, setCompanyAddress] = useState("");
-    const [companyUnit, setCompanyUnit] = useState("");
-    const [companyCity, setCompanyCity] = useState("");
-    const [companyState, setCompanyState] = useState("");
-    const [companyZip, setCompanyZip] = useState("");
-    const [companyURL, setCompanyURL] = useState("");
-    const [companyLogo, setCompanyLogo] = useState("./products/");
+    const companyInfo = useSelector((state) => state.companyInfo);
+    const [companyName, setCompanyName] = companyInfo["name"] == "Company Name" ? useState("") : useState(companyInfo["name"]);
+    const [companyAddress, setCompanyAddress] = companyInfo["address"] == "Address line 1" ? useState("") : useState(companyInfo["address"]);
+    const [companyUnit, setCompanyUnit] = companyInfo["unit"] == "Address line 2" ? useState("") : useState(companyInfo["unit"]);
+    const [companyCity, setCompanyCity] = companyInfo["city"] == "City" ? useState("") : useState(companyInfo["city"]);
+    const [companyState, setCompanyState] = companyInfo["state"] == "State" ? useState("") : useState(companyInfo["state"]);
+    const [companyZip, setCompanyZip] = companyInfo["zip"] == "12345" ? useState("") : useState(companyInfo["zip"]);
+    const [companyURL, setCompanyURL] = companyInfo["url"] == "www.company-website.com" ? useState("") : useState(companyInfo["url"]);
+    const [companyLogo, setCompanyLogo] = companyInfo["logo"] == "none" ? useState("./products/") : useState(companyInfo["logo"]);
 
     const isCompanyInfoWindow = useSelector((state) => state.isCompanyInfoWindow);
 
@@ -66,9 +67,18 @@ export default function CompanyInfoDialog() {
     };
 
     const handleUpdate = () => {
-        const companyInfo = {};
-        //dispatch(setProductList([...productList, newItem]));
-        //dispatch(saveFile());
+        const newInfo = {
+            name: companyName,
+            address: companyAddress,
+            unit: companyUnit,
+            city: companyCity,
+            state: companyState,
+            zip: companyZip,
+            logo: companyLogo,
+            url: companyURL,
+        };
+        dispatch(setCompanyInfo(newInfo));
+        dispatch(saveFile());
         dispatch(setCompanyInfoWindow(false));
     };
 

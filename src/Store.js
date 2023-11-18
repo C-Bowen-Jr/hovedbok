@@ -38,6 +38,11 @@ export const setBuyingPresets = (value) => ({
     payload: value,
 });
 
+export const setCompanyInfo = (value) => ({
+    type: 'SET_COMPANY_INFO',
+    payload: value,
+});
+
 export const setSellTags = (value) => ({
     type: 'SET_SELL_TAGS',
     payload: value,
@@ -98,6 +103,8 @@ const reducer = (state = initialState, action) => {
             return {...state, tagPresets: action.payload};
         case 'SET_BUYING_PRESETS':
             return {...state, buyingPresets: action.payload};
+        case 'SET_COMPANY_INFO':
+            return {...state, companyInfo: action.payload};
         case 'SET_SELL_TAGS':
             return {...state, sellTags: action.payload};
         case 'SET_RECEIPT_SELLING':
