@@ -14,8 +14,9 @@ const initialState = {
     currentPurchaseNumber: 1,
     isReceiptSelling: true,
     isNewProductWindow: false,
-    isCompanyInfoWindow: true,
+    isCompanyInfoWindow: false,
     isPrintPreview: false,
+    isRestock: true,
 };
 
 export const setProductList = (value) => ({

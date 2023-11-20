@@ -1,18 +1,25 @@
-import React from 'react';
+import React, {useReducer} from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { ImageList, ImageListItem, Badge } from '@mui/material';
+import Fab from '@mui/material/Fab';
+import AddIcon from '@mui/icons-material/Add';
 import { toast } from 'sonner';
-import { setReceiptList, setReceiptSelling } from './Store';
+import { saveFile, setReceiptList, setReceiptSelling } from './Store';
 
 export default function ProductImageGrid() {
     const productList = useSelector((state) => state.productList);
     const receiptList = useSelector((state) => state.receiptList);
+    const isRestock = useSelector((state) => state.isRestock);
 
     const dispatch = useDispatch();
 
     const handleProductClicked = (item) => {
         if (item.quantity === 0) {
             toast.error("Insufficient product stock");
+            return;
+        }
+        if (isRestock) {
+            toast.error("Restock mode active, exit first")
             return;
         }
         item.quantity -= 1;
@@ -34,6 +41,13 @@ export default function ProductImageGrid() {
         dispatch(setReceiptSelling(true));
     };
 
+    const handleAddFor = (item) => {
+         item.quantity += 1;
+         // Other state changes were tried, including this.forceUpdate()
+         const updatedList = new Map();
+         dispatch(setReceiptList(updatedList));
+    };
+
     if (productList.length > 0) {
         return (
             <ImageList sx={{ width: 800, height: 560, marginBlock: 0 }} cols={4} rowHeight={200} gap={0}>
@@ -47,9 +61,18 @@ export default function ProductImageGrid() {
                             loading="lazy"
                             onClick={() => handleProductClicked(item)}
                         />
+                        {isRestock && (<Fab 
+                            sx={{position: "absolute", left: 80, bottom: 50, border: 2, borderColor:"white"}}
+                            size="small" 
+                            color="primary" 
+                            aria-label="add"
+                            onClick={() => handleAddFor(item)}>
+                            <AddIcon />
+                        </Fab>)}
                         <Badge 
-                            sx={{left: -15, top: -15}} 
+                            sx={{left: -20, top: -20}} 
                             badgeContent={item.quantity} 
+                            id={item.sku}
                             color={item.quantity > 0 ? "primary" : "warning"}></Badge>
                     </ImageListItem>
                 ))}
