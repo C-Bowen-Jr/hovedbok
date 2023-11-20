@@ -304,9 +304,9 @@ fn main() {
     
     let file_menu = Submenu::new("File", Menu::new()
       .add_item(CustomMenuItem::new("newproduct", "New Product").accelerator("cmdOrControl+N"))
-      .add_item(CustomMenuItem::new("editproduct", "Edit Product"))
+      .add_item(CustomMenuItem::new("editproduct", "Edit Product").accelerator("cmdOrControl+E"))
       .add_native_item(MenuItem::Separator)
-      .add_item(CustomMenuItem::new("companyinfo", "Set Company Info"))
+      .add_item(CustomMenuItem::new("companyinfo", "Set Company Info").accelerator("cmdOrControl+C"))
       .add_native_item(MenuItem::Separator)
       .add_native_item(MenuItem::Quit));
     let hovedbok_menu = Submenu::new("Hovedbok", Menu::new()
