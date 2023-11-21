@@ -252,17 +252,24 @@ export default function SellingForm() {
         };
         const res = invoke('publish_sale', { payload: JSON.stringify(sellObject["order"]) });
         res.then((isSuccessful) => {
-            console.log(res, isSuccessful);
-            (isSuccessful) ? toast.success("Ledger appended") : toast.error("Failed to append");
-        });
-        // Assume true, then return to false if fail. easier this way with inline-if
-        setLogSuccess(true);
-        invoke('get_last_order_number')
+            if (isSuccessful) {
+                toast.success("Ledger appended")
+                dispatch(saveFile());
+                invoke('get_last_order_number')
             .then(last => (last > 0) ? dispatch(setCurrentOrderNumber(last + 1)) : dispatch(setCurrentOrderNumber(1)))
             .catch(err => {
                 dispatch(setCurrentOrderNumber("?"));
-                setLogSuccess(false);
+                //setLogSuccess(false);
             });
+            }
+            else {
+                toast.error("Failed to append");
+            }
+        });
+        // Defunct, another action on success needed. might as well put everything
+        // Assume true, then return to false if fail. easier this way with inline-if
+        //setLogSuccess(true);
+        
     };
 
     return (

@@ -1,10 +1,11 @@
-import React, {useReducer} from 'react';
+import React, {useReducer, useEffect} from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { ImageList, ImageListItem, Badge } from '@mui/material';
 import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
+import { listen } from '@tauri-apps/api/event';
 import { toast } from 'sonner';
-import { saveFile, setReceiptList, setReceiptSelling } from './Store';
+import { saveFile, setReceiptList, setReceiptSelling, setRestock } from './Store';
 
 export default function ProductImageGrid() {
     const productList = useSelector((state) => state.productList);
@@ -47,6 +48,17 @@ export default function ProductImageGrid() {
          const updatedList = new Map();
          dispatch(setReceiptList(updatedList));
     };
+
+    useEffect(() => {
+        listen("menu-event", (e) => {
+            if (e.payload == "sale-mode") {
+                dispatch(setRestock(false));
+            }
+            else if (e.payload == "restock-mode") {
+                dispatch(setRestock(true));
+            }
+        })
+    }, []);
 
     if (productList.length > 0) {
         return (

@@ -1,10 +1,10 @@
 use std::fs::File;
 use std::io::Write;
 use std::path::Path;
-use tauri::{CustomMenuItem, Menu, MenuItem, Submenu};
+use tauri::{CustomMenuItem, Menu, MenuItem, Submenu, Manager};
 use rusty_money::{Money, iso};
 use rust_decimal::prelude::*;
-use rusqlite::{Connection, params, Result};
+use rusqlite::{Connection};
 use serde::{Deserialize, Serialize};
 // Prevents additional console window on Windows in release, DO NOT REMOVE!!
 #[cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
@@ -305,6 +305,8 @@ fn main() {
     let file_menu = Submenu::new("File", Menu::new()
       .add_item(CustomMenuItem::new("newproduct", "New Product").accelerator("cmdOrControl+N"))
       .add_item(CustomMenuItem::new("editproduct", "Edit Product").accelerator("cmdOrControl+E"))
+      .add_item(CustomMenuItem::new("salemode", "Sale Mode").accelerator("cmdOrControl+S"))
+      .add_item(CustomMenuItem::new("restockmode", "Restock Mode").accelerator("cmdOrControl+R"))
       .add_native_item(MenuItem::Separator)
       .add_item(CustomMenuItem::new("companyinfo", "Set Company Info").accelerator("cmdOrControl+C"))
       .add_native_item(MenuItem::Separator)
@@ -317,6 +319,11 @@ fn main() {
       .add_submenu(hovedbok_menu);
     tauri::Builder::default()
     .menu(menu)
+    .setup(|app| {
+        let main_window = app.get_window("main").unwrap();
+        let _ = main_window.menu_handle().get_item("salemode").set_enabled(false);
+        Ok(())
+    })
     .on_menu_event(|event| {
       match event.menu_item_id() {
         "newproduct" => {
@@ -324,6 +331,16 @@ fn main() {
           }
         "editproduct" => {
             let _ = event.window().emit("menu-event", "edit-product-event").unwrap();
+        }
+        "salemode" => {
+            let _ = event.window().menu_handle().get_item("salemode").set_enabled(false);
+            let _ = event.window().menu_handle().get_item("restockmode").set_enabled(true);
+            let _ = event.window().emit("menu-event", "sale-mode");
+        }
+        "restockmode" => {
+            let _ = event.window().menu_handle().get_item("salemode").set_enabled(true);
+            let _ = event.window().menu_handle().get_item("restockmode").set_enabled(false);
+            let _ = event.window().emit("menu-event", "restock-mode");
         }
         "companyinfo" => {
             let _ = event.window().emit("menu-event", "edit-company-info").unwrap();

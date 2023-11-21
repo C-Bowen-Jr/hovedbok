@@ -16,7 +16,7 @@ const initialState = {
     isNewProductWindow: false,
     isCompanyInfoWindow: false,
     isPrintPreview: false,
-    isRestock: true,
+    isRestock: false,
 };
 
 export const setProductList = (value) => ({
@@ -69,6 +69,11 @@ export const setPrintPreview = (value) => ({
     payload: value,
 });
 
+export const setRestock = (value) => ({
+    type: 'SET_RESTOCK',
+    payload: value,
+});
+
 export const setCurrentOrderNumber = (value) => ({
     type: 'SET_CURRENT_ORDER_NUMBER',
     payload: value,
@@ -115,7 +120,9 @@ const reducer = (state = initialState, action) => {
         case 'SET_COMPANY_INFO_WINDOW':
             return {...state, isCompanyInfoWindow: action.payload};
         case 'SET_PRINT_PREVIEW':
-                return {...state, isPrintPreview: action.payload};
+            return {...state, isPrintPreview: action.payload};
+        case 'SET_RESTOCK':
+            return {...state, isRestock: action.payload};
         case 'SET_CURRENT_ORDER_NUMBER':
             return {...state, currentOrderNumber: action.payload};
         case 'SET_CURRENT_PURCHASE_NUMBER':
