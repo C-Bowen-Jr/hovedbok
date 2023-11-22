@@ -10,7 +10,7 @@ import PrintPreview from './PrintPreview.jsx';
 import { invoke } from '@tauri-apps/api/tauri';
 import { toast } from 'sonner';
 import { formatCurrency, format_date_db } from './utils.js';
-import { setSellTags, setCurrentOrderNumber, setReceiptList, setPrintPreview, dropReceiptList } from './Store';
+import { setSellTags, setCurrentOrderNumber, setProductList, setPrintPreview, dropReceiptList, saveFile } from './Store';
 import { PropaneSharp } from '@mui/icons-material';
 
 
@@ -33,6 +33,7 @@ export default function SellingForm() {
 
     const currentOrderNumber = useSelector((state) => state.currentOrderNumber);
     const receiptList = useSelector((state) => state.receiptList);
+    const productList = useSelector((state) => state.productList);
     const sellTags = useSelector((state) => state.sellTags);
 
     const dispatch = useDispatch();
@@ -254,6 +255,16 @@ export default function SellingForm() {
         res.then((isSuccessful) => {
             if (isSuccessful) {
                 toast.success("Ledger appended")
+                Array.from(receiptList).map(([sku, details]) => (
+                    productList.map((item) => {
+                        if (item.sku == sku) {
+                            item.sold += details.quantity;
+                            item.quantity -+ details.quantity;
+                        }
+                    })
+                ));
+                const updatedList = productList;
+                dispatch(setProductList(updatedList));
                 dispatch(saveFile());
                 invoke('get_last_order_number')
             .then(last => (last > 0) ? dispatch(setCurrentOrderNumber(last + 1)) : dispatch(setCurrentOrderNumber(1)))
