@@ -5,13 +5,11 @@ import { Button } from '@mui/base/Button';
 import InputAdornment from '@mui/material/InputAdornment';
 import TagControls from './TagControls.jsx';
 import TagDisplay from './TagDisplay.jsx';
-import PackingSlip from './PackingSlip.jsx';
 import PrintPreview from './PrintPreview.jsx';
 import { invoke } from '@tauri-apps/api/tauri';
 import { toast } from 'sonner';
 import { formatCurrency, format_date_db } from './utils.js';
 import { setSellTags, setCurrentOrderNumber, setProductList, setPrintPreview, dropReceiptList, saveFile } from './Store';
-import { PropaneSharp } from '@mui/icons-material';
 
 
 
@@ -23,7 +21,6 @@ export default function SellingForm() {
     const [newTag, setNewTag] = useState("");
     const [address, setAddress] = useState("");
     const [giftMessage, setGiftMessage] = useState("");
-    const [printText, setPrintText] = useState("Print");
     const [logSuccess, setLogSuccess] = useState(false);
     const [badExpense, setBadExpense] = useState(false);
     const [badEarnings, setBadEarnings] = useState(false);
@@ -190,7 +187,6 @@ export default function SellingForm() {
         setFee("");
         setAddress("");
         setGiftMessage("");
-        setPrintText("Print");
         dispatch(dropReceiptList());
         dispatch(setSellTags([]));
         setLogSuccess(false);
@@ -203,11 +199,6 @@ export default function SellingForm() {
 
     const handleSubmit = () => {
         handleSell();
-    };
-
-    const handlePrint = () => {
-        dispatch(setPrintPreview(true));
-        setPrintText("Reprint");
     };
 
     /* Example JSON object

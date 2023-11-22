@@ -31,14 +31,6 @@ function App() {
         }
     });
 
-    const newProduct = () => {
-        const newItem = {
-            img: 'https://images.unsplash.com/photo-1551963831-b3b1ca40c98e',
-            title: 'Breakfast',
-        };
-        dispatch(setProductList([...productList, newItem]));
-    }
-
     // TODO: nav display tied to state, tauri = none, browser = display
     return (
         <ThemeProvider theme={theme}>
