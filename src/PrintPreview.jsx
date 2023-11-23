@@ -17,7 +17,7 @@ export default function PrintPreview(props) {
 
   return (
     <>
-      <button className="MuiButton-root btn bold" onClick={handleClickOpen}>
+      <button disabled={props.disabled} className="MuiButton-root btn bold" onClick={handleClickOpen}>
         Print
       </button>
       <Dialog
