@@ -20,6 +20,8 @@ export default function BuyingForm() {
     const [badQuantity, setBadQuantity] = useState(false);
     const [badName, setBadName] = useState(false);
     const [badCost, setBadCost] = useState(false);
+    const [hostingAdded, setHostingAdded] = useState(false);
+    const [payrollAdded, setPayrollAdded] = useState(false);
 
     const currentPurchaseNumber = useSelector((state) => state.currentPurchaseNumber);
     const receiptList = useSelector((state) => state.receiptList);
@@ -110,9 +112,31 @@ export default function BuyingForm() {
         return true;
     };
 
+    const handleHosting = () => {
+        buyingPresets.forEach((details) => {
+            console.log(details.name);
+            if (details.name.toLowerCase() == "hosting" || details.tags.toLowerCase() == "hosting" ) {
+                rawAdd(details.name, details.quantity, details.cost, details.tags);
+            }
+        });
+        setHostingAdded(true);
+    }
+
+    const handlePayroll = () => {
+        buyingPresets.forEach((details) => {
+            console.log(details.name);
+            if (details.name.toLowerCase() == "payroll" || details.tags.toLowerCase() == "payroll" ) {
+                rawAdd(details.name, details.quantity, details.cost, details.tags);
+            }
+        });
+        setPayrollAdded(true);
+    }
+
     const isNewPreset = () => {
-        console.log("TODO BuyingForm.isNewPreset");
-        return true;
+        if (buyingPresets.some(check => check.name != name && check.quantity != quantity && check.cost != cost && check.tags != tags)) {
+            return true;
+        }
+        return false;
     }
 
     const handlePreset = (event) => {
@@ -130,6 +154,8 @@ export default function BuyingForm() {
         setBadQuantity(false);
         setBadName(false);
         setBadCost(false);
+        setHostingAdded(false);
+        setPayrollAdded(false);
     }
 
     const handleSubmit = () => {
@@ -148,11 +174,18 @@ export default function BuyingForm() {
         dispatch(saveFile());
     };
 
-    const handleAdd = () => {
+    const rawAdd = (name, quantity, cost, tags) => {
         const updatedList = new Map(receiptList);
         updatedList.set(name, { myProduct: false, quantity: quantity, cost: cost, tags: tags });
         dispatch(setReceiptList(updatedList));
         dispatch(setReceiptSelling(false));
+    }
+    const handleAdd = () => {
+        //const updatedList = new Map(receiptList);
+        //updatedList.set(name, { myProduct: false, quantity: quantity, cost: cost, tags: tags });
+        //dispatch(setReceiptList(updatedList));
+        //dispatch(setReceiptSelling(false));
+        rawAdd(name, quantity, cost, tags);
         resetForm();
     };
 
@@ -210,13 +243,15 @@ export default function BuyingForm() {
                 </Select>
 
                 <Button 
-                    disabled={isHostingMissing()} 
-                    className="btn bold">
+                    disabled={isHostingMissing() || hostingAdded} 
+                    className="btn bold"
+                    onClick={handleHosting}>
                         Hosting
                 </Button>
                 <Button 
-                    disabled={isPayrollMissing()} 
-                    className="btn bold">
+                    disabled={isPayrollMissing() || payrollAdded} 
+                    className="btn bold"
+                    onClick={handlePayroll}>
                         Payroll
                 </Button>
             </Box>
