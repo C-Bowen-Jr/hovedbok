@@ -156,6 +156,8 @@ export default function BuyingForm() {
         setBadCost(false);
         setHostingAdded(false);
         setPayrollAdded(false);
+        const updatedList = new Map();
+        dispatch(setReceiptList(updatedList));
     }
 
     const handleSubmit = () => {
@@ -316,7 +318,7 @@ export default function BuyingForm() {
                         Add
                 </Button>
                 <Button 
-                    disabled={receiptList.size > 1} 
+                    disabled={(receiptList.size === 0)} 
                     onClick={handleSubmit} 
                     className="btn bold">
                         Submit
