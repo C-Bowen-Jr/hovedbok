@@ -9,7 +9,7 @@ import PrintPreview from './PrintPreview.jsx';
 import { invoke } from '@tauri-apps/api/tauri';
 import { toast } from 'sonner';
 import { formatCurrency, format_date_db } from './utils.js';
-import { setSellTags, setCurrentOrderNumber, setProductList, setPrintPreview, dropReceiptList, saveFile } from './Store';
+import { setSellTags, setCurrentOrderNumber, setProductList, setPrintPreview, dropReceiptList, saveFile, setReceiptList } from './Store';
 
 
 
@@ -180,14 +180,12 @@ export default function SellingForm() {
         return total;
     };
 
-    const resetForm = () => {
-        console.log("reset found");
+    const generalReset = () => {
         setExpense("");
         setEarnings("");
         setFee("");
         setAddress("");
         setGiftMessage("");
-        dispatch(dropReceiptList());
         dispatch(setSellTags([]));
         setLogSuccess(false);
         setBadExpense(false);
@@ -195,6 +193,17 @@ export default function SellingForm() {
         setBadFee(false);
         setIsAutoFee(true);
         setBadAddress(false);
+    };
+    const clearForm = () => {
+        generalReset();
+        // Empty receiptList and keep stock removed
+        const updatedList = new Map();
+        dispatch(setReceiptList(updatedList));
+    }
+    const resetForm = () => {
+        generalReset();
+        // Empty receiptList and return stock
+        dispatch(dropReceiptList());
     }
 
     const handleSubmit = () => {
@@ -383,7 +392,7 @@ export default function SellingForm() {
                 <Button disabled={isAnyBadInput()} onClick={handleSubmit} className="btn bold">Submit</Button>
                 }
                 {logSuccess &&
-                <Button onClick={resetForm} className="btn bold">Clear</Button>
+                <Button onClick={clearForm} className="btn bold">Clear</Button>
                 }
                 <Button onClick={resetForm} className="btn bold">Cancel</Button>
             </Box>
