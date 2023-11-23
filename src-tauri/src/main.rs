@@ -115,7 +115,7 @@ fn update_save_file(payload: String) -> bool {
         Err(error) => { println!("{:?}",error); return false; },
       };
       
-      let mut save_file = File::create("data.json").expect("Couldn't override data.json");
+      let mut save_file = File::create("resource/data.json").expect("Couldn't override data.json");
       let save_text = serde_json::to_string_pretty(&save_object).expect("Coudn't unwrap JSON save object");
       save_file.write(&save_text.as_bytes()).expect("Couldn't write data");
       return true;

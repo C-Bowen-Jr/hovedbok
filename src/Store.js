@@ -1,7 +1,12 @@
 import { createStore } from 'redux';
 import { invoke } from '@tauri-apps/api/tauri';
 import { toast } from 'sonner';
-import jsonFile from './data.json';
+//import jsonFile from './data.json';
+import { resolveResource } from '@tauri-apps/api/path';
+import { readTextFile } from '@tauri-apps/api/fs';
+
+const resourcePath = await resolveResource('resource/data.json');
+const jsonFile = JSON.parse(await readTextFile(resourcePath));
 
 const initialState = {
     productList: jsonFile.products,

@@ -53,6 +53,7 @@ export default function ProductImageGrid() {
         listen("menu-event", (e) => {
             if (e.payload == "sale-mode") {
                 dispatch(setRestock(false));
+                dispatch(saveFile());
             }
             else if (e.payload == "restock-mode") {
                 dispatch(setRestock(true));
