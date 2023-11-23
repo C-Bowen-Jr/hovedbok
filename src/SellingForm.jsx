@@ -245,7 +245,7 @@ export default function SellingForm() {
         const res = invoke('publish_sale', { payload: JSON.stringify(sellObject["order"]) });
         res.then((isSuccessful) => {
             if (isSuccessful) {
-                toast.success("Ledger appended")
+                toast.success("Ledger appended");
                 Array.from(receiptList).map(([sku, details]) => (
                     productList.map((item) => {
                         if (item.sku == sku) {
@@ -257,6 +257,7 @@ export default function SellingForm() {
                 const updatedList = productList;
                 dispatch(setProductList(updatedList));
                 dispatch(saveFile());
+                setLogSuccess(true);
                 invoke('get_last_order_number')
             .then(last => (last > 0) ? dispatch(setCurrentOrderNumber(last + 1)) : dispatch(setCurrentOrderNumber(1)))
             .catch(err => {
@@ -377,8 +378,13 @@ export default function SellingForm() {
                 </div>
             </Box>
             <Box sx={{ alignContent: "right", marginTop: "16px", padding: "8px" }}>
-                <PrintPreview address={address}/>
-                <Button disabled={isAnyBadInput() || logSuccess } onClick={handleSubmit} className="btn bold">Submit</Button>
+                <PrintPreview disabled={isAnyBadInput()} address={address}/>
+                {!logSuccess &&
+                <Button disabled={isAnyBadInput()} onClick={handleSubmit} className="btn bold">Submit</Button>
+                }
+                {logSuccess &&
+                <Button onClick={resetForm} className="btn bold">Clear</Button>
+                }
                 <Button onClick={resetForm} className="btn bold">Cancel</Button>
             </Box>
         </>
