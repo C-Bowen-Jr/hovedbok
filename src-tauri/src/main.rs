@@ -248,12 +248,12 @@ fn get_last_purchase_number() -> i32 {
 }
 
 fn open_ledger() -> Connection {
-    let ledger_database = "resource/ledger.db";
+    let ledger_database = "ledger.db";
     Connection::open(&ledger_database).expect("Couldn't connect to database")
 }
 
 fn main() {
-    let ledger_database = "resource/ledger.db";
+    let ledger_database = "ledger.db";
     let ledger_path = Path::new(&ledger_database);
     if !ledger_path.exists() {
         let conn = open_ledger();
