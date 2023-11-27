@@ -30,7 +30,7 @@ export default function CompanyInfoDialog() {
     };
 
     const handleCompanyLogo = (event) => {
-        setCompanyLogo(companyLogo.concat(event.target.files[0].name));
+        setCompanyLogo("./resource/".concat(event.target.files[0].name));
     };
 
     const handleCompanyUnit = (event) => {
@@ -60,7 +60,7 @@ export default function CompanyInfoDialog() {
     };
 
     const isAnyBadInput = () => {
-        if (companyName == "" || companyAddress == "" || companyLogo == "./products/") {
+        if (companyName == "" || companyAddress == "" || companyLogo == "./resource/") {
             return true;
         }
         return false;

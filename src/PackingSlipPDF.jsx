@@ -1,7 +1,25 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { PDFViewer, Document, Page, Text, View, StyleSheet } from '@react-pdf/renderer';
+import { PDFViewer, Document, Page, Text, View, Image, StyleSheet } from '@react-pdf/renderer';
 import { format_date } from './utils.js';
+import { resolveResource } from '@tauri-apps/api/path';
+import { readBinaryFile } from '@tauri-apps/api/fs';
+
+//const resourcePath = await resolveResource('resource/long_logo.png');
+//const binaryLogo = await readBinaryFile(resourcePath);
+//const Logo =  Buffer.from(binaryLogo).toString('base64');
+
+//const LogoPath = await resolveResource('resource/square_logo.png');
+//const LogoBinary = await readBinaryFile(LogoPath);
+//const LogoB64 = String.fromCodePoint(...LogoBinary);
+//const Logo = "data:image/png;base64," + btoa(LogoB64).toString('base64');
+
+async function Logo(path) {
+    const logoPath = await resolveResource(path);
+    const logoBinary = await readBinaryFile(logoPath);
+    const logoB64 = String.fromCodePoint(...logoBinary);
+    return "data:image/png;base64," + btoa(logoB64).toString('base64');
+}
 
 // Create styles
 const styles = StyleSheet.create({
@@ -15,8 +33,7 @@ const styles = StyleSheet.create({
         margin: 10,
         padding: 10,
         width: 280,
-        minHeight: 250,
-        border: 1
+        minHeight: 250
     },
     head_top: {
         top: 0
@@ -27,8 +44,8 @@ const styles = StyleSheet.create({
         bottom: 0
     },
     logo_section: {
-        backgroundColor: "#aaaaaa",
         position: "absolute",
+        margin: "auto",
         height: 130,
         width: 275
     },
@@ -40,7 +57,7 @@ const styles = StyleSheet.create({
     },
     table_header: {
         textAlign: "center",
-        backgroundColor: "#aaaaaa",
+        backgroundColor: "#999999",
         color: "#ffffff",
         padding: 5,
         marginBottom: 5
@@ -50,6 +67,11 @@ const styles = StyleSheet.create({
         margin: 2,
         border: 1.5,
         borderStyle: "dashed"
+    },
+    logo: {
+        objectFit: "contain",
+        objectPosition: "50% 50%",
+        border: 1
     }
 
 });
@@ -93,14 +115,14 @@ export default function PrintPreview(props) {
                     </Text> * {item[1].title}
                 </Text>
                 {item[1].variant !== "" && (
-                    <Text style={{marginLeft: 24, borderTop: 1, borderColor: "#aaaaaa"}}> Variant - {item[1].variant}</Text>
+                    <Text style={{marginLeft: 24, borderTop: 1, borderColor: "#dddddd"}}> Variant - {item[1].variant}</Text>
                 )}
             </View>
         );
     });
 
     return (
-        <PDFViewer debug={true} style={{ width: 600, height: 860 }}>
+        <PDFViewer style={{ width: 600, height: 860 }}>
             <Document>
                 <Page height={101} width={152} style={styles.page}>
                     <View style={styles.header}>
@@ -119,7 +141,9 @@ export default function PrintPreview(props) {
                             </View>
                         </View>
                         <View style={styles.head_section}>
-                            <View style={styles.logo_section}></View>
+                            <View style={styles.logo_section}>
+                                <Image style={styles.logo} src={Logo(companyInfo['logo'])} />
+                            </View>
                             <View style={styles.head_bottom}>
                             <LabeledText boldText={'Ship To'}></LabeledText>
                             {customerAddress}
