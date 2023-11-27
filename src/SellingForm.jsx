@@ -9,7 +9,7 @@ import PrintPreview from './PrintPreview.jsx';
 import { invoke } from '@tauri-apps/api/tauri';
 import { toast } from 'sonner';
 import { formatCurrency, format_date_db } from './utils.js';
-import { setSellTags, setCurrentOrderNumber, setProductList, setPrintPreview, dropReceiptList, saveFile, setReceiptList } from './Store';
+import { setSellTags, setCurrentOrderNumber, setProductList, dropReceiptList, saveFile, setReceiptList } from './Store';
 
 
 
@@ -18,7 +18,6 @@ export default function SellingForm() {
     const [expense, setExpense] = useState("");
     const [earnings, setEarnings] = useState("");
     const [fee, setFee] = useState("");
-    const [newTag, setNewTag] = useState("");
     const [address, setAddress] = useState("");
     const [giftMessage, setGiftMessage] = useState("");
     const [logSuccess, setLogSuccess] = useState(false);
@@ -399,13 +398,3 @@ export default function SellingForm() {
         </>
     );
 }
-
-// Ship to
-// Expense
-// Earnings
-// Fee
-// [etsy] [paypal]
-// Tags
-// Tag [add tag]
-// Gift Message
-// [submit] [clear]

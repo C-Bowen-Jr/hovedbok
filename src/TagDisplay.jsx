@@ -5,7 +5,7 @@ import Chip from '@mui/material/Chip';
 import Paper from '@mui/material/Paper';
 import OutlinedTagIcon from '@mui/icons-material/LocalOfferOutlined';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
-import { setSellTags, setTagPresets } from './Store';
+import { setSellTags } from './Store';
 
 const ListItem = styled('li')(({ theme }) => ({
     margin: theme.spacing(0.5),

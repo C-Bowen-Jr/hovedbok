@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Button, Dialog, DialogTitle } from '@mui/material';
+import { Dialog, DialogTitle } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import PackingSlipPDF from './PackingSlipPDF.jsx';

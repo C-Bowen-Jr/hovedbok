@@ -1,16 +1,13 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { PDFViewer, Document, Page, View, Text } from '@react-pdf/renderer';
 import PropTypes from 'prop-types';
 import { Box, Divider, Paper, Tab, Tabs } from '@mui/material';
-import { Button } from '@mui/base/Button';
 import ProductImageGrid from './ProductImageGrid';
 import BuyingForm from './BuyingForm';
 import SellingForm from './SellingForm';
 import RecieptPanel from './RecieptGrid';
 import InfoStack from "./InfoStack";
-import PrintPreview from './PackingSlipPDF';
-import { dropReceiptList, setReceiptList, setReceiptSelling } from './Store';
+import { dropReceiptList } from './Store';
 
 
 function CustomTabPanel(props) {
@@ -68,7 +65,6 @@ export default function BasicTabs() {
                 <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
                     <Tab label="Selling" {...a11yProps(0)} />
                     <Tab label="Buying" {...a11yProps(1)} />
-                    <Tab label="Playground" {...a11yProps(2)} />
                     <Divider orientation="vertical" flexItem />
                     <InfoStack />
                 </Tabs>
@@ -93,18 +89,6 @@ export default function BasicTabs() {
                     </Paper>
                     <RecieptPanel />
                 </div>
-            </CustomTabPanel>
-            <CustomTabPanel value={value} index={2}>
-                <div>
-                    <Button className="btn bold primary_button">Test Button</Button>
-                    <Button className="btn secondary_button">Also Button</Button>
-                </div>
-                <div>
-                    <Button className="btn bold warning_button">Test Button</Button>
-                    <Button className="btn bold alert_button">Also Button</Button>
-                    <Button onClick={handleTest} className="btn">Another</Button>
-                </div>
-                <PrintPreview />
             </CustomTabPanel>
         </Box>
     );
