@@ -8,7 +8,7 @@ import './App.css';
 
 function App() {
 
-    const VERSION = "0.0.28";
+    //const VERSION = "0.0.72";
 
     const theme = createTheme({
         palette: {

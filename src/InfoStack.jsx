@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Paper, Stack } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { invoke } from '@tauri-apps/api/tauri';
+import { getVersion } from '@tauri-apps/api/app';
 import { setCurrentOrderNumber, setCurrentPurchaseNumber } from './Store';
 import { format_date } from './utils.js';
 
@@ -12,6 +13,8 @@ const Item = styled(Paper)(({ theme }) => ({
     textAlign: 'center',
     color: theme.palette.text.secondary,
 }));
+
+const versionNumber = await getVersion();
 
 export default function InfoStack() {
     const todaysDate = new Date();
@@ -33,6 +36,7 @@ export default function InfoStack() {
             <Stack direction="row" spacing={1}>
                 <Item>{ format_date(todaysDate) }</Item>
                 <Item>Order: {currentOrderNumber}</Item>
+                <Item>Version: {versionNumber} </Item>
             </Stack>
         </div>
     );
