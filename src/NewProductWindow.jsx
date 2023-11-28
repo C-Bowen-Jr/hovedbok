@@ -97,7 +97,7 @@ export default function NewProductDialog() {
             sku: productSku,
             quantity: stockQuantity,
             sold: soldQuantity,
-            release: releaseDate,
+            released: releaseDate,
         };
         dispatch(setProductList([...productList, newItem]));
         dispatch(saveFile());

@@ -175,13 +175,13 @@ const reducer = (state = initialState, action) => {
         }
         case 'SAVE_FILE':
         { 
-            console.log("before: ", jsonFile["products"]);
             var updatedJson = jsonFile;
             updatedJson["products"] = state.productList;
             updatedJson["tag_presets"] = state.tagPresets;
             updatedJson["buying_presets"] = state.buyingPresets;
             updatedJson["company_info"] = state.companyInfo;
             const res = invoke('update_save_file', {payload: JSON.stringify(updatedJson)});
+            console.log(res);
             toast.promise(res, {
                 loading: 'Saving...',
                 success: 'Save Succesful',

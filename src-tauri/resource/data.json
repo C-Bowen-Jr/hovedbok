@@ -1,13 +1,13 @@
 {
   "company_info": {
-    "name": "Chimeran Art",
-    "address": "6 Laurel Ln",
-    "unit": "",
-    "city": "Plymouth Meeting",
-    "state": "PA",
-    "zip": "19462",
-    "logo": "./products/MHStyle_ManedWolf.png",
-    "url": "www.ChimeranArt.com"
+    "name": "Company Name",
+    "address": "Address line 1",
+    "unit": "Address line 2",
+    "city": "City",
+    "state": "State",
+    "zip": "12345",
+    "logo": "none",
+    "url": "www.company-website.com"
   },
   "products": [
     {
@@ -16,23 +16,10 @@
       "sku": "BURGER",
       "variant": "Test",
       "quantity": 2,
-      "sold": 2,
+      "sold": 0,
       "released": "12/30/2022"
     }
   ],
-  "tag_presets": [
-    {
-      "key": "Test",
-      "label": "Test"
-    }
-  ],
-  "buying_presets": [
-    {
-      "quantity": "1",
-      "name": "BigCartel",
-      "cost": "9.99",
-      "tags": "Hosting",
-      "includes": "[#$🧾🏷]"
-    }
-  ]
+  "tag_presets": [],
+  "buying_presets": []
 }

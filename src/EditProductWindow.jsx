@@ -100,9 +100,9 @@ export default function EditProductDialog() {
             title: productName,
             variant: productVariant,
             sku: productSku,
-            quantity: stockQuantity,
-            sold: soldQuantity,
-            release: releaseDate,
+            quantity: Number(stockQuantity),
+            sold: Number(soldQuantity),
+            released: releaseDate,
         }];
         const updatedList = productList.map(prods => newItem.find(newProd => newProd.sku == prods.sku) || prods);
         //dispatch(setProductList([...productList, newItem]));
@@ -122,7 +122,7 @@ export default function EditProductDialog() {
                 setProductFilename(oldProduct[0].img);
                 setStockQuantity(oldProduct[0].quantity);
                 setSoldQuantity(oldProduct[0].sold);
-                setReleaseDate(oldProduct[0].release);
+                setReleaseDate(oldProduct[0].released);
                 dispatch(setEditProductWindow(true));
             }
         }
