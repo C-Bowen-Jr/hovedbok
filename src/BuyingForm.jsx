@@ -266,7 +266,7 @@ export default function BuyingForm() {
                         label="Quantity"
                         autoComplete="off"
                         type="text"
-                        value={quantity}
+                        value={quantity ?? ''}
                         onChange={handleQuantity}
                         error={badQuantity}
                         onDoubleClick={() => { setQuantity("") }}
