@@ -3,14 +3,16 @@ import { useSelector, useDispatch } from 'react-redux';
 import { ImageList, ImageListItem, Badge } from '@mui/material';
 import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
+import EditIcon from '@mui/icons-material/EditNote';
 import { listen } from '@tauri-apps/api/event';
 import { toast } from 'sonner';
-import { saveFile, setReceiptList, setReceiptSelling, setRestock } from './Store';
+import { editSku, saveFile, setReceiptList, setReceiptSelling, setRestock, setEditing } from './Store';
 
 export default function ProductImageGrid() {
     const productList = useSelector((state) => state.productList);
     const receiptList = useSelector((state) => state.receiptList);
     const isRestock = useSelector((state) => state.isRestock);
+    const isEditing = useSelector((state) => state.isEditing);
 
     const dispatch = useDispatch();
 
@@ -49,14 +51,25 @@ export default function ProductImageGrid() {
          dispatch(setReceiptList(updatedList));
     };
 
+    const handleEditFor = (item) => {
+        dispatch(editSku(item.sku));
+    };
+
     useEffect(() => {
         listen("menu-event", (e) => {
             if (e.payload == "sale-mode") {
                 dispatch(setRestock(false));
+                dispatch(setEditing(false));
                 dispatch(saveFile());
             }
             else if (e.payload == "restock-mode") {
+                dispatch(setEditing(false));
                 dispatch(setRestock(true));
+            }
+            else if (e.payload == "edit-product-mode") {
+                dispatch(editSku(undefined));
+                dispatch(setRestock(false));
+                dispatch(setEditing(true));
             }
         })
     }, []);
@@ -81,6 +94,14 @@ export default function ProductImageGrid() {
                             aria-label="add"
                             onClick={() => handleAddFor(item)}>
                             <AddIcon />
+                        </Fab>)}
+                        {isEditing && (<Fab 
+                            sx={{position: "absolute", left: 80, bottom: 50, border: 2, borderColor:"white"}}
+                            size="small" 
+                            color="secondary" 
+                            aria-label="edit"
+                            onClick={() => handleEditFor(item)}>
+                            <EditIcon />
                         </Fab>)}
                         <Badge 
                             sx={{left: -20, top: -20}} 

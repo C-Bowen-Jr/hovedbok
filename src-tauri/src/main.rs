@@ -304,7 +304,8 @@ fn main() {
     
     let file_menu = Submenu::new("File", Menu::new()
       .add_item(CustomMenuItem::new("newproduct", "New Product").accelerator("cmdOrControl+N"))
-      .add_item(CustomMenuItem::new("editproduct", "Edit Product").accelerator("cmdOrControl+E"))
+      .add_native_item(MenuItem::Separator)
+      .add_item(CustomMenuItem::new("editproductmode", "Edit Product Mode").accelerator("cmdOrControl+E"))
       .add_item(CustomMenuItem::new("salemode", "Sale Mode").accelerator("cmdOrControl+S"))
       .add_item(CustomMenuItem::new("restockmode", "Restock Mode").accelerator("cmdOrControl+R"))
       .add_native_item(MenuItem::Separator)
@@ -329,17 +330,22 @@ fn main() {
         "newproduct" => {
             let _ = event.window().emit("menu-event", "new-product-event").unwrap();
           }
-        "editproduct" => {
-            let _ = event.window().emit("menu-event", "edit-product-event").unwrap();
+        "editproductmode" => {
+            let _ = event.window().menu_handle().get_item("salemode").set_enabled(true);
+            let _ = event.window().menu_handle().get_item("restockmode").set_enabled(true);
+            let _ = event.window().menu_handle().get_item("editproductmode").set_enabled(false);
+            let _ = event.window().emit("menu-event", "edit-product-mode").unwrap();
         }
         "salemode" => {
             let _ = event.window().menu_handle().get_item("salemode").set_enabled(false);
             let _ = event.window().menu_handle().get_item("restockmode").set_enabled(true);
+            let _ = event.window().menu_handle().get_item("editproductmode").set_enabled(true);
             let _ = event.window().emit("menu-event", "sale-mode");
         }
         "restockmode" => {
             let _ = event.window().menu_handle().get_item("salemode").set_enabled(true);
             let _ = event.window().menu_handle().get_item("restockmode").set_enabled(false);
+            let _ = event.window().menu_handle().get_item("editproductmode").set_enabled(true);
             let _ = event.window().emit("menu-event", "restock-mode");
         }
         "companyinfo" => {

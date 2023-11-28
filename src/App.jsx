@@ -3,13 +3,11 @@ import Box from '@mui/material/Box';
 import { Toaster } from 'sonner';
 import CustomTabPanel from './LabTabs';
 import NewProductDialog from './NewProductWindow';
+import EditProductDialog from './EditProductWindow';
 import CompanyInfoDialog from './CompanyInfoWindow';
 import './App.css';
 
 function App() {
-
-    //const VERSION = "0.0.72";
-
     const theme = createTheme({
         palette: {
             primary: {
@@ -26,6 +24,7 @@ function App() {
     return (
         <ThemeProvider theme={theme}>
             <NewProductDialog />
+            <EditProductDialog />
             <CompanyInfoDialog />
             <Toaster richColors/>
             <CustomTabPanel />

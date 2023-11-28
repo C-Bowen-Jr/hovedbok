@@ -7,7 +7,7 @@
   },
   "package": {
     "productName": "Hovedbok",
-    "version": "0.1.72"
+    "version": "0.1.73"
   },
   "tauri": {
     "allowlist": {

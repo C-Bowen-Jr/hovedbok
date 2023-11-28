@@ -17,12 +17,20 @@ const initialState = {
     sellTags: [],
     currentOrderNumber: 1,
     currentPurchaseNumber: 1,
+    editSku: undefined,
     isReceiptSelling: true,
     isNewProductWindow: false,
+    isEditProductWindow: false,
     isCompanyInfoWindow: false,
     isPrintPreview: false,
     isRestock: false,
+    isEditing: false,
 };
+
+export const editSku = (value) => ({
+    type: 'EDIT_SKU',
+    payload: value,
+});
 
 export const setProductList = (value) => ({
     type: 'SET_PRODUCT_LIST',
@@ -64,6 +72,11 @@ export const setNewProductWindow = (value) => ({
     payload: value,
 });
 
+export const setEditProductWindow = (value) => ({
+    type: 'SET_EDIT_PRODUCT_WINDOW',
+    payload: value,
+});
+
 export const setCompanyInfoWindow = (value) => ({
     type: 'SET_COMPANY_INFO_WINDOW',
     payload: value,
@@ -76,6 +89,11 @@ export const setPrintPreview = (value) => ({
 
 export const setRestock = (value) => ({
     type: 'SET_RESTOCK',
+    payload: value,
+});
+
+export const setEditing = (value) => ({
+    type: 'SET_EDITING',
     payload: value,
 });
 
@@ -106,6 +124,8 @@ export const saveFile = () => ({
 
 const reducer = (state = initialState, action) => {
     switch (action.type) {
+        case 'EDIT_SKU':
+            return {...state, editSku: action.payload};
         case 'SET_PRODUCT_LIST':
             return {...state, productList: action.payload};
         case 'SET_RECEIPT_LIST':
@@ -122,12 +142,16 @@ const reducer = (state = initialState, action) => {
             return {...state, isReceiptSelling: action.payload};
         case 'SET_NEW_PRODUCT_WINDOW':
             return {...state, isNewProductWindow: action.payload};
+        case 'SET_EDIT_PRODUCT_WINDOW':
+            return {...state, isEditProductWindow: action.payload};
         case 'SET_COMPANY_INFO_WINDOW':
             return {...state, isCompanyInfoWindow: action.payload};
         case 'SET_PRINT_PREVIEW':
             return {...state, isPrintPreview: action.payload};
         case 'SET_RESTOCK':
             return {...state, isRestock: action.payload};
+        case 'SET_EDITING':
+            return {...state, isEditing: action.payload};
         case 'SET_CURRENT_ORDER_NUMBER':
             return {...state, currentOrderNumber: action.payload};
         case 'SET_CURRENT_PURCHASE_NUMBER':
@@ -154,7 +178,6 @@ const reducer = (state = initialState, action) => {
             console.log("before: ", jsonFile["products"]);
             var updatedJson = jsonFile;
             updatedJson["products"] = state.productList;
-            console.log("after: ", updatedJson["products"]);
             updatedJson["tag_presets"] = state.tagPresets;
             updatedJson["buying_presets"] = state.buyingPresets;
             updatedJson["company_info"] = state.companyInfo;
