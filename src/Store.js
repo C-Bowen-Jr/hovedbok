@@ -184,7 +184,13 @@ const reducer = (state = initialState, action) => {
             console.log(res);
             toast.promise(res, {
                 loading: 'Saving...',
-                success: 'Save Succesful',
+                success: (received) => {
+                    console.log(received);
+                    if (received) {
+                        return "Save successful";
+                    }
+                    toast.error("Save has failed");
+                },
                 error: 'Failed to save',
             });
             //(res) && toast.success("Save successful");
