@@ -106,7 +106,7 @@ export default function NewProductDialog() {
 
     useEffect(() => {
         listen("menu-event", (e) => {
-            if (e.payload == "new-product-window") {
+            if (e.payload == "new-product-event") {
                 dispatch(setNewProductWindow(true));
             }
         })
@@ -193,7 +193,7 @@ export default function NewProductDialog() {
                         value={productFilename}
                     />
                 </DialogContent>
-                <input type="file" accept="image/*" onChange={handleProductFilename} />
+                <input className="inputs" type="file" accept="image/*" onChange={handleProductFilename} />
                 <DialogActions>
                     <Button onClick={handleClose}>Cancel</Button>
                     <Button

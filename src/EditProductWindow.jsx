@@ -210,7 +210,7 @@ export default function EditProductDialog() {
                         value={productFilename}
                     />
                 </DialogContent>
-                <input type="file" accept="image/*" onChange={handleProductFilename} />
+                <input className="inputs" type="file" accept="image/*" onChange={handleProductFilename} />
                 <DialogActions>
                     <Button onClick={handleDelete}>Delete Product</Button>
                     <Button onClick={handleClose}>Cancel</Button>

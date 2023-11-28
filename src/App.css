@@ -148,3 +148,7 @@ nav .depricate_menu_spacer {
 .list_box {
   list-style-type: none;
 }
+
+.inputs {
+  padding: 8px 24px;
+}
