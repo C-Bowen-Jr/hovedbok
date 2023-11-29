@@ -134,7 +134,7 @@ export default function EditProductDialog() {
                 <DialogTitle>Edit Product</DialogTitle>
                 <DialogContent>
                     <DialogContentText>
-                        Edit or delte a product.
+                        Edit or delete a product.
                     </DialogContentText>
                     <TextField
                         autoFocus
