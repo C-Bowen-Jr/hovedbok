@@ -76,7 +76,9 @@ export default function EditProductDialog() {
     };
 
     const handleDelete = () => {
-        console.log("handleDelete TODO");
+        const updatedList = productList.filter(prods =>{ return productSku != prods.sku});
+        dispatch(setProductList(updatedList));
+        handleClose();
     };
 
     const handleClose = () => {
@@ -105,10 +107,8 @@ export default function EditProductDialog() {
             released: releaseDate,
         }];
         const updatedList = productList.map(prods => newItem.find(newProd => newProd.sku == prods.sku) || prods);
-        //dispatch(setProductList([...productList, newItem]));
         dispatch(setProductList(updatedList));
-        //dispatch(saveFile());
-        dispatch(setEditProductWindow(false));
+        handleClose();
     };
 
     useEffect(() => {
