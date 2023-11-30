@@ -122,6 +122,10 @@ export const saveFile = () => ({
     payload: undefined,
 });
 
+function replacer( key, value) {
+    return key === "quantity" ? +value : value;
+};
+
 const reducer = (state = initialState, action) => {
     switch (action.type) {
         case 'EDIT_SKU':
@@ -180,12 +184,11 @@ const reducer = (state = initialState, action) => {
             updatedJson["tag_presets"] = state.tagPresets;
             updatedJson["buying_presets"] = state.buyingPresets;
             updatedJson["company_info"] = state.companyInfo;
-            const res = invoke('update_save_file', {payload: JSON.stringify(updatedJson)});
-            console.log(res);
+            console.log(JSON.stringify(updatedJson["products"]));
+            const res = invoke('update_save_file', {payload: JSON.stringify(updatedJson, replacer)});
             toast.promise(res, {
                 loading: 'Saving...',
                 success: (received) => {
-                    console.log(received);
                     if (received) {
                         return "Save successful";
                     }
