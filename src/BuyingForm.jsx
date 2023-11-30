@@ -147,6 +147,14 @@ export default function BuyingForm() {
     };
 
     const resetForm = () => {
+        resetFields();
+        setHostingAdded(false);
+        setPayrollAdded(false);
+        const updatedList = new Map();
+        dispatch(setReceiptList(updatedList));
+    };
+
+    const resetFields = () => {
         setQuantity("");
         setName("");
         setCost("");
@@ -154,11 +162,7 @@ export default function BuyingForm() {
         setBadQuantity(false);
         setBadName(false);
         setBadCost(false);
-        setHostingAdded(false);
-        setPayrollAdded(false);
-        const updatedList = new Map();
-        dispatch(setReceiptList(updatedList));
-    }
+    };
 
     const handleSubmit = () => {
         handleBuy();
@@ -183,12 +187,12 @@ export default function BuyingForm() {
         dispatch(setReceiptSelling(false));
     }
     const handleAdd = () => {
-        //const updatedList = new Map(receiptList);
+        //var updatedList = new Map(receiptList);
         //updatedList.set(name, { myProduct: false, quantity: quantity, cost: cost, tags: tags });
         //dispatch(setReceiptList(updatedList));
         //dispatch(setReceiptSelling(false));
         rawAdd(name, quantity, cost, tags);
-        resetForm();
+        resetFields();
     };
 
     const handleBuy = () => {
