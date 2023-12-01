@@ -380,7 +380,7 @@ export default function SellingForm() {
                 </div>
             </Box>
             <Box sx={{ alignContent: "right", marginTop: "16px", padding: "8px" }}>
-                <PrintPreview disabled={isAnyBadInput()} address={address}/>
+                <PrintPreview disabled={isAnyBadInput()} address={{address, giftMessage}} />
                 {!logSuccess &&
                 <Button disabled={isAnyBadInput()} onClick={handleSubmit} className="btn bold">Submit</Button>
                 }

@@ -72,6 +72,12 @@ const styles = StyleSheet.create({
         objectFit: "contain",
         objectPosition: "50% 50%",
         border: 1
+    },
+    message: {
+        margin: 2,
+        marginTop: 64,
+        padding: 10,
+        border: 1
     }
 
 });
@@ -98,7 +104,9 @@ export default function PrintPreview(props) {
     const receiptList = useSelector((state) => state.receiptList);
     const companyInfo = useSelector((state) => state.companyInfo);
     const todaysDate = new Date();
-    const addressLines = parseAddress(props.address);
+    const addressLines = parseAddress(props.address.address);
+    const giftMessage = props.address.giftMessage;
+    // No matter what prop is passed on SellingForm, it always comes through as address
 
     const customerAddress = addressLines.map(function (line) {
         return (
@@ -156,6 +164,12 @@ export default function PrintPreview(props) {
                             <Text>Order Contents</Text>
                         </View>
                         {receiptListPDF}
+                        {(giftMessage != "") &&
+                        <View style={styles.message}>
+                            <Text>Gift Message:</Text>
+                            <Text>{giftMessage}</Text>
+                        </View>
+                        }
                     </View>
                 </Page>
             </Document>
