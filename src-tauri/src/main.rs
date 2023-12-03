@@ -313,8 +313,7 @@ fn main() {
       .add_native_item(MenuItem::Separator)
       .add_native_item(MenuItem::Quit));
     let hovedbok_menu = Submenu::new("Hovedbok", Menu::new()
-      .add_item(CustomMenuItem::new("help", "Help"))
-      .add_item(CustomMenuItem::new("about", "About")));
+      .add_item(CustomMenuItem::new("help", "Help"));
     let menu = Menu::new()
       .add_submenu(file_menu)
       .add_submenu(hovedbok_menu);
@@ -350,6 +349,9 @@ fn main() {
         }
         "companyinfo" => {
             let _ = event.window().emit("menu-event", "edit-company-info").unwrap();
+        }
+        "help" => {
+            let _ = event.window().emit("menu-event", "help-event").unwrap();
         }
         "quit" => {
           std::process::exit(0);

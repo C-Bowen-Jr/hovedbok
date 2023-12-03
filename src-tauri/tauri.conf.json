@@ -7,7 +7,7 @@
   },
   "package": {
     "productName": "Hovedbok",
-    "version": "0.1.75"
+    "version": "1.0.75"
   },
   "tauri": {
     "allowlist": {
@@ -27,8 +27,8 @@
     },
     "bundle": {
       "active": true,
-      "category": "DeveloperTool",
-      "copyright": "",
+      "category": "Business",
+      "copyright": "2023, Chimeran Art - Christopher Bowen Jr",
       "deb": {
         "depends": []
       },
@@ -41,7 +41,7 @@
         "icons/icon.ico"
       ],
       "identifier": "com.chimeranart.hovedbok",
-      "longDescription": "",
+      "longDescription": "Hovedbok is a small business ledger program intended for self employed Etsy or likewise sellers.",
       "macOS": {
         "entitlements": null,
         "exceptionDomain": "",
@@ -52,7 +52,7 @@
       "resources": [
         "resource/data.json"
       ],
-      "shortDescription": "",
+      "shortDescription": "Hovedbok Ledger Software",
       "targets": "all",
       "windows": {
         "certificateThumbprint": null,
