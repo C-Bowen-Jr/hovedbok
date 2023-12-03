@@ -22,7 +22,7 @@
 
 # Adding Expenses
 - [Adding an Expense](./buying/expenses.md)
-- [Saving a Preset](./buying/presets/md)
+- [Saving a Preset](./buying/presets.md)
 - [Using Preset Buttons](./buying/quickbuy.md)
 - [Troubleshooting]()
 
