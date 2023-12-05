@@ -313,7 +313,7 @@ fn main() {
       .add_native_item(MenuItem::Separator)
       .add_native_item(MenuItem::Quit));
     let hovedbok_menu = Submenu::new("Hovedbok", Menu::new()
-      .add_item(CustomMenuItem::new("help", "Help"));
+      .add_item(CustomMenuItem::new("help", "Help")));
     let menu = Menu::new()
       .add_submenu(file_menu)
       .add_submenu(hovedbok_menu);
