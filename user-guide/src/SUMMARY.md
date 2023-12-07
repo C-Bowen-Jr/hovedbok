@@ -13,10 +13,9 @@
 - [Adding New Products](./products/adding.md)
 - [Editing Products](./products/editing.md)
     - [Restocking Products](./products/restock.md)
-    - [Deleting Products]()
 
 # Completing an Order
-- [Required Steps](./selling/required.md)
+- [Selling Basics](./selling/required.md)
 - [Optional Steps](./selling/optional.md)
 - [Troubleshooting]()
 
