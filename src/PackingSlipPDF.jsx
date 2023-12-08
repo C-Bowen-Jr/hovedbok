@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
     },
     table_header: {
         textAlign: "center",
-        backgroundColor: "#999999",
+        backgroundColor: "#555555",
         color: "#ffffff",
         padding: 5,
         marginBottom: 5
@@ -70,8 +70,7 @@ const styles = StyleSheet.create({
     },
     logo: {
         objectFit: "contain",
-        objectPosition: "50% 50%",
-        border: 1
+        objectPosition: "50% 50%"
     },
     message: {
         margin: 2,

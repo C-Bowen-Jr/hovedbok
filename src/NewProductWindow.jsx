@@ -73,6 +73,19 @@ export default function NewProductDialog() {
             setBadReleaseDate(true);
         }
     };
+    
+    const resetFields = () => {
+        setProductName("");
+        setProductSku("");
+        setProductVariant("");
+        setStockQuantity(0);
+        setSoldQuantity(0);
+        setReleaseDate(format_date(todaysDate));
+        setProductFilename("./products/");
+        setBadName(false);
+        setBadSku(false);
+        setBadReleaseDate(false);
+    };
 
     const handleClose = () => {
         dispatch(setNewProductWindow(false));
@@ -99,8 +112,12 @@ export default function NewProductDialog() {
             sold: soldQuantity,
             released: releaseDate,
         };
-        dispatch(setProductList([...productList, newItem]));
+        //dispatch(setProductList([...productList, newItem]));
+        const appendedList = [...productList, newItem];
+        const sortedProductList = appendedList.sort((a, b) => a.sku.localeCompare(b.sku));
+        dispatch(setProductList(sortedProductList));
         dispatch(saveFile());
+        resetFields();
         dispatch(setNewProductWindow(false));
     };
 
@@ -131,6 +148,7 @@ export default function NewProductDialog() {
                         error={isBadName}
                         value={productName}
                         onChange={handleProductName}
+                        onDoubleClick={() => setProductName("")}
                     />
                     <TextField
                         margin="dense"
@@ -142,6 +160,7 @@ export default function NewProductDialog() {
                         error={isBadSku}
                         value={productSku}
                         onChange={handleProductSku}
+                        onDoubleClick={() => setProductSku("")}
                     />
                     <TextField
                         margin="dense"
@@ -153,6 +172,7 @@ export default function NewProductDialog() {
                         variant="standard"
                         value={productVariant}
                         onChange={handleProductVariant}
+                        onDoubleClick={() => setProductVariant("")}
                     />
                     <TextField
                         margin="dense"
@@ -162,6 +182,7 @@ export default function NewProductDialog() {
                         variant="standard"
                         value={stockQuantity}
                         onChange={handleStockQuantity}
+                        onDoubleClick={() => setStockQuantity("")}
                     />
                     <TextField
                         margin="dense"
@@ -171,6 +192,7 @@ export default function NewProductDialog() {
                         variant="standard"
                         value={soldQuantity}
                         onChange={handleSoldQuantity}
+                        onDoubleClick={() => setSoldQuantity("")}
                     />
                     <TextField
                         margin="dense"
@@ -182,6 +204,7 @@ export default function NewProductDialog() {
                         value={releaseDate}
                         error={isBadReleaseDate}
                         onChange={handleReleaseDate}
+                        onDoubleClick={() => setReleaseDate("")}
                     />
                     <TextField
                         disabled

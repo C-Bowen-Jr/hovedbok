@@ -7,7 +7,7 @@
   },
   "package": {
     "productName": "Hovedbok",
-    "version": "1.1.76"
+    "version": "1.2.78"
   },
   "tauri": {
     "allowlist": {
@@ -18,9 +18,17 @@
       "path": {
         "all": true
       },
+      "protocol": {
+        "asset": true,
+        "assetScope": ["**"]
+      },
       "fs": {
         "all": true,
         "scope": [
+          "$APPDATA/*",
+          "$APP/*",
+          "$APP/products/*",
+          "$RESOURCE/*",
           "*/**"
         ]
       }
