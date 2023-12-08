@@ -123,7 +123,13 @@ export const saveFile = () => ({
 });
 
 function replacer( key, value) {
-    return key === "quantity" ? +value : value;
+    switch (key) {
+        case "quantity":
+        case "sold":
+            return +value;
+        default:
+            return value;
+    }
 };
 
 const reducer = (state = initialState, action) => {
