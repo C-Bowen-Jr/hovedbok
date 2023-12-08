@@ -1,5 +1,6 @@
 import React, {useReducer, useEffect} from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { convertFileSrc } from '@tauri-apps/api/tauri';
 import { ImageList, ImageListItem, Badge } from '@mui/material';
 import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
@@ -81,9 +82,13 @@ export default function ProductImageGrid() {
                     
                     <ImageListItem key={item.img}>
                         <img
-                            src={`${item.img}?w=200&h=200&fit=crop&auto=format`}
-                            srcSet={`${item.img}?w=200&h=200&fit=crop&auto=format&dpr=2 2x`}
+                            src={convertFileSrc(item.img)}
+                            onError={({ currentTarget}) => {
+                                currentTarget.onerror = null;
+                                currentTarget.src=item.img;
+                            }}
                             alt={item.title}
+                            className="product_image"
                             loading="lazy"
                             onClick={() => handleProductClicked(item)}
                         />
@@ -107,7 +112,7 @@ export default function ProductImageGrid() {
                             sx={{left: -20, top: -20}} 
                             badgeContent={item.quantity} 
                             id={item.sku}
-                            color={item.quantity > 0 ? "primary" : "warning"}></Badge>
+                            color={item.quantity > 1 ? "primary" : "warning"}></Badge>
                     </ImageListItem>
                 ))}
             </ImageList>
