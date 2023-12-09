@@ -197,9 +197,10 @@ export default function BuyingForm() {
 
     const totalReceipt = () => {
         var runningTotal = 0.0
-        Array.from(receiptList).forEach(([name, details]) => (
-            runningTotal += details.cost
-        ))
+        Array.from(receiptList).forEach(([name, details]) => {
+            runningTotal += parseFloat(details.cost);
+            console.log(runningTotal);
+        })
         return formatCurrency(runningTotal);
     };
 
