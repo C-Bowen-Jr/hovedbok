@@ -50,6 +50,7 @@ struct Purchase {
     date: String,
     purchase_number: u16,
     purchase_lines: Vec<PurchaseLine>,
+    total_expense: String,
 }
 
 #[derive(Serialize, Deserialize)]
@@ -195,9 +196,9 @@ fn publish_purchase(payload: String) -> bool {
     };
 
     match conn.execute(
-        "INSERT INTO purchase (date, purchase_number)
-         VALUES (?1, ?2)",
-        (&purchase_object.date, &purchase_object.purchase_number),
+        "INSERT INTO purchase (date, purchase_number, total_expense)
+         VALUES (?1, ?2, ?3)",
+        (&purchase_object.date, &purchase_object.purchase_number, &purchase_object.total_expense),
     ) {
         Ok(_) => println!(""),
         Err(error) => { 
@@ -278,16 +279,17 @@ fn main() {
                 quantity        INT NOT NULL
             )", 
             ()
-        ).expect("Create tabler 'Saleline' failed");
+        ).expect("Create table 'Saleline' failed");
 
         conn.execute("
             CREATE TABLE purchase (
                 id              INTEGER PRIMARY KEY,
                 date            VARCHAR(10) NOT NULL,
-                purchase_number INT NOT NULL
+                purchase_number INT NOT NULL,
+                total_expense   DECIMAL(12,2) NOT NULL
             )", 
             ()
-        ).expect("Create tabler 'Purchase' failed");
+        ).expect("Create table 'Purchase' failed");
 
         conn.execute("
             CREATE TABLE purchaseline (
@@ -295,11 +297,11 @@ fn main() {
                 purchase_number INT NOT NULL,
                 item            VARCHAR(64) NOT NULL,
                 quantity        INT NOT NULL,
-                expense         DECIMAL(12,2) NOT NULL,
+                expense         DECIMAL(10,2) NOT NULL,
                 tags            VARCHAR(64)
             )", 
             ()
-        ).expect("Create tabler 'Purchaseline' failed");
+        ).expect("Create table 'Purchaseline' failed");
     }
     
     let file_menu = Submenu::new("File", Menu::new()

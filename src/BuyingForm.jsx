@@ -195,6 +195,14 @@ export default function BuyingForm() {
         resetFields();
     };
 
+    const totalReceipt = () => {
+        var runningTotal = 0.0
+        Array.from(receiptList).forEach(([name, details]) => (
+            runningTotal += details.cost
+        ))
+        return formatCurrency(runningTotal);
+    };
+
     const handleBuy = () => {
         const purchaseLines = Array.from(receiptList).map(([name, details]) => (
             {
@@ -210,7 +218,8 @@ export default function BuyingForm() {
             "purchase": {
                 "date": format_date_db(todaysDate),
                 "purchase_number": currentPurchaseNumber,
-                "purchase_lines": purchaseLines
+                "purchase_lines": purchaseLines,
+                "total_expense": totalReceipt()
             }
         };
         const res = invoke('publish_purchase', { payload: JSON.stringify(buyObject["purchase"]) });
