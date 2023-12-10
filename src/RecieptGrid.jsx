@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { styled, Table, TableBody, TableCell, tableCellClasses } from '@mui/material';
 import { TableContainer, TableHead, TableRow, Paper } from '@mui/material';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
+import { formatCurrency } from './utils';
 import { setReceiptList, dropReceiptItem } from './Store';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -30,6 +31,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 export default function RecieptPanel() {
     const receiptList = useSelector((state) => state.receiptList);
     const isReceiptSelling = useSelector((state) => state.isReceiptSelling);
+    const [receiptTotal, setReceiptTotal] = useState(0.0);
 
     const dispatch = useDispatch();
 
@@ -40,6 +42,15 @@ export default function RecieptPanel() {
         );
         dispatch(setReceiptList(newList));
     };
+
+    useEffect(() => {
+        var runningTotal = 0.0
+        console.log("useEffect called");
+        Array.from(receiptList).forEach(([name, details]) => {
+            runningTotal += parseFloat(details.cost);
+        })
+        setReceiptTotal(formatCurrency(runningTotal));
+    }, [receiptList]);
 
     if (receiptList.size == 0) {
         return (
@@ -141,6 +152,13 @@ export default function RecieptPanel() {
                             </StyledTableCell>
                         </StyledTableRow>
                     ))}
+                    <StyledTableRow key="total" component={Paper}>
+                        <StyledTableCell></StyledTableCell>
+                        <StyledTableCell align="left"><b>Total:</b></StyledTableCell>
+                        <StyledTableCell></StyledTableCell>
+                        <StyledTableCell align="right"><b>{receiptTotal}</b></StyledTableCell>
+                        <StyledTableCell></StyledTableCell>
+                    </StyledTableRow>
                 </TableBody>
             </Table>
         </TableContainer>
