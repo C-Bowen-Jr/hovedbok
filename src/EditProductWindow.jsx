@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Button, TextField } from '@mui/material';
+import { Button, TextField, Checkbox } from '@mui/material';
 import { Dialog, DialogActions, DialogTitle } from '@mui/material';
 import { DialogContent, DialogContentText } from '@mui/material';
+import RetireIcon from '@mui/icons-material/AssistWalker';
+import ActiveIcon from '@mui/icons-material/AccessibilityNew';
 import { listen } from '@tauri-apps/api/event';
 import { format_date } from './utils.js';
 import { setEditProductWindow, setProductList, saveFile } from './Store';
@@ -15,6 +17,7 @@ export default function EditProductDialog() {
     const [stockQuantity, setStockQuantity] = useState(0);
     const [soldQuantity, setSoldQuantity] = useState(0);
     const [releaseDate, setReleaseDate] = useState(format_date(todaysDate));
+    const [retired, setRetired] = useState(false);
     const [productFilename, setProductFilename] = useState("./products/");
     const [isBadName, setBadName] = useState(false);
     const [isBadSku, setBadSku] = useState(false);
@@ -73,6 +76,10 @@ export default function EditProductDialog() {
         } else {
             setBadReleaseDate(true);
         }
+    };
+
+    const handleRetired = (event) => {
+        setRetired(event.target.checked);
     };
 
     const handleDelete = () => {
@@ -189,6 +196,16 @@ export default function EditProductDialog() {
                         value={soldQuantity}
                         onChange={handleSoldQuantity}
                     />
+                    <Checkbox 
+                        icon={<ActiveIcon />}
+                        checked={retired}
+                        checkedIcon={<RetireIcon />}
+                        color="warning"
+                        onChange={handleRetired}
+                        inputProps={{ 'aria-label': 'retired' }}
+                        sx={{ border: 2, marginInline: 4, marginBlock: 1 }}
+                    />
+                    <span>{retired ? "Retired" : "Active"}</span>
                     <TextField
                         margin="dense"
                         id="release_date"
