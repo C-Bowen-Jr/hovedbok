@@ -261,19 +261,15 @@ export default function SellingForm() {
                 dispatch(saveFile());
                 setLogSuccess(true);
                 invoke('get_last_order_number')
-            .then(last => (last > 0) ? dispatch(setCurrentOrderNumber(last + 1)) : dispatch(setCurrentOrderNumber(1)))
-            .catch(err => {
-                dispatch(setCurrentOrderNumber("?"));
-                //setLogSuccess(false);
-            });
+                    .then(last => (last > 0) ? dispatch(setCurrentOrderNumber(last + 1)) : dispatch(setCurrentOrderNumber(1)))
+                    .catch(err => {
+                        dispatch(setCurrentOrderNumber("?"));
+                });
             }
             else {
                 toast.error("Failed to append");
             }
         });
-        // Defunct, another action on success needed. might as well put everything
-        // Assume true, then return to false if fail. easier this way with inline-if
-        //setLogSuccess(true);
         
     };
 

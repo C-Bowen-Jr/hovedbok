@@ -162,6 +162,7 @@ export default function BuyingForm() {
         setBadQuantity(false);
         setBadName(false);
         setBadCost(false);
+        setLogSuccess(false);
     };
 
     const handleSubmit = () => {
@@ -225,17 +226,20 @@ export default function BuyingForm() {
         };
         const res = invoke('publish_purchase', { payload: JSON.stringify(buyObject["purchase"]) });
         res.then((isSuccessful) => {
-            console.log(res, isSuccessful);
-            (isSuccessful) ? toast.success("Ledger appended") : toast.error("Failed to append");
+            if (isSuccessful) {
+                toast.success("Ledger appended");
+                setLogSuccess(true);
+                invoke('get_last_purchase_number')
+                    .then(last => (last > 0) ? dispatch(setCurrentPurchaseNumber(last + 1)) : dispatch(setCurrentPurchaseNumber(1)))
+                    .catch(err => {
+                        dispatch(setCurrentPurchaseNumber("?"));
+                });
+            }
+            else {
+                toast.error("Failed to appened");
+            }
         });
-        // Assume true, then return to false if fail. easier this way with inline-if
-        setLogSuccess(true);
-        invoke('get_last_purchase_number')
-            .then(last => (last > 0) ? dispatch(setCurrentPurchaseNumber(last + 1)) : dispatch(setCurrentPurchaseNumber(1)))
-            .catch(err => {
-                dispatch(setCurrentPurchaseNumber("?"));
-                setLogSuccess(false);
-            });
+        
     };
 
     return (
@@ -331,12 +335,15 @@ export default function BuyingForm() {
                     className="btn bold">
                         Add
                 </Button>
-                <Button 
+                {!logSuccess && <Button 
                     disabled={(receiptList.size === 0)} 
                     onClick={handleSubmit} 
                     className="btn bold">
                         Submit
-                </Button>
+                </Button>}
+                {logSuccess &&
+                <Button onClick={resetForm} className="btn bold">Clear</Button>
+                }
                 <Button 
                     disabled={isNotNamed() && isNewPreset()} 
                     onClick={handleSave} 

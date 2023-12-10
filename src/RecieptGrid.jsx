@@ -137,7 +137,7 @@ export default function RecieptPanel() {
                             </StyledTableCell>
                             <StyledTableCell align="left">{name}</StyledTableCell>
                             <StyledTableCell align="right">{details.tags}</StyledTableCell>
-                            <StyledTableCell align="right">{details.cost}</StyledTableCell>
+                            <StyledTableCell align="right">$ {details.cost}</StyledTableCell>
                             <StyledTableCell align="center">
                                 <HighlightOffIcon 
                                     sx={{
@@ -154,9 +154,9 @@ export default function RecieptPanel() {
                     ))}
                     <StyledTableRow key="total" component={Paper}>
                         <StyledTableCell></StyledTableCell>
-                        <StyledTableCell align="left"><b>Total:</b></StyledTableCell>
+                        <StyledTableCell align="right"><b>Total:</b></StyledTableCell>
                         <StyledTableCell></StyledTableCell>
-                        <StyledTableCell align="right"><b>{receiptTotal}</b></StyledTableCell>
+                        <StyledTableCell align="right"><b>$ {receiptTotal}</b></StyledTableCell>
                         <StyledTableCell></StyledTableCell>
                     </StyledTableRow>
                 </TableBody>
