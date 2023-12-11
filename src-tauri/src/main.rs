@@ -79,6 +79,7 @@ struct Product {
     quantity: u16,
     sold: u16,
     released: String,
+    retired: bool,
 }
 
 #[derive(Serialize, Deserialize)]

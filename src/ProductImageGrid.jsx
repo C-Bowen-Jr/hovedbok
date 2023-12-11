@@ -1,4 +1,4 @@
-import React, {useReducer, useEffect} from 'react';
+import React, { useReducer, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { convertFileSrc } from '@tauri-apps/api/tauri';
 import { ImageList, ImageListItem, Badge } from '@mui/material';
@@ -31,7 +31,7 @@ export default function ProductImageGrid() {
         if (receiptList.has(item.sku)) {
             previousQuantity = receiptList.get(item.sku).quantity;
         }
-        
+
         receiptList.set(item.sku, {
             myProduct: true,
             title: item.title,
@@ -46,10 +46,10 @@ export default function ProductImageGrid() {
     };
 
     const handleAddFor = (item) => {
-         item.quantity += 1;
-         // Other state changes were tried, including this.forceUpdate()
-         const updatedList = new Map();
-         dispatch(setReceiptList(updatedList));
+        item.quantity += 1;
+        // Other state changes were tried, including this.forceUpdate()
+        const updatedList = new Map();
+        dispatch(setReceiptList(updatedList));
     };
 
     const handleEditFor = (item) => {
@@ -78,49 +78,54 @@ export default function ProductImageGrid() {
     if (productList.length > 0) {
         return (
             <ImageList sx={{ width: 800, height: 560, marginBlock: 0 }} cols={4} rowHeight={200} gap={0}>
-                {productList.map((item) => (
-                    
-                    <ImageListItem key={item.img}>
-                        <img
-                            src={convertFileSrc(item.img)}
-                            onError={({ currentTarget}) => {
-                                currentTarget.onerror = null;
-                                currentTarget.src=item.img;
-                            }}
-                            alt={item.title}
-                            className="product_image"
-                            loading="lazy"
-                            onClick={() => handleProductClicked(item)}
-                        />
-                        {isRestock && (<Fab 
-                            sx={{position: "absolute", left: 80, bottom: 50, border: 2, borderColor:"white"}}
-                            size="small" 
-                            color="primary" 
-                            aria-label="add"
-                            onClick={() => handleAddFor(item)}>
-                            <AddIcon />
-                        </Fab>)}
-                        {isEditing && (<Fab 
-                            sx={{position: "absolute", left: 80, bottom: 50, border: 2, borderColor:"white"}}
-                            size="small" 
-                            color="secondary" 
-                            aria-label="edit"
-                            onClick={() => handleEditFor(item)}>
-                            <EditIcon />
-                        </Fab>)}
-                        <Badge 
-                            sx={{left: -20, top: -20}} 
-                            badgeContent={item.quantity} 
-                            id={item.sku}
-                            color={item.quantity > 1 ? "primary" : "warning"}></Badge>
-                    </ImageListItem>
-                ))}
+                {productList.map((item) => {
+                    const showImage = isEditing || !item.retired;
+                    return (
+                        <>
+                            {showImage && <ImageListItem key={item.img}>
+                                <img
+                                    src={convertFileSrc(item.img)}
+                                    onError={({ currentTarget }) => {
+                                        currentTarget.onerror = null;
+                                        currentTarget.src = item.img;
+                                    }}
+                                    alt={item.title}
+                                    className="product_image"
+                                    loading="lazy"
+                                    onClick={() => handleProductClicked(item)}
+                                />
+                                {isRestock && (<Fab
+                                    sx={{ position: "absolute", left: 80, bottom: 50, border: 2, borderColor: "white" }}
+                                    size="small"
+                                    color="primary"
+                                    aria-label="add"
+                                    onClick={() => handleAddFor(item)}>
+                                    <AddIcon />
+                                </Fab>)}
+                                {isEditing && (<Fab
+                                    sx={{ position: "absolute", left: 80, bottom: 50, border: 2, borderColor: "white" }}
+                                    size="small"
+                                    color="secondary"
+                                    aria-label="edit"
+                                    onClick={() => handleEditFor(item)}>
+                                    <EditIcon />
+                                </Fab>)}
+                                <Badge
+                                    sx={{ left: -20, top: -20 }}
+                                    badgeContent={item.quantity}
+                                    id={item.sku}
+                                    color={item.quantity > 1 ? "primary" : "warning"}></Badge>
+                            </ImageListItem>}
+                        </>
+                    )
+                }
+                )}
             </ImageList>
         );
     }
     else {
         return (
-            <div sx={{ width: 800, height: 450, padding:12}}>
+            <div sx={{ width: 800, height: 450, padding: 12 }}>
                 <h2>No products</h2>
                 <p>Go to File: Add Product</p>
             </div>

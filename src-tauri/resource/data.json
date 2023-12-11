@@ -17,7 +17,8 @@
       "variant": "Test",
       "quantity": 2,
       "sold": 0,
-      "released": "12/30/2022"
+      "released": "12/30/2022",
+      "retired": false
     }
   ],
   "tag_presets": [],

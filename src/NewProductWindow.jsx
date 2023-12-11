@@ -111,6 +111,7 @@ export default function NewProductDialog() {
             quantity: stockQuantity,
             sold: soldQuantity,
             released: releaseDate,
+            retired: false,
         };
 
         const appendedList = [...productList, newItem];

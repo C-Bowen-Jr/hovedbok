@@ -112,6 +112,7 @@ export default function EditProductDialog() {
             quantity: Number(stockQuantity),
             sold: Number(soldQuantity),
             released: releaseDate,
+            retired: retired,
         }];
         const updatedList = productList.map(prods => newItem.find(newProd => newProd.sku == prods.sku) || prods);
         dispatch(setProductList(updatedList));
@@ -130,6 +131,7 @@ export default function EditProductDialog() {
                 setStockQuantity(oldProduct[0].quantity);
                 setSoldQuantity(oldProduct[0].sold);
                 setReleaseDate(oldProduct[0].released);
+                setRetired(oldProduct[0].retired);
                 dispatch(setEditProductWindow(true));
             }
         }
