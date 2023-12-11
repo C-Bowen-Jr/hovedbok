@@ -45,7 +45,6 @@ export default function RecieptPanel() {
 
     useEffect(() => {
         var runningTotal = 0.0
-        console.log("useEffect called");
         Array.from(receiptList).forEach(([name, details]) => {
             runningTotal += parseFloat(details.cost);
         })

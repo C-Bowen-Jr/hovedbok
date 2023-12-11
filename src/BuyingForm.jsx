@@ -114,7 +114,6 @@ export default function BuyingForm() {
 
     const handleHosting = () => {
         buyingPresets.forEach((details) => {
-            console.log(details.name);
             if (details.name.toLowerCase() == "hosting" || details.tags.toLowerCase() == "hosting" ) {
                 rawAdd(details.name, details.quantity, details.cost, details.tags);
             }
@@ -124,7 +123,6 @@ export default function BuyingForm() {
 
     const handlePayroll = () => {
         buyingPresets.forEach((details) => {
-            console.log(details.name);
             if (details.name.toLowerCase() == "payroll" || details.tags.toLowerCase() == "payroll" ) {
                 rawAdd(details.name, details.quantity, details.cost, details.tags);
             }
@@ -200,7 +198,6 @@ export default function BuyingForm() {
         var runningTotal = 0.0
         Array.from(receiptList).forEach(([name, details]) => {
             runningTotal += parseFloat(details.cost);
-            console.log(runningTotal);
         })
         return formatCurrency(runningTotal);
     };

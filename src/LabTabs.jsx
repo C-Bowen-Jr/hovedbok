@@ -55,10 +55,6 @@ export default function BasicTabs() {
         dispatch(dropReceiptList());
     };
 
-    const handleTest = () => {
-        console.log(receiptList);
-    };
-
     return (
         <Box sx={{ width: '100%' }}>
             <Box sx={{ borderBottom: 1, borderColor: 'divider' }} component={Paper} elevation={3}>
