@@ -7,7 +7,7 @@
   },
   "package": {
     "productName": "Hovedbok",
-    "version": "1.3.80"
+    "version": "1.3.81"
   },
   "tauri": {
     "allowlist": {
@@ -23,6 +23,9 @@
         "scope": [
           "*/**"
         ]
+      },
+      "shell": {
+        "open": true
       }
     },
     "bundle": {

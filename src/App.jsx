@@ -1,5 +1,8 @@
+import { useEffect } from 'react';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Box from '@mui/material/Box';
+import { listen } from '@tauri-apps/api/event';
+import { open } from '@tauri-apps/api/shell';
 import { Toaster } from 'sonner';
 import CustomTabPanel from './LabTabs';
 import NewProductDialog from './NewProductWindow';
@@ -19,6 +22,14 @@ function App() {
             mode: 'dark',
         }
     });
+
+    useEffect(() => {
+        listen("menu-event", (e) => {
+            if (e.payload == "help-event") {
+                open("https://github.com/C-Bowen-Jr/hovedbok/blob/main/user-guide/src/SUMMARY.md");
+            }
+        })
+    }, []);
 
     // TODO: nav display tied to state, tauri = none, browser = display
     return (
