@@ -316,7 +316,8 @@ fn main() {
       .add_native_item(MenuItem::Separator)
       .add_native_item(MenuItem::Quit));
     let hovedbok_menu = Submenu::new("Hovedbok", Menu::new()
-      .add_item(CustomMenuItem::new("help", "Help")));
+      .add_item(CustomMenuItem::new("help", "Help"))
+      .add_item(CustomMenuItem::new("bmc", "\u{2615} Buy Me a Coffee")));
     let menu = Menu::new()
       .add_submenu(file_menu)
       .add_submenu(hovedbok_menu);
@@ -355,6 +356,9 @@ fn main() {
         }
         "help" => {
             let _ = event.window().emit("menu-event", "help-event").unwrap();
+        }
+        "bmc" => {
+            let _ = event.window().emit("menu-event", "bmc-event").unwrap();
         }
         "quit" => {
           std::process::exit(0);
