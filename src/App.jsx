@@ -28,6 +28,9 @@ function App() {
             if (e.payload == "help-event") {
                 open("https://github.com/C-Bowen-Jr/hovedbok/blob/main/user-guide/src/SUMMARY.md");
             }
+            if (e.payload == "bmc-event") {
+                open("https://www.buymeacoffee.com/cbowenjr");
+            }
         })
     }, []);
 
