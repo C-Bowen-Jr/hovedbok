@@ -29,4 +29,11 @@ The database runs on SQLite3, so you might need lib files for that.
 
 ## From Binary
 
-TODO
+### Windows
+
+Extract the .zip folder. Right click Hovedbok.exe and select "Send to Desktop (shortcut)".
+
+### Linux
+
+Currently unavailable. While the code works, both AppImage and deb bundles currently are not working. Resort to **From Source Code**.
+
