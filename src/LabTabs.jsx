@@ -5,6 +5,7 @@ import { Box, Divider, Paper, Tab, Tabs } from '@mui/material';
 import ProductImageGrid from './ProductImageGrid';
 import BuyingForm from './BuyingForm';
 import SellingForm from './SellingForm';
+import LedgerForm from './LedgerForm';
 import RecieptPanel from './RecieptGrid';
 import InfoStack from "./InfoStack";
 import { dropReceiptList } from './Store';
@@ -61,6 +62,7 @@ export default function BasicTabs() {
                 <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
                     <Tab label="Selling" {...a11yProps(0)} />
                     <Tab label="Buying" {...a11yProps(1)} />
+                    <Tab label="Ledger" {...a11yProps(2)} />
                     <Divider orientation="vertical" flexItem />
                     <InfoStack />
                 </Tabs>
@@ -91,6 +93,19 @@ export default function BasicTabs() {
 
                         </Paper>
                         <RecieptPanel />
+                    </div>
+                </Box>
+            </CustomTabPanel>
+            <CustomTabPanel value={value} index={2}>
+                <Box className="flex-tab-panel">
+                    <div>
+                        <Paper className="card" sx={{ width: 800 }} elevation={1}>
+                            <LedgerForm />
+                        </Paper></div>
+                    <div className="reciept-group">
+                        <Paper className="card" sx={{ width: 800 }} elevation={1}>
+                            Viewport of data
+                        </Paper>
                     </div>
                 </Box>
             </CustomTabPanel>
