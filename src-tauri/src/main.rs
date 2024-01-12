@@ -226,6 +226,20 @@ fn publish_purchase(payload: String) -> bool {
 }
 
 #[tauri::command]
+fn query_with(payload: String) -> f32{
+    let conn = open_ledger();
+
+    match conn.query_row(
+        "SELECT sum(earnings) FROM sale",
+        [],
+        |row| row.get(0),
+    ) {
+        Ok(value) => value,
+        Err(error) => { println!("{:?}", error); 0.0 as f32}
+    }
+}
+
+#[tauri::command]
 fn get_last_order_number() -> i32 {
     let conn = open_ledger();
     match conn.query_row(
@@ -372,6 +386,7 @@ fn main() {
         calculate_paypal_fee, 
         publish_sale, 
         publish_purchase,
+        query_with,
         get_last_order_number,
         get_last_purchase_number,
     ])
