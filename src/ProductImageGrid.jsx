@@ -45,6 +45,11 @@ export default function ProductImageGrid() {
         dispatch(setReceiptSelling(true));
     };
 
+    const handleRightClicked = (e, item) => {
+        e.preventDefault();
+        handleEditFor(item);
+    }
+
     const handleAddFor = (item) => {
         item.quantity += 1;
         // Other state changes were tried, including this.forceUpdate()
@@ -72,6 +77,9 @@ export default function ProductImageGrid() {
                 dispatch(setRestock(false));
                 dispatch(setEditing(true));
             }
+            else if (e.payload == "force-save") {
+                dispatch(saveFile());
+            }
         })
     }, []);
 
@@ -93,6 +101,7 @@ export default function ProductImageGrid() {
                                     className="product_image"
                                     loading="lazy"
                                     onClick={() => handleProductClicked(item)}
+                                    onContextMenu={(e) => handleRightClicked(e, item)}
                                 />
                                 {isRestock && (<Fab
                                     sx={{ position: "absolute", left: 80, bottom: 50, border: 2, borderColor: "white" }}
