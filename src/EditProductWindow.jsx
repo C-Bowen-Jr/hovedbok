@@ -83,9 +83,12 @@ export default function EditProductDialog() {
     };
 
     const handleDelete = () => {
-        const updatedList = productList.filter(prods =>{ return productSku != prods.sku});
-        dispatch(setProductList(updatedList));
-        handleClose();
+        const result = confirm("All data on this product will be droped.\nAre you entirely sure you wish to delete this?");
+        if( result == true) {
+            const updatedList = productList.filter(prods =>{ return productSku != prods.sku});
+            dispatch(setProductList(updatedList));
+            handleClose();
+        } 
     };
 
     const handleClose = () => {
