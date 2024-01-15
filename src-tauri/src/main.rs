@@ -323,6 +323,7 @@ fn main() {
       .add_item(CustomMenuItem::new("newproduct", "New Product").accelerator("cmdOrControl+N"))
       .add_native_item(MenuItem::Separator)
       .add_item(CustomMenuItem::new("forcesave", "Force Save").accelerator("cmdOrControl+V"))
+      .add_item(CustomMenuItem::new("reprint", "Reprint").accelerator("cmdOrControl+V"))
       .add_native_item(MenuItem::Separator)
       .add_item(CustomMenuItem::new("editproductmode", "Edit Product Mode").accelerator("cmdOrControl+E"))
       .add_item(CustomMenuItem::new("salemode", "Sale Mode").accelerator("cmdOrControl+S"))
@@ -351,6 +352,9 @@ fn main() {
           }
         "forcesave" => {
             let _ = event.window().emit("menu-event", "force-save").unwrap();
+        }
+        "reprint" => {
+            let _ = event.window().emit("menu-event", "reprint").unwrap();
         }
         "editproductmode" => {
             let _ = event.window().menu_handle().get_item("salemode").set_enabled(true);

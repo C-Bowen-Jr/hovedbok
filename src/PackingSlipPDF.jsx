@@ -102,9 +102,11 @@ export default function PrintPreview(props) {
     const currentOrderNumber = useSelector((state) => state.currentOrderNumber);
     const receiptList = useSelector((state) => state.receiptList);
     const companyInfo = useSelector((state) => state.companyInfo);
+    const isReship = useSelector((state) => state.isReship);
     const todaysDate = new Date();
     const addressLines = parseAddress(props.address.address);
     const giftMessage = props.address.giftMessage;
+    const orderNumberOrReship = isReship ? "Reship" : currentOrderNumber;
     // No matter what prop is passed on SellingForm, it always comes through as address
 
     const customerAddress = addressLines.map(function (line) {
@@ -138,7 +140,7 @@ export default function PrintPreview(props) {
                             <Text>{companyInfo["url"]}</Text>
                             <View style={styles.head_bottom}>
                             <LabeledText boldText={'Date'}>{format_date(todaysDate)}</LabeledText>
-                            <LabeledText boldText={'Order'}>{currentOrderNumber}</LabeledText>
+                            <LabeledText boldText={'Order'}>{orderNumberOrReship}</LabeledText>
                             <Text> </Text>
                             <LabeledText boldText={'Ship From'}></LabeledText>
                             <Text>{companyInfo["name"]}</Text>

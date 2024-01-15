@@ -1,24 +1,29 @@
 import * as React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { Dialog, DialogTitle } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import PackingSlipPDF from './PackingSlipPDF.jsx';
+import { setReship} from './Store';
 
 export default function PrintPreview(props) {
   const [open, setOpen] = React.useState(false);
+  const isReship = useSelector((state) => state.isReship);
+  const dispatch = useDispatch();
 
   const handleClickOpen = () => {
     setOpen(true);
   };
 
   const handleClose = () => {
+    isReship ? dispatch(setReship(false)) : undefined;
     setOpen(false);
   };
 
   return (
     <>
       <button disabled={props.disabled} className="MuiButton-root btn bold" onClick={handleClickOpen}>
-        Print
+        {isReship ? "Reship" : "Print"}
       </button>
       <Dialog
         open={open}

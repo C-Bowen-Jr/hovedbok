@@ -25,6 +25,7 @@ const initialState = {
     isPrintPreview: false,
     isRestock: false,
     isEditing: false,
+    isReship: false,
 };
 
 export const editSku = (value) => ({
@@ -97,6 +98,11 @@ export const setEditing = (value) => ({
     payload: value,
 });
 
+export const setReship = (value) => ({
+    type: 'SET_RESHIP',
+    payload: value,
+});
+
 export const setCurrentOrderNumber = (value) => ({
     type: 'SET_CURRENT_ORDER_NUMBER',
     payload: value,
@@ -162,6 +168,8 @@ const reducer = (state = initialState, action) => {
             return {...state, isRestock: action.payload};
         case 'SET_EDITING':
             return {...state, isEditing: action.payload};
+        case 'SET_RESHIP':
+            return {...state, isReship: action.payload};
         case 'SET_CURRENT_ORDER_NUMBER':
             return {...state, currentOrderNumber: action.payload};
         case 'SET_CURRENT_PURCHASE_NUMBER':

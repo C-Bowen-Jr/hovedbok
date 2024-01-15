@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Box, TextField, Divider } from '@mui/material';
 import { Button } from '@mui/base/Button';
@@ -7,9 +7,10 @@ import TagControls from './TagControls.jsx';
 import TagDisplay from './TagDisplay.jsx';
 import PrintPreview from './PrintPreview.jsx';
 import { invoke } from '@tauri-apps/api/tauri';
+import { listen } from '@tauri-apps/api/event';
 import { toast } from 'sonner';
 import { formatCurrency, format_date_db } from './utils.js';
-import { setSellTags, setCurrentOrderNumber, setProductList, dropReceiptList, saveFile, setReceiptList } from './Store';
+import { setSellTags, setCurrentOrderNumber, setProductList, dropReceiptList, saveFile, setReceiptList, setReship } from './Store';
 
 
 
@@ -31,6 +32,7 @@ export default function SellingForm() {
     const receiptList = useSelector((state) => state.receiptList);
     const productList = useSelector((state) => state.productList);
     const sellTags = useSelector((state) => state.sellTags);
+    const isReship = useSelector((state) => state.isReship);
 
     const dispatch = useDispatch();
     const todaysDate = new Date();
@@ -152,6 +154,22 @@ export default function SellingForm() {
         return false;
     };
 
+    const disablePrint = () => {
+        // Reship Conditionals
+        if (isReship && address != "" && receiptList.size != 0){
+            return false;
+        }
+        return isAnyBadInput();
+    };
+
+    const disableSubmit = () => {
+        // Don't submit any reships
+        if (isReship) {
+            return true;
+        }
+        return isAnyBadInput();
+    };
+
     const handleManualFee = () => {
         setIsAutoFee(false);
         document.getElementById("fee").focus();
@@ -186,6 +204,7 @@ export default function SellingForm() {
         setBadFee(false);
         setIsAutoFee(true);
         setBadAddress(false);
+        dispatch(setReship(false));
     };
     const clearForm = () => {
         generalReset();
@@ -272,6 +291,14 @@ export default function SellingForm() {
         });
         
     };
+
+    useEffect(() => {
+        listen("menu-event", (e) => {
+            if (e.payload == "reprint") {
+                dispatch(setReship(true));
+            }
+        })
+    }, []);
 
     return (
         <>
@@ -376,9 +403,9 @@ export default function SellingForm() {
                 </div>
             </Box>
             <Box sx={{ alignContent: "right", marginTop: "16px", padding: "8px" }}>
-                <PrintPreview disabled={isAnyBadInput()} address={{address, giftMessage}} />
+                <PrintPreview disabled={disablePrint()} address={{address, giftMessage}} />
                 {!logSuccess &&
-                <Button disabled={isAnyBadInput()} onClick={handleSubmit} className="btn bold">Submit</Button>
+                <Button disabled={disableSubmit()} onClick={handleSubmit} className="btn bold">Submit</Button>
                 }
                 {logSuccess &&
                 <Button onClick={clearForm} className="btn bold">Clear</Button>
