@@ -109,6 +109,29 @@ struct Buys {
     includes: String,
 }
 
+#[derive(Serialize, Deserialize)]
+struct DbMetrics {
+    success: bool,
+    sales: SaleMetrics,
+    purchases: PurchaseMetrics,
+}
+
+#[derive(Serialize, Deserialize)]
+struct SaleMetrics {
+    earnings: f64,
+    fees: f64,
+    expenses: f64,
+    orders: i32,
+    items: i32,
+}
+
+#[derive(Serialize, Deserialize)]
+struct PurchaseMetrics {
+    expenses: f64,
+    orders: i32,
+    items: i32,
+}
+
 #[tauri::command]
 fn update_save_file(payload: String) -> bool {
     let read_save = serde_json::from_str(&payload);
@@ -226,17 +249,105 @@ fn publish_purchase(payload: String) -> bool {
 }
 
 #[tauri::command]
-fn query_with(payload: String) -> f32{
+fn query_with(payload: String) -> DbMetrics{
     let conn = open_ledger();
+    let mut sale_earnings = 0.0;
+    let mut sale_fees = 0.0;
+    let mut sale_expenses = 0.0;
+    let mut sale_orders = 0;
+    let mut sale_items = 0;
+    let mut purchase_expenses = 0.0;
+    let mut purchase_orders = 0;
+    let mut purchase_items = 0;
+    let mut success = true;
 
-    match conn.query_row(
-        "SELECT sum(earnings) FROM sale",
-        [],
+    // Not accurately effective. Data gather should be by means of:
+    // SELECT id FROM <sale|purchase> [WHERE <date range>] = array of ids
+    // Then for each id, select sum or count as appropriate where id matches
+
+    match  conn.query_row(
+        format!("SELECT SUM(earnings) FROM sale {0}", &payload).as_str(), [],
         |row| row.get(0),
     ) {
-        Ok(value) => value,
-        Err(error) => { println!("{:?}", error); 0.0 as f32}
-    }
+        Ok(value) => sale_earnings = value,
+        Err(error) => {println!("Query_With: Sale Earnings: {}", error); success = false;},
+    };
+
+    match  conn.query_row(
+        format!("SELECT SUM(fee) FROM sale {0}", &payload).as_str(), [],
+        |row| row.get(0),
+    ) {
+        Ok(value) => sale_fees = value,
+        Err(error) => {println!("Query_With: Sale Fees: {}", error); success = false;},
+    };
+
+    match  conn.query_row(
+        format!("SELECT SUM(expense) FROM sale {0}", &payload).as_str(), [],
+        |row| row.get(0),
+    ) {
+        Ok(value) => sale_expenses = value,
+        Err(error) => {println!("Query_With: Sale Expenses: {}", error); success = false;},
+    };
+
+    match  conn.query_row(
+        format!("SELECT COUNT(*) FROM sale {0}", &payload).as_str(), [],
+        |row| row.get(0),
+    ) {
+        Ok(value) => sale_orders = value,
+        Err(error) => {println!("Query_With: Sale Orders: {}", error); success = false;},
+    };
+
+    match  conn.query_row(
+        "SELECT SUM(quantity) FROM saleline {0}", [],
+        |row| row.get(0),
+    ) {
+        Ok(value) => sale_items = value,
+        Err(error) => {println!("Query_With: Sale Items: {}", error); success = false;},
+    };
+
+    match  conn.query_row(
+        format!("SELECT SUM(expense) FROM purchase {0}", &payload).as_str(), [],
+        |row| row.get(0),
+    ) {
+        Ok(value) => purchase_expenses = value,
+        Err(error) => {println!("Query_With: Purchase Expenses: {}", error); success = false;},
+    };
+
+    match  conn.query_row(
+        format!("SELECT COUNT(*) FROM purchase {0}", &payload).as_str(), [],
+        |row| row.get(0),
+    ) {
+        Ok(value) => purchase_orders = value,
+        Err(error) => {println!("Query_With: Purchase Orders: {}", error); success = false;},
+    };
+
+    match  conn.query_row(
+        "SELECT SUM(quantity) FROM purchaseline"), [],
+        |row| row.get(0),
+    ) {
+        Ok(value) => purchase_items = value,
+        Err(error) => {println!("Query_With: Purchase Items: {}", error); success = false;},
+    };
+
+    let sales_object = SaleMetrics{
+        earnings: sale_earnings,
+        fees: sale_fees,
+        expenses: sale_expenses,
+        orders: sale_orders,
+        items: sale_items,
+    };
+    let purchase_object = PurchaseMetrics{
+        expenses: purchase_expenses,
+        orders: purchase_orders,
+        items: purchase_items,
+    };
+    let db_object = DbMetrics{
+        success: success,
+        sales: sales_object,
+        purchases: purchase_object,
+    };
+    
+    return db_object;
 }
 
 #[tauri::command]

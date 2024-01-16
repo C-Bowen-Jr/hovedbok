@@ -11,7 +11,7 @@ import { setReceiptList, setReceiptSelling, setBuyingPresets, saveFile, setCurre
 
 
 export default function LedgerForm() {
-    const [quantity, setQuantity] = useState();
+    const [quantity, setQuantity] = useState("");
 
     const buyingPresets = useSelector((state) => state.buyingPresets);
 
@@ -27,7 +27,11 @@ export default function LedgerForm() {
     };
 
     const handleSearch = () => {
-        //
+        const res = invoke('query_with', { payload: "WHERE date LIKE '%2023%'" });
+        res.then((result) => {
+            //setQuantity(result);
+            console.log(result);
+        });
     };
 
     const resetForm = () => {
@@ -69,6 +73,7 @@ export default function LedgerForm() {
                 <div>
                     Search toggles and fields
                 </div>
+                {quantity}
             </Box>
             <Box sx={{ alignContent: "right", marginTop: "16px", padding: "8px" }}>
                 <Button 
