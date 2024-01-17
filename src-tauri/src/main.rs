@@ -265,6 +265,11 @@ fn query_with(payload: String) -> DbMetrics{
     // SELECT id FROM <sale|purchase> [WHERE <date range>] = array of ids
     // Then for each id, select sum or count as appropriate where id matches
 
+    /*let mut sale_id_stmt = conn.prepare(format!("SELECT order_number FROM sale {0}", &payload).as_str())?;
+    let mut sale_ids = sale_id_stmt.query(NO_PARAMS)?;
+    let mut purchase_id_stmt = conn.prepare(format!("SELECT order_number FROM sale {0}", &payload).as_str())?;
+    let mut purchase_ids = purchase_id_stmt.query(NO_PARAMS)?;*/
+
     match  conn.query_row(
         format!("SELECT SUM(earnings) FROM sale {0}", &payload).as_str(), [],
         |row| row.get(0),
@@ -298,7 +303,7 @@ fn query_with(payload: String) -> DbMetrics{
     };
 
     match  conn.query_row(
-        "SELECT SUM(quantity) FROM saleline {0}", [],
+        format!("SELECT SUM(quantity) FROM saleline WHERE order_number IN (SELECT order_number FROM sale {0})", &payload).as_str(), [],
         |row| row.get(0),
     ) {
         Ok(value) => sale_items = value,
@@ -306,7 +311,7 @@ fn query_with(payload: String) -> DbMetrics{
     };
 
     match  conn.query_row(
-        format!("SELECT SUM(expense) FROM purchase {0}", &payload).as_str(), [],
+        format!("SELECT SUM(expense) FROM purchaseline WHERE purchase_number IN (SELECT purchase_number FROM purchase {0})", &payload).as_str(), [],
         |row| row.get(0),
     ) {
         Ok(value) => purchase_expenses = value,
@@ -314,7 +319,7 @@ fn query_with(payload: String) -> DbMetrics{
     };
 
     match  conn.query_row(
-        format!("SELECT COUNT(*) FROM purchase {0}", &payload).as_str(), [],
+        format!("SELECT COUNT(*) FROM purchaseline WHERE purchase_number IN (SELECT purchase_number FROM purchase {0})", &payload).as_str(), [],
         |row| row.get(0),
     ) {
         Ok(value) => purchase_orders = value,
@@ -322,7 +327,7 @@ fn query_with(payload: String) -> DbMetrics{
     };
 
     match  conn.query_row(
-        "SELECT SUM(quantity) FROM purchaseline"), [],
+        format!("SELECT SUM(quantity) FROM purchaseline WHERE purchase_number IN (SELECT purchase_number FROM purchase {0})", &payload).as_str(), [],
         |row| row.get(0),
     ) {
         Ok(value) => purchase_items = value,
