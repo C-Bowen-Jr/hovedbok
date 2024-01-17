@@ -15,8 +15,8 @@
       "title": "Burger and Fries",
       "sku": "BURGER",
       "variant": "Test",
-      "quantity": 2,
-      "sold": 0,
+      "quantity": 1,
+      "sold": 1,
       "released": "12/30/2022",
       "retired": false
     }

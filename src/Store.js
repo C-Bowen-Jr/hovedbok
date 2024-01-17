@@ -14,6 +14,10 @@ const initialState = {
     tagPresets: jsonFile.tag_presets,
     buyingPresets: jsonFile.buying_presets,
     companyInfo: jsonFile.company_info,
+    dbMetrics: {"sales": 
+    {"expenses": 0.0, "earnings": 0.0, "fees": 0.0, "orders": 0, "items": 0},
+    "purchases":
+    {"expenses": 0.0, "orders": 0, "items": 0}, "success": false},
     sellTags: [],
     currentOrderNumber: 1,
     currentPurchaseNumber: 1,
@@ -55,6 +59,11 @@ export const setBuyingPresets = (value) => ({
 
 export const setCompanyInfo = (value) => ({
     type: 'SET_COMPANY_INFO',
+    payload: value,
+});
+
+export const setDbMetrics = (value) => ({
+    type: 'SET_DB_METRICS',
     payload: value,
 });
 
@@ -152,6 +161,8 @@ const reducer = (state = initialState, action) => {
             return {...state, buyingPresets: action.payload};
         case 'SET_COMPANY_INFO':
             return {...state, companyInfo: action.payload};
+        case 'SET_DB_METRICS':
+            return {...state, dbMetrics: action.payload};
         case 'SET_SELL_TAGS':
             return {...state, sellTags: action.payload};
         case 'SET_RECEIPT_SELLING':

@@ -7,13 +7,13 @@ import InputAdornment from '@mui/material/InputAdornment';
 import { invoke } from '@tauri-apps/api/tauri';
 import { toast } from 'sonner';
 import { formatCurrency, format_date_db } from './utils.js';
-import { setReceiptList, setReceiptSelling, setBuyingPresets, saveFile, setCurrentPurchaseNumber } from './Store';
+import { setDbMetrics } from './Store';
 
 
 export default function LedgerForm() {
     const [quantity, setQuantity] = useState("");
 
-    const buyingPresets = useSelector((state) => state.buyingPresets);
+    const dbMetrics = useSelector((state) => state.dbMetrics);
 
     const dispatch = useDispatch();
     const todaysDate = new Date();
@@ -29,8 +29,7 @@ export default function LedgerForm() {
     const handleSearch = () => {
         const res = invoke('query_with', { payload: "WHERE date LIKE '%2023%'" });
         res.then((result) => {
-            //setQuantity(result);
-            console.log(result);
+            dispatch(setDbMetrics(result));
         });
     };
 

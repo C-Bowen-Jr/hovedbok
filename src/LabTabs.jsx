@@ -8,6 +8,7 @@ import SellingForm from './SellingForm';
 import LedgerForm from './LedgerForm';
 import RecieptPanel from './RecieptGrid';
 import InfoStack from "./InfoStack";
+import MetricTable from './MetricTable';
 import { dropReceiptList } from './Store';
 
 
@@ -46,8 +47,7 @@ function a11yProps(index) {
 
 export default function BasicTabs() {
     const [value, setValue] = React.useState(0);
-    const receiptList = useSelector((state) => state.receiptList);
-    const currentOrderNumber = useSelector((state) => state.currentOrderNumber);
+    const dbMetrics = useSelector((state) => state.dbMetrics);
 
     const dispatch = useDispatch();
 
@@ -102,9 +102,9 @@ export default function BasicTabs() {
                         <Paper className="card" sx={{ width: 800 }} elevation={1}>
                             <LedgerForm />
                         </Paper></div>
-                    <div className="reciept-group">
+                    <div className="reciept-group" overflow="auto">
                         <Paper className="card" sx={{ width: 800 }} elevation={1}>
-                            Viewport of data
+                            {dbMetrics["success"] && <MetricTable />}
                         </Paper>
                     </div>
                 </Box>
