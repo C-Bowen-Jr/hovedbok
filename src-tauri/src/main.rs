@@ -275,6 +275,7 @@ fn query_with(payload: String) -> DbMetrics{
         |row| row.get(0),
     ) {
         Ok(value) => sale_earnings = value,
+        Err(rusqlite::Error::InvalidColumnType(_,_,_)) => sale_earnings = 0.0,
         Err(error) => {println!("Query_With: Sale Earnings: {}", error); success = false;},
     };
 
@@ -283,6 +284,7 @@ fn query_with(payload: String) -> DbMetrics{
         |row| row.get(0),
     ) {
         Ok(value) => sale_fees = value,
+        Err(rusqlite::Error::InvalidColumnType(_,_,_)) => sale_fees = 0.0,
         Err(error) => {println!("Query_With: Sale Fees: {}", error); success = false;},
     };
 
@@ -291,6 +293,7 @@ fn query_with(payload: String) -> DbMetrics{
         |row| row.get(0),
     ) {
         Ok(value) => sale_expenses = value,
+        Err(rusqlite::Error::InvalidColumnType(_,_,_)) => sale_expenses = 0.0,
         Err(error) => {println!("Query_With: Sale Expenses: {}", error); success = false;},
     };
 
@@ -299,6 +302,7 @@ fn query_with(payload: String) -> DbMetrics{
         |row| row.get(0),
     ) {
         Ok(value) => sale_orders = value,
+        Err(rusqlite::Error::InvalidColumnType(_,_,_)) => sale_orders = 0,
         Err(error) => {println!("Query_With: Sale Orders: {}", error); success = false;},
     };
 
@@ -307,6 +311,7 @@ fn query_with(payload: String) -> DbMetrics{
         |row| row.get(0),
     ) {
         Ok(value) => sale_items = value,
+        Err(rusqlite::Error::InvalidColumnType(_,_,_)) => sale_items = 0,
         Err(error) => {println!("Query_With: Sale Items: {}", error); success = false;},
     };
 
@@ -315,6 +320,7 @@ fn query_with(payload: String) -> DbMetrics{
         |row| row.get(0),
     ) {
         Ok(value) => purchase_expenses = value,
+        Err(rusqlite::Error::InvalidColumnType(_,_,_)) => purchase_expenses = 0.0,
         Err(error) => {println!("Query_With: Purchase Expenses: {}", error); success = false;},
     };
 
@@ -323,6 +329,7 @@ fn query_with(payload: String) -> DbMetrics{
         |row| row.get(0),
     ) {
         Ok(value) => purchase_orders = value,
+        Err(rusqlite::Error::InvalidColumnType(_,_,_)) => purchase_orders = 0,
         Err(error) => {println!("Query_With: Purchase Orders: {}", error); success = false;},
     };
 
@@ -331,6 +338,7 @@ fn query_with(payload: String) -> DbMetrics{
         |row| row.get(0),
     ) {
         Ok(value) => purchase_items = value,
+        Err(rusqlite::Error::InvalidColumnType(_,_,_)) => purchase_items = 0,
         Err(error) => {println!("Query_With: Purchase Items: {}", error); success = false;},
     };
 

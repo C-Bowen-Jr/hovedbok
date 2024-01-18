@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { styled } from "@mui/material/styles";
 import Table from "@mui/material/Table";
@@ -36,22 +36,29 @@ export default function MetricTable() {
   const dbSalesEarnings = formatCurrency(dbMetrics["sales"]["earnings"]);
   const dbSalesExpenses = formatCurrency(dbMetrics["sales"]["expenses"]);
   const dbSalesFees = formatCurrency(dbMetrics["sales"]["fees"]);
-  const calcSalesCombinedExpenseFees = formatCurrency(
-    dbSalesExpenses + dbSalesFees
-  );
+  let calcSalesCombinedExpenseFees = formatCurrency(dbSalesExpenses + dbSalesFees);
   const dbSalesOrders = dbMetrics["sales"]["orders"];
   const dbSalesItems = dbMetrics["sales"]["items"];
-  const dbPurchasesExpenses = formatCurrency(
-    dbMetrics["purchases"]["expenses"]
-  );
+  let dbPurchasesExpenses = formatCurrency(dbMetrics["purchases"]["expenses"]);
   const dbPurchasesOrders = dbMetrics["purchases"]["orders"];
   const dbPurchasesItems = dbMetrics["purchases"]["items"];
-  const calcAllExpenses = formatCurrency(calcSalesCombinedExpenseFees + dbPurchasesExpenses);
+  let calcAllExpenses = formatCurrency(calcSalesCombinedExpenseFees + dbPurchasesExpenses);
 
-  const data = [
-    {id: 0, value: dbSalesEarnings, color: "green", label: 'Income'},
-    {id: 1, value: calcAllExpenses, color: "red", label: "Expenses"},
+  let data = [
+    {id: 0, value: parseFloat(dbSalesEarnings), color: "green", label: 'Income'},
+    {id: 1, value: parseFloat(calcAllExpenses), color: "red", label: "Expenses"},
   ];
+
+  useEffect(() => {
+    console.log(dbMetrics);
+    data = [
+        {id: 0, value: parseFloat(dbSalesEarnings), color: "green", label: 'Income'},
+        {id: 1, value: parseFloat(calcAllExpenses), color: "red", label: "Expenses"},
+    ];
+    calcSalesCombinedExpenseFees = formatCurrency(dbSalesExpenses + dbSalesFees);
+    dbPurchasesExpenses = formatCurrency(dbMetrics["purchases"]["expenses"]);
+    calcAllExpenses = formatCurrency(calcSalesCombinedExpenseFees + dbPurchasesExpenses);
+  }, [dbMetrics]);
 
   return (
     <>

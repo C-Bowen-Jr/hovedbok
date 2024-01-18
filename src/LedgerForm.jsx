@@ -11,30 +11,50 @@ import { setDbMetrics } from './Store';
 
 
 export default function LedgerForm() {
-    const [quantity, setQuantity] = useState("");
-
+    const [whereStatement, setWhereStatement] = useState("");
+    const [isDisabledSearch, setDisabledSearch] = useState(true);
     const dbMetrics = useSelector((state) => state.dbMetrics);
 
     const dispatch = useDispatch();
     const todaysDate = new Date();
-
-    const handleQuantity = (event) => {
-        setQuantity(event.target.value);
-    };
+    const dateParts = [...format_date_db(todaysDate).matchAll(/(\d\d\d\d)-(\d|\d\d)-\d|\d\d/g)];
 
     const handlePreset = (event) => {
-        console.log(event.target.value);
+        switch (event.target.value) {
+            case "30_days":
+                setWhereStatement("WHERE DATEDIFF(day, date, GETDATE()) < 31");
+                break;
+            case "this_month":
+                setWhereStatement(`WHERE date LIKE '%${dateParts[0][1]}-${dateParts[0][2]}-%'`);
+                break;
+            case "12_months":
+                setWhereStatement("WHERE DATEDIFF(day, date, GETDATE()) < 366");
+                break;
+            case "this_year":
+                setWhereStatement(`WHERE date LIKE '%${dateParts[0][1]}-%'`);
+                break;
+            case "all_time":
+                setWhereStatement("");
+                break;
+            default:
+                break;
+        }
+        setDisabledSearch(false);
+        //handleSearch();
     };
 
     const handleSearch = () => {
-        const res = invoke('query_with', { payload: "WHERE date LIKE '%2023%'" });
+        const res = invoke('query_with', { payload: whereStatement });
+        console.log(whereStatement);
         res.then((result) => {
             dispatch(setDbMetrics(result));
+            setDisabledSearch(true);
         });
     };
 
     const resetForm = () => {
-        //
+        dispatch(setDbMetrics(dbMetrics.succes = false));
+        setDisabledSearch(true);
     };
 
     return (
@@ -72,11 +92,10 @@ export default function LedgerForm() {
                 <div>
                     Search toggles and fields
                 </div>
-                {quantity}
             </Box>
             <Box sx={{ alignContent: "right", marginTop: "16px", padding: "8px" }}>
                 <Button 
-                    disabled={false} 
+                    disabled={isDisabledSearch} 
                     onClick={handleSearch} 
                     className="btn bold">
                         Search
