@@ -85,7 +85,7 @@
         "fullscreen": false,
         "height": 1000,
         "resizable": true,
-        "center": true,
+        "y": 0,
         "title": "Hovedbok - Ledger Software",
         "width": 1680
       }

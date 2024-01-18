@@ -22,13 +22,13 @@ export default function LedgerForm() {
     const handlePreset = (event) => {
         switch (event.target.value) {
             case "30_days":
-                setWhereStatement("WHERE DATEDIFF(day, date, GETDATE()) < 31");
+                setWhereStatement("WHERE julianday('now') - julianday(date) < 31");
                 break;
             case "this_month":
                 setWhereStatement(`WHERE date LIKE '%${dateParts[0][1]}-${dateParts[0][2]}-%'`);
                 break;
             case "12_months":
-                setWhereStatement("WHERE DATEDIFF(day, date, GETDATE()) < 366");
+                setWhereStatement("WHERE julianday('now') - julianday(date) < 366");
                 break;
             case "this_year":
                 setWhereStatement(`WHERE date LIKE '%${dateParts[0][1]}-%'`);
@@ -71,26 +71,26 @@ export default function LedgerForm() {
                 >
                     <MenuItem disabled value="">Common Queries</MenuItem>
                     <MenuItem key="30_days" value="30_days" >
-                        Earnings:Spendings - 30 Days 
+                        30 Days 
                     </MenuItem>
                     <MenuItem key="this_month" value="this_month" >
-                        Earnings:Spendings - This Month 
+                        This Month 
                     </MenuItem>
                     <MenuItem key="12_months" value="12_months" >
-                        Earnings:Spendings - 1 Year 
+                        1 Year 
                     </MenuItem>
                     <MenuItem key="this_year" value="this_year" >
-                        Earnings:Spendings - This Year 
+                        This Year 
                     </MenuItem>
                     <MenuItem key="all_time" value="all_time" >
-                        Earnings:Spendings - Career
+                        Career
                     </MenuItem>
                 </Select>
             </Box>
             <Box component="form" sx={{ padding: "8px" }}>
                 <Divider sx={{ marginTop: "16px" }} textAlign="left">Search Form</Divider>
                 <div>
-                    Search toggles and fields
+                    <Button onClick={()=> console.log(producList)}>Products</Button>
                 </div>
             </Box>
             <Box sx={{ alignContent: "right", marginTop: "16px", padding: "8px" }}>
