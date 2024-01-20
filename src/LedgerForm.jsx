@@ -9,15 +9,30 @@ import { toast } from 'sonner';
 import { formatCurrency, format_date_db } from './utils.js';
 import { setDbMetrics } from './Store';
 
+function getSuperSkus(list) {
+    let superSkus = new Set;
+
+    list.forEach(sku => {
+        if (sku.includes('_')) {
+            const baseSku = sku.split('_')[0];
+            superSkus.add(baseSku + "_*");
+        }
+        superSkus.add(sku);
+    });
+
+    return Array.from(superSkus).sort();
+}
 
 export default function LedgerForm() {
     const [whereStatement, setWhereStatement] = useState("");
     const [isDisabledSearch, setDisabledSearch] = useState(true);
     const dbMetrics = useSelector((state) => state.dbMetrics);
+    const productList = useSelector((state) => state.productList);
 
     const dispatch = useDispatch();
     const todaysDate = new Date();
-    const dateParts = [...format_date_db(todaysDate).matchAll(/(\d\d\d\d)-(\d|\d\d)-\d|\d\d/g)];
+    const skuList = getSuperSkus(productList.map((x) => x.sku));
+    const dateParts = [...format_date_db(todaysDate).matchAll(/(\d\d\d\d)-(\d\d)-\d\d/g)];
 
     const handlePreset = (event) => {
         switch (event.target.value) {
@@ -41,6 +56,11 @@ export default function LedgerForm() {
         }
         setDisabledSearch(false);
         //handleSearch();
+    };
+
+    const handleSku = (event) => {
+        const skuUsingPercent = event.target.value.replace("*", "%");
+        console.log(`WHERE sku LIKE ${skuUsingPercent}`);
     };
 
     const handleSearch = () => {
@@ -89,9 +109,22 @@ export default function LedgerForm() {
             </Box>
             <Box component="form" sx={{ padding: "8px" }}>
                 <Divider sx={{ marginTop: "16px" }} textAlign="left">Search Form</Divider>
-                <div>
-                    <Button onClick={()=> console.log(producList)}>Products</Button>
-                </div>
+                <Select
+                    labelId="sku-select-label"
+                    id="sku-select"
+                    displayEmpty
+                    value={""}
+                    sx={{ width: "200px" }}
+                    onChange={handleSku}
+                >
+                    <MenuItem disabled value="">SKU</MenuItem>
+                    {Array.from(skuList).map((sku) => (
+                        <MenuItem key={sku} value={sku} >
+                            {sku}
+                        </MenuItem>
+                    ))}
+                </Select>
+                <Button onClick={()=> console.log(productList)}>Products</Button>
             </Box>
             <Box sx={{ alignContent: "right", marginTop: "16px", padding: "8px" }}>
                 <Button 
