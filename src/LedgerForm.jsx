@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Button } from '@mui/base/Button';
 import { Box, TextField, Divider } from '@mui/material';
 import { Select, MenuItem } from '@mui/material';
+import { display } from '@mui/system';
 import InputAdornment from '@mui/material/InputAdornment';
 import { invoke } from '@tauri-apps/api/tauri';
 import { toast } from 'sonner';
@@ -26,6 +27,8 @@ function getSuperSkus(list) {
 export default function LedgerForm() {
     const [whereStatement, setWhereStatement] = useState("");
     const [isDisabledSearch, setDisabledSearch] = useState(true);
+    const [item, setItem] = useState("");
+    const [tag, setTag] = useState("");
     const dbMetrics = useSelector((state) => state.dbMetrics);
     const productList = useSelector((state) => state.productList);
 
@@ -63,6 +66,14 @@ export default function LedgerForm() {
         console.log(`WHERE sku LIKE ${skuUsingPercent}`);
     };
 
+    const handleItem = (event) => {
+        setItem(event.target.value);
+    };
+
+    const handleTag = (event) => {
+        setTag(event.target.value);
+    };
+
     const handleSearch = () => {
         const res = invoke('query_with', { payload: whereStatement });
         console.log(whereStatement);
@@ -79,8 +90,12 @@ export default function LedgerForm() {
 
     return (
         <>
+        <Box sx={{ padding: "8px " }}>
+                <Divider sx={{ marginTop: "16px" }} textAlign="left">Search Type</Divider>
+                Monetary Results / Count
+            </Box>
             <Box sx={{ padding: "8px " }}>
-                <Divider sx={{ marginTop: "16px" }} textAlign="left">Presets</Divider>
+                <Divider sx={{ marginTop: "16px" }} textAlign="left">Timeframe</Divider>
                 <Select
                     labelId="preset-select-label"
                     id="preset-query"
@@ -107,8 +122,8 @@ export default function LedgerForm() {
                     </MenuItem>
                 </Select>
             </Box>
-            <Box component="form" sx={{ padding: "8px" }}>
-                <Divider sx={{ marginTop: "16px" }} textAlign="left">Search Form</Divider>
+            <Divider sx={{ marginTop: "16px" }} textAlign="left">Search Item</Divider>
+            <Box  sx={{ display: "flex", flexDirection: "row", alignItems: "center", padding: "8px" }}>
                 <Select
                     labelId="sku-select-label"
                     id="sku-select"
@@ -124,7 +139,30 @@ export default function LedgerForm() {
                         </MenuItem>
                     ))}
                 </Select>
-                <Button onClick={()=> console.log(productList)}>Products</Button>
+                <Divider sx={{ margin: "8px", width: "120px"}} textAlign="center">Or</Divider>
+                <TextField
+                        required
+                        id="item"
+                        label="Item"
+                        autoComplete="off"
+                        value={item}
+                        onChange={handleItem}
+                        onDoubleClick={() => { setItem("") }}
+                        sx={{ width: "200px", margin: "8px 4px" }}
+                    />
+            </Box>
+            <Box component="form" sx={{ padding: "8px" }}>
+                <Divider sx={{ marginTop: "16px" }} textAlign="left">Search Tag</Divider>
+                <TextField
+                        required
+                        id="tag"
+                        label="Tag"
+                        autoComplete="off"
+                        value={tag}
+                        onChange={handleTag}
+                        onDoubleClick={() => { setTag("") }}
+                        sx={{ width: "200px", margin: "8px 4px" }}
+                    />
             </Box>
             <Box sx={{ alignContent: "right", marginTop: "16px", padding: "8px" }}>
                 <Button 
