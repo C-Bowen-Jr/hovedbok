@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Button } from '@mui/base/Button';
 import { Box, TextField, Divider } from '@mui/material';
-import { Select, MenuItem } from '@mui/material';
+import { Select, MenuItem, Switch } from '@mui/material';
 import { display } from '@mui/system';
 import InputAdornment from '@mui/material/InputAdornment';
 import { invoke } from '@tauri-apps/api/tauri';
@@ -28,7 +28,11 @@ export default function LedgerForm() {
     const [whereStatement, setWhereStatement] = useState("");
     const [isDisabledSearch, setDisabledSearch] = useState(true);
     const [item, setItem] = useState("");
-    const [tag, setTag] = useState("");
+    const [salesTag, setSalesTag] = useState("");
+    const [purchaseTag, setPurchaseTag] = useState("");
+    const [isSummarySearch, setSummarySearch] = useState(false);
+    const [isSalesSearch, setSalesSearch] = useState(false);
+    const [isPurchaseSearch, setPurchaseSearch] = useState(false);
     const dbMetrics = useSelector((state) => state.dbMetrics);
     const productList = useSelector((state) => state.productList);
 
@@ -61,22 +65,52 @@ export default function LedgerForm() {
         //handleSearch();
     };
 
+    const setSearchToSales = (isSales) => {
+        setSalesSearch(isSales);
+        setPurchaseSearch(!isSales);
+    };
+
     const handleSku = (event) => {
         const skuUsingPercent = event.target.value.replace("*", "%");
-        console.log(`WHERE sku LIKE ${skuUsingPercent}`);
+        setSearchToSales(true);
     };
 
     const handleItem = (event) => {
         setItem(event.target.value);
+        if (event.target.value != "") {
+            setSearchToSales(false);
+        }
+        else {
+            setSearchToSales(true);
+        }
     };
 
-    const handleTag = (event) => {
-        setTag(event.target.value);
+    const handleSalesTag = (event) => {
+        setSalesTag(event.target.value);
+        if (event.target.value != "") {
+            setSearchToSales(true);
+        }
+        else {
+            setSearchToSales(false);
+        }
+    };
+
+    const handlePurchaseTag = (event) => {
+        setPurchaseTag(event.target.value);
+        if (event.target.value != "") {
+            setSearchToSales(false);
+        }
+        else {
+            setSearchToSales(true);
+        }
+    };
+
+    const handleSummarySearch = (event) => {
+        setSummarySearch(event.target.checked);
     };
 
     const handleSearch = () => {
         const res = invoke('query_with', { payload: whereStatement });
-        console.log(whereStatement);
         res.then((result) => {
             dispatch(setDbMetrics(result));
             setDisabledSearch(true);
@@ -84,27 +118,37 @@ export default function LedgerForm() {
     };
 
     const resetForm = () => {
+        setSalesSearch(false);
+        setPurchaseSearch(false);
         dispatch(setDbMetrics(dbMetrics.succes = false));
         setDisabledSearch(true);
     };
 
     return (
         <>
-        <Box sx={{ padding: "8px " }}>
+            <Box sx={{ padding: "8px " }}>
                 <Divider sx={{ marginTop: "16px" }} textAlign="left">Search Type</Divider>
-                Monetary Results / Count
+                <Box sx={{ width: 1, marginInline: "8px" }}>
+                    Specifics
+                    <Switch
+                        checked={isSummarySearch}
+                        onChange={handleSummarySearch}
+                        inputProps={{ 'aria-label': 'controlled' }}
+                    />
+                    Summary
+                </Box>
             </Box>
             <Box sx={{ padding: "8px " }}>
-                <Divider sx={{ marginTop: "16px" }} textAlign="left">Timeframe</Divider>
+                <Divider sx={{ marginTop: "16px" }} textAlign="left">Time Frame</Divider>
                 <Select
                     labelId="preset-select-label"
                     id="preset-query"
                     displayEmpty
                     value={""}
-                    sx={{ width: "200px" }}
+                    sx={{ width: "200px", margin: "8px 4px" }}
                     onChange={handlePreset}
                 >
-                    <MenuItem disabled value="">Common Queries</MenuItem>
+                    <MenuItem disabled value="">Date Window</MenuItem>
                     <MenuItem key="30_days" value="30_days" >
                         30 Days 
                     </MenuItem>
@@ -122,14 +166,16 @@ export default function LedgerForm() {
                     </MenuItem>
                 </Select>
             </Box>
+            {!isSummarySearch && <>
             <Divider sx={{ marginTop: "16px" }} textAlign="left">Search Item</Divider>
             <Box  sx={{ display: "flex", flexDirection: "row", alignItems: "center", padding: "8px" }}>
                 <Select
                     labelId="sku-select-label"
                     id="sku-select"
                     displayEmpty
+                    disabled={isPurchaseSearch}
                     value={""}
-                    sx={{ width: "200px" }}
+                    sx={{ width: "200px", margin: "8px 4px" }}
                     onChange={handleSku}
                 >
                     <MenuItem disabled value="">SKU</MenuItem>
@@ -141,29 +187,41 @@ export default function LedgerForm() {
                 </Select>
                 <Divider sx={{ margin: "8px", width: "120px"}} textAlign="center">Or</Divider>
                 <TextField
-                        required
                         id="item"
                         label="Item"
                         autoComplete="off"
+                        disabled={isSalesSearch}
                         value={item}
                         onChange={handleItem}
                         onDoubleClick={() => { setItem("") }}
                         sx={{ width: "200px", margin: "8px 4px" }}
                     />
             </Box>
-            <Box component="form" sx={{ padding: "8px" }}>
-                <Divider sx={{ marginTop: "16px" }} textAlign="left">Search Tag</Divider>
+            <Divider sx={{ marginTop: "16px" }} textAlign="left">Search Tag</Divider>
+            <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center", padding: "8px" }}>
                 <TextField
-                        required
-                        id="tag"
-                        label="Tag"
+                        id="sales-tag"
+                        label="Sales Tag"
                         autoComplete="off"
-                        value={tag}
-                        onChange={handleTag}
-                        onDoubleClick={() => { setTag("") }}
+                        disabled={isPurchaseSearch}
+                        value={salesTag}
+                        onChange={handleSalesTag}
+                        onDoubleClick={() => { setSalesTag("") }}
+                        sx={{ width: "200px", margin: "8px 4px" }}
+                    />
+                <Divider sx={{ margin: "8px", width: "120px"}} textAlign="center">Or</Divider>
+                <TextField
+                        id="purchase-tag"
+                        label="Purchase Tag"
+                        autoComplete="off"
+                        disabled={isSalesSearch}
+                        value={purchaseTag}
+                        onChange={handlePurchaseTag}
+                        onDoubleClick={() => { setPurchaseTag("") }}
                         sx={{ width: "200px", margin: "8px 4px" }}
                     />
             </Box>
+            </>}
             <Box sx={{ alignContent: "right", marginTop: "16px", padding: "8px" }}>
                 <Button 
                     disabled={isDisabledSearch} 
