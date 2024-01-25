@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Box, TextField, Divider } from '@mui/material';
+import { Box, TextField, Divider, Tooltip } from '@mui/material';
 import { Button } from '@mui/base/Button';
 import InputAdornment from '@mui/material/InputAdornment';
 import TagControls from './TagControls.jsx';
@@ -342,14 +342,20 @@ export default function SellingForm() {
                 </div>
                 <Divider sx={{ marginTop: "16px" }} textAlign="left">Seller Fees</Divider>
                {(fee == "") && <Box>
-                    <Button
-                        className="btn bold etsy"
-                        disabled={isFeeNotCalculatable()}
-                        onClick={handleEtsyButton}>Etsy</Button>
-                    <Button
-                        className="btn bold paypal"
-                        disabled={isFeeNotCalculatable()}
-                        onClick={handlePaypalButton}>PayPal</Button>
+                    <Tooltip title="Etsy: $0.20 per ITEM + 6.5% of EARNINGS" arrow>
+                        <Button
+                            className="btn bold etsy"
+                            disabled={isFeeNotCalculatable()}
+                            onClick={handleEtsyButton}>Etsy
+                        </Button>
+                    </Tooltip>
+                    <Tooltip title="PayPal: $0.30 per TRANSACTION + 2.9% of EARNININGS" arrow>
+                        <Button
+                            className="btn bold paypal"
+                            disabled={isFeeNotCalculatable()}
+                            onClick={handlePaypalButton}>PayPal
+                        </Button>
+                    </Tooltip>
                     <Button className="btn bold" onClick={handleManualFee}>Manual</Button>
                </Box>}
                 <div>
