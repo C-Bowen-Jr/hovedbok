@@ -341,15 +341,17 @@ export default function SellingForm() {
                     />
                 </div>
                 <Divider sx={{ marginTop: "16px" }} textAlign="left">Seller Fees</Divider>
-                <Button
-                    className="btn bold etsy"
-                    disabled={isFeeNotCalculatable()}
-                    onClick={handleEtsyButton}>Etsy</Button>
-                <Button
-                    className="btn bold paypal"
-                    disabled={isFeeNotCalculatable()}
-                    onClick={handlePaypalButton}>PayPal</Button>
-                <Button className="btn bold" onClick={handleManualFee}>Manual</Button>
+               {(fee == "") && <Box>
+                    <Button
+                        className="btn bold etsy"
+                        disabled={isFeeNotCalculatable()}
+                        onClick={handleEtsyButton}>Etsy</Button>
+                    <Button
+                        className="btn bold paypal"
+                        disabled={isFeeNotCalculatable()}
+                        onClick={handlePaypalButton}>PayPal</Button>
+                    <Button className="btn bold" onClick={handleManualFee}>Manual</Button>
+               </Box>}
                 <div>
                     <TextField
                         required
@@ -364,7 +366,7 @@ export default function SellingForm() {
                         error={badFee}
                         onDoubleClick={() => { setFee("") }}
                         sx={{ width: 4 / 6, margin: "8px 4px" }}
-                        InputProps={fee != "" ? {
+                        InputProps={fee !== "" ? {
                             startAdornment: <InputAdornment position="start">$</InputAdornment>,
                           } : {}}
                     />
