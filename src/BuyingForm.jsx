@@ -12,7 +12,7 @@ import { setReceiptList, setReceiptSelling, setBuyingPresets, saveFile, setCurre
 
 export default function BuyingForm() {
     // Localized states for fields, gets compiled to object on submit
-    const [quantity, setQuantity] = useState();
+    const [quantity, setQuantity] = useState("");
     const [name, setName] = useState("");
     const [tags, setTags] = useState("");
     const [cost, setCost] = useState("");
@@ -138,7 +138,7 @@ export default function BuyingForm() {
     }
 
     const handlePreset = (event) => {
-        setQuantity(event.target.value.quantity);
+        setQuantity(event.target.value.qty);
         setName(event.target.value.name);
         setCost(event.target.value.cost);
         setTags(event.target.value.tags);
@@ -173,7 +173,7 @@ export default function BuyingForm() {
         buildInclude += (cost === "") ? "\u2800" : "$";
         buildInclude += "\u{1f9fe}";
         buildInclude += (tags === "") ? "\u2800]" : "\u{1f3f7}]";
-        const newPreset = { quantity: quantity, name: name, cost: cost, tags: tags, includes: buildInclude};
+        const newPreset = { qty: `${quantity}`, name: `${name}`, cost: `${cost}`, tags: `${tags}`, includes: buildInclude};
         
         dispatch(setBuyingPresets([...buyingPresets, newPreset]));
         dispatch(saveFile());

@@ -102,7 +102,7 @@ struct Tag {
 
 #[derive(Serialize, Deserialize)]
 struct Buys {
-    quantity: String,
+    qty: String,
     name: String,
     cost: String,
     tags: String,
@@ -135,6 +135,7 @@ struct PurchaseMetrics {
 #[tauri::command]
 fn update_save_file(payload: String) -> bool {
     let read_save = serde_json::from_str(&payload);
+    println!("{}", &payload);
     let save_object: Save = match read_save {
         Ok(save) => save,
         Err(error) => { println!("{:?}",error); return false; },
