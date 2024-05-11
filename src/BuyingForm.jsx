@@ -271,6 +271,12 @@ export default function BuyingForm() {
                     onClick={handlePayroll}>
                         Payroll
                 </Button>
+                <Button 
+                    disabled={isNotNamed()} 
+                    onClick={handleSave} 
+                    className="btn bold">
+                        Save
+                </Button>
             </Box>
             <Box component="form" sx={{ padding: "8px" }}>
                 <Divider sx={{ marginTop: "16px" }} textAlign="left">Purchase Form</Divider>
@@ -324,14 +330,14 @@ export default function BuyingForm() {
                         sx={{ width: 4 / 6, margin: "8px 4px" }}
                     />
                 </div>
-            </Box>
-            <Box sx={{ alignContent: "right", marginTop: "16px", padding: "8px" }}>
                 <Button 
                     disabled={isAnyBadInput()} 
                     onClick={handleAdd} 
                     className="btn bold">
                         Add
                 </Button>
+            </Box>
+            <Box sx={{ alignContent: "right", marginTop: "16px", padding: "8px" }}>
                 {!logSuccess && <Button 
                     disabled={(receiptList.size === 0)} 
                     onClick={handleSubmit} 
@@ -341,12 +347,6 @@ export default function BuyingForm() {
                 {logSuccess &&
                 <Button onClick={resetForm} className="btn bold">Clear</Button>
                 }
-                <Button 
-                    disabled={isNotNamed() && isNewPreset()} 
-                    onClick={handleSave} 
-                    className="btn bold">
-                        Save
-                </Button>
                 <Button 
                     onClick={resetForm} 
                     className="btn bold">
