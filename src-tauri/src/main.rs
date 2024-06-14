@@ -135,7 +135,6 @@ struct PurchaseMetrics {
 #[tauri::command]
 fn update_save_file(payload: String) -> bool {
     let read_save = serde_json::from_str(&payload);
-    println!("{}", &payload);
     let save_object: Save = match read_save {
         Ok(save) => save,
         Err(error) => { println!("{:?}",error); return false; },
@@ -447,8 +446,8 @@ fn main() {
     let file_menu = Submenu::new("File", Menu::new()
       .add_item(CustomMenuItem::new("newproduct", "New Product").accelerator("cmdOrControl+N"))
       .add_native_item(MenuItem::Separator)
-      .add_item(CustomMenuItem::new("forcesave", "Force Save").accelerator("cmdOrControl+V"))
-      .add_item(CustomMenuItem::new("reprint", "Reprint").accelerator("cmdOrControl+V"))
+      .add_item(CustomMenuItem::new("forcesave", "Force Save").accelerator("cmdOrControl+F"))
+      .add_item(CustomMenuItem::new("reprint", "Reprint").accelerator("cmdOrControl+P"))
       .add_native_item(MenuItem::Separator)
       .add_item(CustomMenuItem::new("editproductmode", "Edit Product Mode").accelerator("cmdOrControl+E"))
       .add_item(CustomMenuItem::new("salemode", "Sale Mode").accelerator("cmdOrControl+S"))

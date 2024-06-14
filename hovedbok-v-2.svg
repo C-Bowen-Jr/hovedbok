@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="128"
+   height="128"
+   viewBox="0 0 33.866666 33.866666"
+   version="1.1"
+   id="svg5"
+   inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
+   sodipodi:docname="hovedbok-v-2.svg"
+   inkscape:export-filename="/home/laylong/Documents/Programming/Rust/something/logo-v2.png"
+   inkscape:export-xdpi="9.6000004"
+   inkscape:export-ydpi="9.6000004"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#505050"
+     bordercolor="#eeeeee"
+     borderopacity="1"
+     inkscape:pageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="0"
+     inkscape:document-units="px"
+     showgrid="false"
+     units="px"
+     width="128px"
+     inkscape:zoom="28.986775"
+     inkscape:cx="121.34844"
+     inkscape:cy="12.747192"
+     inkscape:window-width="1908"
+     inkscape:window-height="1158"
+     inkscape:window-x="6"
+     inkscape:window-y="6"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs2" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <path
+       id="rect846"
+       style="fill:#2f5f30;fill-opacity:1;stroke:#2a3328;stroke-width:0.521062;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M 0.26149513,0.26053087 0.26154652,3.3866432 2.3457408,3.9079607 V 29.961031 l -2.08234841,0.498486 -0.001897,3.148944 H 9.1195391 v -9.85437 H 24.751381 v 9.85437 h 8.858044 l 0.0031,-3.125418 -1.566232,-0.522012 V 3.9079607 l 1.563003,-0.5282629 1.78e-4,-3.11916693 H 24.751381 V 10.308772 H 9.1195391 V 0.26053087 Z"
+       sodipodi:nodetypes="ccccccccccccccccccccc" />
+    <rect
+       style="fill:#514128;fill-opacity:1;stroke:#2a3328;stroke-width:0.521062;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect1642"
+       width="18.237148"
+       height="26.05307"
+       x="7.8168855"
+       y="3.9079607" />
+    <path
+       style="fill:#2a3328;fill-opacity:1;stroke:#392e1c;stroke-width:0.521062;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M 9.4045363,5.6503598 9.2683219,28.766106"
+       id="path23938" />
+    <path
+       style="fill:#2f5f30;fill-opacity:1;stroke:none;stroke-width:0.787745;stroke-opacity:1"
+       d="M 7.4722985,13.015287 26.877702,16.68908 26.599767,19.611327 7.0225162,15.761591 Z"
+       id="path2771" />
+    <path
+       style="fill:#2f5f30;fill-opacity:1;stroke:none;stroke-width:0.787745;stroke-opacity:1"
+       d="M 6.6432906,18.536574 18.03342,16.8791 l 5.417313,0.847651 0.182157,0.868051 -16.6137578,2.786034 z"
+       id="path2773" />
+    <path
+       style="fill:none;fill-opacity:1;stroke:#514128;stroke-width:0.787745;stroke-opacity:1"
+       d="m 12.603676,17.257564 12.894756,2.514168"
+       id="path7449"
+       sodipodi:nodetypes="cc" />
+    <text
+       xml:space="preserve"
+       style="font-weight:bold;font-size:10.9628px;font-family:MathJax_Caligraphic;-inkscape-font-specification:'MathJax_Caligraphic Bold';fill:#c0b600;fill-opacity:1;stroke:#413520;stroke-width:0.443937;stroke-opacity:1"
+       x="17.720055"
+       y="13.19967"
+       id="text12382"><tspan
+         sodipodi:role="line"
+         id="tspan12380"
+         style="fill:#c0b600;fill-opacity:1;stroke:#413520;stroke-width:0.443937;stroke-opacity:1"
+         x="17.720055"
+         y="13.19967">$</tspan></text>
+  </g>
+</svg>
