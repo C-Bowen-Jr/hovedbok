@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Box, TextField, Divider, Tooltip } from '@mui/material';
+import PasteIcon from '@mui/icons-material/ContentPaste';
 import { Button } from '@mui/base/Button';
+import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
 import TagControls from './TagControls.jsx';
 import TagDisplay from './TagDisplay.jsx';
@@ -11,8 +13,12 @@ import { listen } from '@tauri-apps/api/event';
 import { toast } from 'sonner';
 import { formatCurrency, format_date_db } from './utils.js';
 import { setSellTags, setCurrentOrderNumber, setProductList, dropReceiptList, saveFile, setReceiptList, setReship } from './Store';
+import { readText } from '@tauri-apps/api/clipboard';
 
-
+async function getClipboard() {
+    const clipboardText = await readText();
+    return clipboardText;
+}
 
 export default function SellingForm() {
     // Localized states for fields, gets compiled to object on submit
@@ -174,6 +180,14 @@ export default function SellingForm() {
         setIsAutoFee(false);
         document.getElementById("fee").focus();
     };
+
+    const handlePasteAddress = () => {
+        getClipboard().then((value) => setAddress(value));
+    }
+
+    const handlePasteGiftMsg = () => {
+        getClipboard().then((value) => setGiftMessage(value));
+    }
 
     const isNewPreset = () => {
         console.log("TODO SellingForm.isNewPreset");
@@ -394,7 +408,11 @@ export default function SellingForm() {
                         error={badAddress}
                         onDoubleClick={() => { setAddress("") }}
                         sx={{ width: 4 / 6, margin: "8px 4px" }}
-                    />
+                    /><IconButton aria-label="paste">
+                        <PasteIcon 
+                          onClick={handlePasteAddress}
+                        />
+                    </IconButton>
                 </div>
                 <div>
                     <TextField
@@ -408,6 +426,11 @@ export default function SellingForm() {
                         onDoubleClick={() => { setGiftMessage("") }}
                         sx={{ width: 4 / 6, margin: "8px 4px" }}
                     />
+                    <IconButton aria-label="paste">
+                        <PasteIcon 
+                          onClick={handlePasteGiftMsg}
+                        />
+                    </IconButton>
                 </div>
             </Box>
             <Box sx={{ alignContent: "right", marginTop: "16px", padding: "8px" }}>
