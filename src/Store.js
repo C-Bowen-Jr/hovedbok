@@ -5,8 +5,8 @@ import { toast } from 'sonner';
 import { resolveResource } from '@tauri-apps/api/path';
 import { readTextFile } from '@tauri-apps/api/fs';
 
-const resourcePath = await resolveResource('resource/data.json');
-const jsonFile = JSON.parse(await readTextFile(resourcePath));
+//const resourcePath = await resolveResource('resource/data.json');
+const jsonFile = JSON.parse(await readTextFile('resource/data.json'));
 
 const initialState = {
     productList: jsonFile.products,
