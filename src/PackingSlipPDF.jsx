@@ -1,5 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
+import { Buffer } from 'buffer';
 import { PDFViewer, Document, Page, Text, View, Image, StyleSheet } from '@react-pdf/renderer';
 import { format_date } from './utils.js';
 import { resolveResource } from '@tauri-apps/api/path';
@@ -15,10 +16,18 @@ import { readBinaryFile } from '@tauri-apps/api/fs';
 //const Logo = "data:image/png;base64," + btoa(LogoB64).toString('base64');
 
 async function Logo(path) {
-    const logoPath = await resolveResource(path);
-    const logoBinary = await readBinaryFile(logoPath);
-    const logoB64 = String.fromCodePoint(...logoBinary);
-    return "data:image/png;base64," + btoa(logoB64).toString('base64');
+    try {
+        const logoPath = await resolveResource(path);
+        const logoBinary = await readBinaryFile(logoPath);
+        //const logoB64 = String.fromCodePoint(...logoBinary);
+        //return "data:image/png;base64," + btoa(logoB64).toString('base64');
+
+        const logoBase64 = Buffer.from(logoBinary).toString('base64');
+        // Return data URL with appropriate format
+        return `data:image/png;base64,${logoBase64}`;
+    } catch (error) {
+        console.log("Logo error: ", error)
+    } 
 }
 
 // Create styles
@@ -151,7 +160,11 @@ export default function PrintPreview(props) {
                         </View>
                         <View style={styles.head_section}>
                             <View style={styles.logo_section}>
-                                <Image style={styles.logo} src={Logo(companyInfo['logo'])} />
+                                <Image 
+                                    style={styles.logo} 
+                                    src={Logo(companyInfo['logo'])}  
+                                    cache={false}  
+                                />
                             </View>
                             <View style={styles.head_bottom}>
                             <LabeledText boldText={'Ship To'}></LabeledText>

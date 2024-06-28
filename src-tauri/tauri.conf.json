@@ -34,6 +34,7 @@
           "$APPDATA/*",
           "$APP/*",
           "$APP/products/*",
+          "$APP/resource/*",
           "$RESOURCE/*",
           "*/**"
         ]
