@@ -1,13 +1,27 @@
 import React, { useReducer, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { convertFileSrc } from '@tauri-apps/api/tauri';
+import { styled } from '@mui/material/styles';
 import { ImageList, ImageListItem, Badge } from '@mui/material';
+import Tooltip, { tooltipClasses } from '@mui/material/Tooltip';
 import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/EditNote';
 import { listen } from '@tauri-apps/api/event';
 import { toast } from 'sonner';
 import { editSku, saveFile, setReceiptList, setReceiptSelling, setRestock, setEditing } from './Store';
+
+const SoldViewer = styled(({ className, ...props }) => (
+    <Tooltip {...props} classes={{ popper: className }} />
+  ))(({ theme }) => ({
+    [`& .${tooltipClasses.tooltip}`]: {
+        border: `2px solid ${theme.palette.primary.main}`,
+        padding: '8px 16px',
+        top: '-100px',
+        boxShadow: theme.shadows[1],
+        fontSize: 14,
+    },
+  }));
 
 export default function ProductImageGrid() {
     const productList = useSelector((state) => state.productList);
@@ -91,18 +105,20 @@ export default function ProductImageGrid() {
                     return (
                         <>
                             {showImage && <ImageListItem key={item.img}>
-                                <img
-                                    src={convertFileSrc(item.img)}
-                                    onError={({ currentTarget }) => {
-                                        currentTarget.onerror = null;
-                                        currentTarget.src = item.img;
-                                    }}
-                                    alt={item.title}
-                                    className="product_image"
-                                    loading="lazy"
-                                    onClick={() => handleProductClicked(item)}
-                                    onContextMenu={(e) => handleRightClicked(e, item)}
-                                />
+                                <SoldViewer title={`Sold: ${item.sold}`} arrow>
+                                    <img
+                                        src={convertFileSrc(item.img)}
+                                        onError={({ currentTarget }) => {
+                                            currentTarget.onerror = null;
+                                            currentTarget.src = item.img;
+                                        }}
+                                        alt={item.title}
+                                        className="product_image"
+                                        loading="lazy"
+                                        onClick={() => handleProductClicked(item)}
+                                        onContextMenu={(e) => handleRightClicked(e, item)}
+                                    />
+                                </SoldViewer>
                                 {isRestock && (<Fab
                                     sx={{ position: "absolute", left: 80, bottom: 50, border: 2, borderColor: "white" }}
                                     size="small"
