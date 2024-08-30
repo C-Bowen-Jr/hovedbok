@@ -20,6 +20,10 @@ export default function PrintPreview(props) {
     setOpen(false);
   };
 
+  window.onafterprint = () => {
+    setOpen(false);
+  }
+
   return (
     <>
       <button disabled={props.disabled} className="MuiButton-root btn bold" onClick={handleClickOpen}>
